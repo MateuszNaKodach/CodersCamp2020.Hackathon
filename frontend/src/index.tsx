@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import TourDeFoos from "./components/pages/TourDeFoos/TourDeFoos";
+import { Integramic } from "./components/pages/Integramic/Integramic";
 import "./index.css";
 
 //Disable when you want to interact with real REST API server
@@ -11,7 +11,7 @@ if (process.env.REACT_APP_MOCK_WITH_MSW === "true") {
 
 ReactDOM.render(
     <React.StrictMode>
-        <TourDeFoos/>
+        <Integramic/>
     </React.StrictMode>,
     document.getElementById("root")
 );
