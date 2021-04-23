@@ -3,7 +3,10 @@ import { DomainEvent } from '../../../../domain/event/DomainEvent';
 import { HasConstructor } from '../../../../../common/HasConstructor';
 import { EventHandler } from '../../../../core/application/event/EventHandler';
 
-type EventListener = { readonly eventType: string; readonly handler: EventHandler };
+type EventListener = {
+  readonly eventType: string;
+  readonly handler: EventHandler;
+};
 
 export class InMemoryDomainEventBus implements DomainEventBus {
   private readonly listeners: EventListener[] = [];
