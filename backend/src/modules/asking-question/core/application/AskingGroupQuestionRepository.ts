@@ -1,7 +1,7 @@
-import {GroupQuestion} from "../domain/GroupQuestion";
+import { GroupQuestion } from '../domain/GroupQuestion';
 
 export interface AskingGroupQuestionRepository {
-    save(currentGroupQuestion: GroupQuestion): Promise<void>;
+  save(currentGroupQuestion: GroupQuestion): Promise<void>;
 
-    findByGroupId(groupId: string): Promise<GroupQuestion | undefined>;
+  findByGroupId(groupId: string): Promise<GroupQuestion | undefined>;
 }

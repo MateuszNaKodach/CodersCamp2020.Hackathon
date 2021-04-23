@@ -1,11 +1,11 @@
-import {GroupQuestion} from "../../domain/GroupQuestion";
+import { GroupQuestion } from '../../domain/GroupQuestion';
 
 export class FindCurrentGroupQuestion {
-    readonly groupId: string;
+  readonly groupId: string;
 
-    constructor(props: { groupId: string }) {
-        this.groupId = props.groupId;
-    }
+  constructor(props: { groupId: string }) {
+    this.groupId = props.groupId;
+  }
 }
 
 export type FindCurrentGroupQuestionResult = GroupQuestion | undefined;
