@@ -6,13 +6,7 @@ export class TimeHasPassed implements DomainEvent {
    */
   readonly occurredAt: Date;
 
-  /**
-   * When you will be notified about next time passed
-   */
-  readonly nextEventAt: Date;
-
-  constructor(occurredAt: Date, nextEventAt: Date) {
+  constructor(occurredAt: Date) {
     this.occurredAt = occurredAt;
-    this.nextEventAt = nextEventAt;
   }
 }
