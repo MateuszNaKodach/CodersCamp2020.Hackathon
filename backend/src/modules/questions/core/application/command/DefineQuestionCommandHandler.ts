@@ -12,11 +12,10 @@ export class DefineQuestionCommandHandler implements CommandHandler<DefineQuesti
     private readonly eventPublisher: DomainEventPublisher,
     private readonly currentTimeProvider: CurrentTimeProvider,
     private readonly repository: QuestionsRepository,
-  ) {
-  }
+  ) {}
 
   async execute(command: DefineQuestion): Promise<CommandResult> {
-    const state = new UserQuestions();
+    const state = new UserQuestions({ questionId: '' });
     const event = new QuestionWasDefined({
       occurredAt: this.currentTimeProvider(),
     });

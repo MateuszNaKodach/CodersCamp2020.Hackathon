@@ -1,3 +1,7 @@
 export class UserQuestions {
-  constructor() {}
+  readonly questionId: string;
+
+  constructor(props: { questionId: string }) {
+    this.questionId = props.questionId;
+  }
 }
