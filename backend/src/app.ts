@@ -22,7 +22,6 @@ import { UuidEntityIdGenerator } from './shared/infrastructure/core/application/
 import { LoggingDomainEventBus } from './shared/infrastructure/core/application/event/LoggingDomainEventBus';
 import { MongoTournamentRegistrationsRepository } from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoTournamentRegistrationsRepository';
 import { Express } from 'express';
-import { PlayersMatchingModuleCore } from './modules/players-matching/core/PlayersMatchingModuleCore';
 import { connectToMongoDb } from './shared/infrastructure/repository/connectToMongoDb';
 import { connectToPostgreSql } from './shared/infrastructure/repository/connectToPostgreSql';
 import { PostgreSqlTournamentRegistrationsRepository } from './modules/tournaments-registrations/infrastructure/repository/postgresql/PostgreSqlTournamentRegistrationsRepository';
@@ -30,36 +29,12 @@ import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerP
 import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
 import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
 import { MongoPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/mongo/MongoPlayerProfileRepository';
-import { InMemoryDoublesTournamentRepository } from './modules/doubles-tournament/infrastructure/repository/inmemory/InMemoryDoublesTournamentRepository';
-import { DoublesTournamentModuleCore } from './modules/doubles-tournament/core/DoublesTournamentModuleCore';
-import { MongoDoublesTournamentRepository } from './modules/doubles-tournament/infrastructure/repository/mongo/MongoDoublesTournamentRepository';
-import { DoublesTournamentRestApiModule } from './modules/doubles-tournament/presentation/rest-api/DoublesTournamentRestApiModule';
 import { CreatePlayerProfile } from './modules/player-profiles/core/application/command/CreatePlayerProfile';
-import { MongoMatchRepository } from './modules/match-module/infrastructure/repository/mongo/MongoMatchRepository';
-import { InMemoryMatchRepository } from './modules/match-module/infrastructure/repository/inmemory/InMemoryMatchRepository';
-import { MatchModuleCore } from './modules/match-module/core/MatchModuleCore';
-import { MatchRestApiModule } from './modules/match-module/presentation/rest-api/MatchRestApiModule';
-import { InMemoryMatchesQueueRepository } from './modules/doubles-tournament/infrastructure/repository/inmemory/InMemoryMatchesQueueRepository';
-import { MongoMatchesQueueRepository } from './modules/doubles-tournament/infrastructure/repository/mongo/MongoMatchesQueueRepository';
 import { NodeMailerEmailSender } from './modules/email-sending/infrastructure/mailer/NodeMailerEmailSender';
-import { TournamentTablesModuleCore } from './modules/tournament-tables/core/TournamentTablesModuleCore';
-import { InMemoryTournamentTablesRepository } from './modules/tournament-tables/infrastructure/repository/inmemory/InMemoryTournamentTablesRepository';
-import { tournamentTablesRestApiModule } from './modules/tournament-tables/presentation/rest-api/TournamentTablesRestApiModule';
 import { ConsoleEmailSender } from './modules/email-sending/infrastructure/mailer/ConsoleEmailSender';
 import { SendEmailModuleCore } from './modules/email-sending/core/SendEmailModuleCore';
-import { MongoTournamentTablesRepository } from './modules/tournament-tables/infrastructure/repository/mongo/MongoTournamentTablesRepository';
-import { TournamentTreeModuleCore } from './modules/tournament-tree/core/TournamentTreeModuleCore';
-import { InMemoryTournamentTreeRepository } from './modules/tournament-tree/infrastructure/repository/inmemory/InMemoryTournamentTreeRepository';
-import { TournamentTreeRestApiModule } from './modules/tournament-tree/presentation/rest-api/TournamentTreeRestApiModule';
-import { InMemoryTablesQueueRepository } from './modules/doubles-tournament/infrastructure/repository/inmemory/InMemoryTablesQueueRepository';
-import { MongoTablesQueueRepository } from './modules/doubles-tournament/infrastructure/repository/mongo/MongoTablesQueueRepository';
-import { MongoTournamentTreeRepository } from './modules/tournament-tree/infrastructure/repository/mongo/MongoTournamentTreeRepository';
 import { MongoPlayers } from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoPlayers';
 import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
-import { MongoTournamentDetailsRepository } from './modules/tournament-details/infrastructure/repository/mongo/MongoTournamentDetailsRepository';
-import { InMemoryTournamentDetailsRepository } from './modules/tournament-details/infrastructure/repository/inmemory/InMemoryTournamentDetailsRepository';
-import { TournamentDetailsModuleCore } from './modules/tournament-details/core/TournamentDetailsModuleCore';
-import { TournamentDetailsRestApiModule } from './modules/tournament-details/presentation/rest-api/TournamentDetailsRestApiModule';
 import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
 
 config();
@@ -87,68 +62,18 @@ export async function TableSoccerTournamentsApplication(
     restApi: TournamentRegistrationsRestApiModule(commandBus, eventBus, queryBus),
   };
 
-  const playersMatchingModule: Module = {
-    core: PlayersMatchingModuleCore(eventBus, commandBus, currentTimeProvider),
-  };
-
   const playerProfilesRepository = PlayerProfilesRepository();
   const playerProfilesModule: Module = {
     core: PlayerProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfilesRepository),
     restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
   };
 
-  const doublesTournamentRepository = DoublesTournamentRepository();
-  const matchesQueueRepository = MatchesQueueRepository();
-  const tablesQueueRepository = TablesQueueRepository();
-  const doublesTournamentModule: Module = {
-    core: DoublesTournamentModuleCore(
-      eventBus,
-      commandBus,
-      currentTimeProvider,
-      entityIdGenerator,
-      doublesTournamentRepository,
-      matchesQueueRepository,
-      tablesQueueRepository,
-    ),
-    restApi: DoublesTournamentRestApiModule(commandBus, eventBus, queryBus),
-  };
-
-  const matchRepository = MatchRepository();
-  const matchModule: Module = {
-    core: MatchModuleCore(eventBus, commandBus, currentTimeProvider, matchRepository),
-    restApi: MatchRestApiModule(commandBus, eventBus, queryBus),
-  };
-
-  const tournamentTablesRepository = TournamentTablesRepository();
-  const tournamentTablesModule: Module = {
-    core: TournamentTablesModuleCore(eventBus, commandBus, currentTimeProvider, tournamentTablesRepository),
-    restApi: tournamentTablesRestApiModule(commandBus, eventBus, queryBus),
-  };
-
   const sendingEmailModule: Module = EmailModuleCore();
-
-  const tournamentTreeRepository = TournamentTreeRepository();
-  const eliminationTournamentTree: Module = {
-    core: TournamentTreeModuleCore(eventBus, commandBus, currentTimeProvider, entityIdGenerator, tournamentTreeRepository),
-    restApi: TournamentTreeRestApiModule(commandBus, eventBus, queryBus),
-  };
-
-  const tournamentDetailsRepository = TournamentDetailsRepository();
-  const tournamentDetailsModule: Module = {
-    core: TournamentDetailsModuleCore(eventBus, commandBus, currentTimeProvider, tournamentDetailsRepository),
-    restApi: TournamentDetailsRestApiModule(commandBus, eventBus, queryBus),
-  };
 
   const modules: Module[] = [
     process.env.TOURNAMENTS_REGISTRATIONS_MODULE === 'ENABLED' ? tournamentsRegistrationsModule : undefined,
-    process.env.PLAYERS_MATCHING_MODULE === 'ENABLED' ? playersMatchingModule : undefined,
     process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
-    process.env.DOUBLES_TOURNAMENT_MODULE === 'ENABLED' ? doublesTournamentModule : undefined,
-    process.env.MATCH_MODULE === 'ENABLED' ? matchModule : undefined,
-    process.env.TOURNAMENTS_TABLES_MODULE === 'ENABLED' ? tournamentTablesModule : undefined,
     process.env.EMAILS_SENDING_MODULE === 'ENABLED' ? sendingEmailModule : undefined,
-    process.env.TOURNAMENT_TREE_MODULE === 'ENABLED' ? eliminationTournamentTree : undefined,
-    process.env.TOURNAMENT_DETAILS_MODULE === 'ENABLED' ? tournamentDetailsModule : undefined,
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);
@@ -255,27 +180,6 @@ function PlayerProfilesRepository() {
   return new InMemoryPlayerProfileRepository();
 }
 
-function DoublesTournamentRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.DOUBLES_TOURNAMENT_DATABASE === 'MONGO') {
-    return new MongoDoublesTournamentRepository();
-  }
-  return new InMemoryDoublesTournamentRepository();
-}
-
-function MatchRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.MATCH_DATABASE === 'MONGO') {
-    return new MongoMatchRepository();
-  }
-  return new InMemoryMatchRepository();
-}
-
-function TournamentTablesRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.TOURNAMENTS_TABLES_DATABASE === 'MONGO') {
-    return new MongoTournamentTablesRepository();
-  }
-  return new InMemoryTournamentTablesRepository();
-}
-
 function EmailModuleCore() {
   if (process.env.EMAIL_SENDER === 'CONSOLE') {
     return {
@@ -296,32 +200,4 @@ function EmailModuleCore() {
       }),
     ),
   };
-}
-
-function MatchesQueueRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.DOUBLES_TOURNAMENT_DATABASE === 'MONGO') {
-    return new MongoMatchesQueueRepository();
-  }
-  return new InMemoryMatchesQueueRepository();
-}
-
-function TablesQueueRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.DOUBLES_TOURNAMENT_DATABASE === 'MONGO') {
-    return new MongoTablesQueueRepository();
-  }
-  return new InMemoryTablesQueueRepository();
-}
-
-function TournamentTreeRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.TOURNAMENT_TREE_DATABASE === 'MONGO') {
-    return new MongoTournamentTreeRepository();
-  }
-  return new InMemoryTournamentTreeRepository();
-}
-
-function TournamentDetailsRepository() {
-  if (process.env.MONGO_REPOSITORIES === 'ENABLED' && process.env.TOURNAMENT_DETAILS_DATABASE === 'MONGO') {
-    return new MongoTournamentDetailsRepository();
-  }
-  return new InMemoryTournamentDetailsRepository();
 }
