@@ -26,26 +26,28 @@ import { connectToMongoDb } from './shared/infrastructure/repository/connectToMo
 import { connectToPostgreSql } from './shared/infrastructure/repository/connectToPostgreSql';
 import { PostgreSqlTournamentRegistrationsRepository } from './modules/tournaments-registrations/infrastructure/repository/postgresql/PostgreSqlTournamentRegistrationsRepository';
 import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerProfilesModuleCore';
-import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
-import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
-import { MongoPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/mongo/MongoPlayerProfileRepository';
-import { CreatePlayerProfile } from './modules/player-profiles/core/application/command/CreatePlayerProfile';
-import { NodeMailerEmailSender } from './modules/email-sending/infrastructure/mailer/NodeMailerEmailSender';
-import { ConsoleEmailSender } from './modules/email-sending/infrastructure/mailer/ConsoleEmailSender';
-import { SendEmailModuleCore } from './modules/email-sending/core/SendEmailModuleCore';
-import { MongoPlayers } from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoPlayers';
-import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
-import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
+import {PlayerProfileRestApiModule} from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
+import {InMemoryPlayerProfileRepository} from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
+import {MongoPlayerProfileRepository} from './modules/player-profiles/infrastructure/repository/mongo/MongoPlayerProfileRepository';
+import {CreatePlayerProfile} from './modules/player-profiles/core/application/command/CreatePlayerProfile';
+import {NodeMailerEmailSender} from './modules/email-sending/infrastructure/mailer/NodeMailerEmailSender';
+import {ConsoleEmailSender} from './modules/email-sending/infrastructure/mailer/ConsoleEmailSender';
+import {SendEmailModuleCore} from './modules/email-sending/core/SendEmailModuleCore';
+import {MongoPlayers} from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoPlayers';
+import {RetryCommandBus} from './shared/infrastructure/core/application/command/RetryCommandBus';
+import {LoggingCommandBus} from './shared/infrastructure/core/application/command/LoggingCommandBus';
+import {AnswerGroupQuestionModuleCore} from "./modules/group-question-answer/core/AnswerGroupQuestionModuleCore";
+import {GroupQuestionAnswerRestApiModule} from "./modules/group-question-answer/presentation/rest-api/GroupQuestionAnswerRestApiModule";
 
 config();
 
 export type TableSoccerTournamentsApplication = { restApi: Express };
 
 export async function TableSoccerTournamentsApplication(
-  commandBus: CommandBus = new RetryCommandBus(new LoggingCommandBus(new InMemoryCommandBus()), 10),
-  eventBus: DomainEventBus = new LoggingDomainEventBus(new StoreAndForwardDomainEventBus(new InMemoryDomainEventBus())),
-  queryBus: QueryBus = new InMemoryQueryBus(),
-  currentTimeProvider: CurrentTimeProvider = () => new Date(),
+   commandBus: CommandBus = new RetryCommandBus(new LoggingCommandBus(new InMemoryCommandBus()), 10),
+   eventBus: DomainEventBus = new LoggingDomainEventBus(new StoreAndForwardDomainEventBus(new InMemoryDomainEventBus())),
+   queryBus: QueryBus = new InMemoryQueryBus(),
+   currentTimeProvider: CurrentTimeProvider = () => new Date(),
   entityIdGenerator: EntityIdGenerator = new UuidEntityIdGenerator(),
 ): Promise<TableSoccerTournamentsApplication> {
   if (process.env.MONGO_REPOSITORIES === 'ENABLED') {
@@ -54,6 +56,11 @@ export async function TableSoccerTournamentsApplication(
   if (process.env.POSTGRES_REPOSITORIES === 'ENABLED') {
     await connectToPostgreSql();
   }
+
+  const groupQuestionAnswerModule: Module = {
+    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider,),
+    restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
+  };
 
   const tournamentRegistrationsRepository = TournamentRegistrationsRepository();
   const players = TournamentRegistrationsPlayers();
@@ -71,6 +78,7 @@ export async function TableSoccerTournamentsApplication(
   const sendingEmailModule: Module = EmailModuleCore();
 
   const modules: Module[] = [
+    process.env.GROUP_QUESTION_ANSWER_MODULE === 'ENABLED' ? groupQuestionAnswerModule : undefined,
     process.env.TOURNAMENTS_REGISTRATIONS_MODULE === 'ENABLED' ? tournamentsRegistrationsModule : undefined,
     process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
     process.env.EMAILS_SENDING_MODULE === 'ENABLED' ? sendingEmailModule : undefined,
