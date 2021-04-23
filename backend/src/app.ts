@@ -36,7 +36,7 @@ import { SendEmailModuleCore } from './modules/email-sending/core/SendEmailModul
 import { MongoPlayers } from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoPlayers';
 import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
 import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
-import {TimeModuleCore} from "./modules/time/core/TimeModuleCore";
+import { TimeModuleCore } from './modules/time/core/TimeModuleCore';
 
 config();
 
@@ -69,8 +69,8 @@ export async function TableSoccerTournamentsApplication(
     restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
   };
   const timeModule: Module = {
-    core: TimeModuleCore(eventBus, currentTimeProvider)
-  }
+    core: TimeModuleCore(eventBus, currentTimeProvider),
+  };
 
   const sendingEmailModule: Module = EmailModuleCore();
 
@@ -78,7 +78,7 @@ export async function TableSoccerTournamentsApplication(
     process.env.TOURNAMENTS_REGISTRATIONS_MODULE === 'ENABLED' ? tournamentsRegistrationsModule : undefined,
     process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
     process.env.EMAILS_SENDING_MODULE === 'ENABLED' ? sendingEmailModule : undefined,
-    timeModule
+    timeModule,
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);

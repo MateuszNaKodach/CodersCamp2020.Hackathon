@@ -7,5 +7,5 @@ export type ModuleCore = {
   commandHandlers: { commandType: HasConstructor; handler: CommandHandler }[];
   eventHandlers: { eventType: HasConstructor; handler: EventHandler }[];
   queryHandlers: { queryType: HasConstructor; handler: QueryHandler }[];
-  onDestroy?: () => void
+  onDestroy?: () => void;
 };
