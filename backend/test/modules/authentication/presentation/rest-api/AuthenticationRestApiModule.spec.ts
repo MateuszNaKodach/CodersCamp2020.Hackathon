@@ -11,7 +11,9 @@ describe('Authentication REST API', () => {
     const email = 'jan@kowalski.pl';
     const password = 'veryDifficultPassword';
     const commandPublisher = CommandPublisherMock(CommandResult.success());
-    const { agent } = testModuleRestApi(authenticationRestApiModule, { commandPublisher });
+    const { agent } = testModuleRestApi(authenticationRestApiModule, {
+      commandPublisher,
+    });
 
     //When
     const { body, status } = await agent.post('/rest-api/auth/passwords').send({ email, password });
@@ -27,7 +29,9 @@ describe('Authentication REST API', () => {
     const email = 'jan@kowalski.pl';
     const password = 'veryDifficultPassword';
     const commandPublisher = CommandPublisherMock(CommandResult.failureDueTo(new Error('Account with this email address already exists.')));
-    const { agent } = testModuleRestApi(authenticationRestApiModule, { commandPublisher });
+    const { agent } = testModuleRestApi(authenticationRestApiModule, {
+      commandPublisher,
+    });
 
     //When
     const { body, status } = await agent.post('/rest-api/auth/passwords').send({ email, password });
@@ -35,6 +39,8 @@ describe('Authentication REST API', () => {
     //Then
     expect(commandPublisher.executeCalls).toBeCalledWith(new SetPassword(email, password));
     expect(status).toBe(StatusCodes.BAD_REQUEST);
-    expect(body).toStrictEqual({ message: 'Account with this email address already exists.' });
+    expect(body).toStrictEqual({
+      message: 'Account with this email address already exists.',
+    });
   });
 });

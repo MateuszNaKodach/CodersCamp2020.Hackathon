@@ -17,7 +17,9 @@ export class DefineQuestionCommandHandler implements CommandHandler<DefineQuesti
 
   async execute(command: DefineQuestion): Promise<CommandResult> {
     const state = new UserQuestions();
-    const event = new QuestionWasDefined({ occurredAt: this.currentTimeProvider() });
+    const event = new QuestionWasDefined({
+      occurredAt: this.currentTimeProvider(),
+    });
 
     await this.repository.save(state);
     this.eventPublisher.publish(event);

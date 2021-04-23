@@ -3,6 +3,7 @@ import { DomainEventPublisher } from '../../../shared/core/application/event/Dom
 import { QuestionsRepository } from './application/QuestionsRepository';
 import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { DefineQuestion } from './application/command/DefineQuestion';
+import { DefineQuestionCommandHandler } from './application/command/DefineQuestionCommandHandler';
 
 export function QuestionsModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -13,7 +14,7 @@ export function QuestionsModuleCore(
     commandHandlers: [
       {
         commandType: DefineQuestion,
-        handler: DefineQuestionCommandHandler(eventPublisher, currentTimeProvider(), questionsRepository),
+        handler: new DefineQuestionCommandHandler(eventPublisher, currentTimeProvider, questionsRepository),
       },
     ],
     eventHandlers: [],
