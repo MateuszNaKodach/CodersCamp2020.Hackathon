@@ -11,9 +11,6 @@ import { GoogleLogout } from 'react-google-login';
 import Box from '@material-ui/core/Box';
 import { Centered } from '../../atoms/Centered';
 import ClickButton from '../../atoms/Button/ClickButton';
-import { useAsyncRetry } from 'react-use';
-import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
-import { GROUP_ID } from '../../atoms/constants/ids';
 import { ForceQuestionRestAPI } from '../../../restapi/forceQuestion/ForceQuestionRestAPI';
 
 export function AppSidebar(props: { onLoggedOut: () => void }) {
@@ -42,7 +39,7 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
           </div>
         </Centered>
         <Centered>
-          <ClickButton onClick={() => forceNextQuestion()} disabled={false} text='Zadaj pytanie' />
+          <ClickButton onClick={() => forceNextQuestion()} disabled={false} text='wymuś pytanie' />
         </Centered>
         <div>
           <Centered>

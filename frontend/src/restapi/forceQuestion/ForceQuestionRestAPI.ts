@@ -1,6 +1,4 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
 import { PATH_BASE_URL } from '../../components/atoms/constants/apiPaths';
 import { GROUP_ID } from '../../components/atoms/constants/ids';
 
@@ -20,11 +18,7 @@ export const ForceQuestionRestAPI = (config?: Partial<ForceQuestionRestApiConfig
   };
   return {
     async forceQuestion(): Promise<void> {
-      await axios.post(
-        `${currentConfig.baseUrl}/questions/${GROUP_ID}`,
-        {},
-        {},
-      );
+      await axios.post(`${currentConfig.baseUrl}/questions/force/${GROUP_ID}`, {}, {});
     },
   };
 };
