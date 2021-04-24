@@ -63,7 +63,14 @@ export async function IntegramicApplication(
   const answerGroupQuestionRepository = AnswerGroupQuestionRepository();
   const groupQuestionAnswerModule: Module = {
     core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider, answerGroupQuestionRepository),
-    restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus, answerGroupQuestionRepository, askingGroupQuestionRepository, entityIdGenerator),
+    restApi: GroupQuestionAnswerRestApiModule(
+      commandBus,
+      eventBus,
+      queryBus,
+      answerGroupQuestionRepository,
+      askingGroupQuestionRepository,
+      entityIdGenerator,
+    ),
   };
 
   const questionsRepository = QuestionsRepository();

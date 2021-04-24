@@ -41,9 +41,9 @@ export function groupQuestionAnswerRouter(
   const postForceStartQuiz = async (request: Request, response: Response) => {
     const { groupId } = request.params;
     const questionAnswers = await groupQuestionAnsweredRepository.findAllByGroupId(groupId);
-      console.log(questionAnswers)
+    console.log(questionAnswers);
     const currentQuestion = await askingGroupQuestionRepository.findByGroupId(groupId);
-      console.log(currentQuestion);
+    console.log(currentQuestion);
 
     const commandResult = await commandPublisher.execute(
       StartQuiz.command({
