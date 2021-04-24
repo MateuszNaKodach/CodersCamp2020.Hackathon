@@ -14,7 +14,8 @@ export async function googleAuth(token: string | undefined): Promise<GoogleAuthU
   }
   const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
   if (token === undefined) {
-    throw new Error("Token doesn't exists!.");
+    //throw new Error("Token doesn't exists!.");
+    return Promise.resolve(undefined);
   }
   const ticket = await client.verifyIdToken({
     idToken: token,
@@ -23,7 +24,8 @@ export async function googleAuth(token: string | undefined): Promise<GoogleAuthU
   const payload: TokenPayload | undefined = ticket.getPayload();
 
   if (payload === undefined) {
-    throw new Error("Such account doesn't exists!.");
+    //throw new Error("Such account doesn't exists!.");
+    return Promise.resolve(undefined);
   }
 
   const { sub, email, given_name, family_name, picture } = payload;
