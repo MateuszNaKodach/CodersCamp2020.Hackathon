@@ -5,7 +5,7 @@ export class InMemoryAskingGroupQuestionRepository implements AskingGroupQuestio
   private readonly entities: { [id: string]: GroupQuestion } = {};
 
   findByGroupId(groupId: string): Promise<GroupQuestion | undefined> {
-    return Promise.resolve(this.entities[groupId]);
+    return Promise.resolve(Object.values(this.entities).find((q) => q.groupId === groupId));
   }
 
   async save(question: GroupQuestion): Promise<void> {

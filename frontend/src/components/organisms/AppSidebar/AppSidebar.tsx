@@ -1,10 +1,12 @@
-import { Divider, Drawer, makeStyles } from '@material-ui/core';
+import { Drawer, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import React, { useContext } from 'react';
 import { AppContext } from '../../atoms/hooks/AppContext';
 import { DRAWER_WIDTH } from '../../atoms/constants/sizes';
+import Logo from '../../atoms/alignedImages/Logo';
+import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
 
 export function AppSidebar() {
   const classes = useStyles();
@@ -20,12 +22,14 @@ export function AppSidebar() {
       open={isOpenDrawer}
     >
       <div className={classes.toolbarIcon}>
+        <Logo />
         <IconButton onClick={handleDrawerClose}>
           <ChevronLeftIcon />
         </IconButton>
       </div>
-      <Divider />
-      <Divider />
+      <div style={{ position: 'absolute', bottom: '50px' }}>
+        <UserAvatarAndName />
+      </div>
     </Drawer>
   );
 }
@@ -42,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     whiteSpace: 'nowrap',
     width: DRAWER_WIDTH,
+    paddingTop: '30px',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,

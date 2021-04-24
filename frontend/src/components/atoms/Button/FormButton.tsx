@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ClickButton = ({ text }: TextButtonProps) => {
+const FormButton = ({ text }: TextButtonProps) => {
   const classes = useStyles();
   return (
     <Button
@@ -28,4 +28,4 @@ const ClickButton = ({ text }: TextButtonProps) => {
   );
 };
 
-export default ClickButton;
+export default FormButton;

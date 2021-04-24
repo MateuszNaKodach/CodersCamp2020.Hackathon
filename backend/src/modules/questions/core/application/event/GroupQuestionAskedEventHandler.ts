@@ -6,7 +6,10 @@ import { UserQuestionsRepository } from '../UserQuestionsRepository';
 import { UserQuestions } from '../../domain/UserQuestions';
 
 export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestionWasAsked> {
-  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository, private readonly questionsRepository: UserQuestionsRepository) {}
+  constructor(
+    private readonly groupQuestionsRepository: GroupQuestionsRepository,
+    private readonly questionsRepository: UserQuestionsRepository,
+  ) {}
 
   async handle(event: GroupQuestionWasAsked): Promise<void> {
     const questionId = event.questionId;
@@ -33,8 +36,8 @@ export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestio
 
     const newUserQuestions = new UserQuestions({
       authorId: authorId,
-      questions: userExistingQuestions
-    })
+      questions: userExistingQuestions,
+    });
 
     await this.groupQuestionsRepository.save(newGroupQuestions);
     await this.questionsRepository.save(newUserQuestions);
