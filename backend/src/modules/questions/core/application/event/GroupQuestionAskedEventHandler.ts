@@ -15,19 +15,17 @@ export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestio
 
     const existingQuestions = groupQuestions!.questionList.filter((elem) => elem.questionId !== questionId);
 
-    const newGroupQuestions = new GroupQuestions(
-      {
-        questionList: existingQuestions,
-        questionAskedLastlyDate: new Date(),
-        groupId: groupQuestions!.groupId,
-        questionAskedLastly: {
-          questionId: questionId,
-          text: event.text,
-          authorId: event.askedBy,
-          groupId: groupId,
-        },
+    const newGroupQuestions = new GroupQuestions({
+      questionList: existingQuestions,
+      questionAskedLastlyDate: new Date(),
+      groupId: groupQuestions!.groupId,
+      questionAskedLastly: {
+        questionId: questionId,
+        text: event.text,
+        authorId: event.askedBy,
+        groupId: groupId,
       },
-    );
+    });
     await this.groupQuestionsRepository.save(newGroupQuestions);
   }
 }
