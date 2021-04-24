@@ -3,8 +3,6 @@ import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import LogInIlu from '../../atoms/alignedImages/LogInIlu';
 import {useCookie} from "react-use";
-import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
-import LeftSplash from '../../atoms/alignedImages/LeftSplash';
 import LogInSplash from '../../atoms/alignedImages/LogInSplash';
 import {useHistory} from "react-router-dom";
 
@@ -27,10 +25,12 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'center',
     justifyContent: 'center',
   },
+  insideGrid: {
+    zIndex: 1,
+  }
 }));
 
-export function LoginPage(props: { onAuthenticated?: (user: { email: string }) => void }) {
-  const history = useHistory();
+export function LoginPage(props: { onAuthenticated?: (user: { email: string, userId: string }) => void }) {
   const styles = useStyles();
   const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
   const [currentAuthenticationToken, updateAuthenticationTokenCookie, deleteAuthenticationTokenCookie] = useCookie("authenticationToken");
@@ -46,9 +46,8 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string }) =
     const successResponse = loginResponse as GoogleLoginResponse;
     updateCurrentUserCookie(JSON.stringify({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId }))
     updateAuthenticationTokenCookie(JSON.stringify({ value: successResponse.tokenId }))
-    history.push("/question")
     if(props.onAuthenticated){
-      props.onAuthenticated({ email: successResponse.profileObj.email });
+      props.onAuthenticated({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId });
     }
   };
   const onFailure = (error: any) => {
@@ -64,7 +63,7 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string }) =
     <>
       <Grid container className={styles.mainGrid}>
         <Grid item xs={12} md={6}></Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} className={styles.insideGrid}>
           <Typography variant="h3" style={{ fontWeight: 900 }}>
             Cześć!
           </Typography>
