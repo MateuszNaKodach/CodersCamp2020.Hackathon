@@ -11,6 +11,6 @@ export function PlayerProfileRestApiModule(
 ): ModuleRestApi {
   return {
     router: playerProfileRouter(commandPublisher, eventPublisher, queryPublisher),
-    path: '/players-profiles',
+    path: '/user-accounts',
   };
 }

@@ -41,7 +41,7 @@ import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-
 import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/ScoresRestApiModule';
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
-import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerProfilesModuleCore';
+import { UserProfilesModuleCore } from './modules/player-profiles/core/UserProfilesModuleCore';
 import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
 import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
 
@@ -94,7 +94,7 @@ export async function IntegramicApplication(
 
   const playerProfileRepository = PlayerProfilesRepository();
   const playerProfilesModule: Module = {
-    core: PlayerProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
+    core: UserProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
     restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
   };
 

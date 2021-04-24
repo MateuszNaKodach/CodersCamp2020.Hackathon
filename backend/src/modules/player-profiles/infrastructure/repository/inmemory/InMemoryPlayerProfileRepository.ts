@@ -1,18 +1,18 @@
-import { PlayerProfilesRepository } from '../../../core/application/PlayerProfilesRepository';
-import { PlayerProfile } from '../../../core/domain/PlayerProfile';
+import { PlayerProfilesRepository } from '../../../core/application/UserProfilesRepository';
+import { UserProfile } from '../../../core/domain/UserProfile';
 
 export class InMemoryPlayerProfileRepository implements PlayerProfilesRepository {
-  private readonly entities: { [id: string]: PlayerProfile } = {};
+  private readonly entities: { [id: string]: UserProfile } = {};
 
-  findByPlayerId(playerId: string): Promise<PlayerProfile | undefined> {
-    return Promise.resolve(this.entities[playerId]);
+  findByPlayerId(userId: string): Promise<UserProfile | undefined> {
+    return Promise.resolve(this.entities[userId]);
   }
 
-  async save(playerProfile: PlayerProfile): Promise<void> {
-    this.entities[playerProfile.playerId] = playerProfile;
+  async save(userProfile: UserProfile): Promise<void> {
+    this.entities[userProfile.userId] = userProfile;
   }
 
-  findAll(): Promise<PlayerProfile[]> {
+  findAll(): Promise<UserProfile[]> {
     return Promise.resolve(Object.keys(this.entities).map((id) => this.entities[id]));
   }
 }

@@ -1,57 +1,38 @@
-import express, { Request, Response } from 'express';
-import { QueryPublisher } from '../../../../shared/core/application/query/QueryBus';
-import { FindAllPlayerProfiles, FindAllPlayerProfilesResult } from '../../core/application/query/FindAllPlayerProfiles';
-import { StatusCodes } from 'http-status-codes';
-import { PlayerProfilesListDto } from './response/PlayerProfilesListDto';
-import { PlayerProfileDto } from './response/PlayerProfileDto';
-import { PlayerProfile } from '../../core/domain/PlayerProfile';
-import { PostPlayerProfileRequestBody } from './request/PostPlayerProfileRequestBody';
-import { CommandPublisher } from '../../../../shared/core/application/command/CommandBus';
-import { DomainEventPublisher } from '../../../../shared/core/application/event/DomainEventBus';
-import { FindPlayerProfileById, FindPlayerProfileByIdResult } from '../../core/application/query/FindPlayerProfileById';
-import { CreatePlayerProfile } from '../../core/application/command/CreatePlayerProfile';
+import express, {Request, Response} from 'express';
+import {QueryPublisher} from '../../../../shared/core/application/query/QueryBus';
+import {StatusCodes} from 'http-status-codes';
+import {CommandPublisher} from '../../../../shared/core/application/command/CommandBus';
+import {DomainEventPublisher} from '../../../../shared/core/application/event/DomainEventBus';
+import {FindUserProfileById, FindUserProfileByIdResult} from '../../core/application/query/FindUserProfileById';
+import {CreateUserProfile} from '../../core/application/command/CreateUserProfile';
+import {PostUserProfileRequestBody} from "./request/PostPlayerProfileRequestBody";
 
 export function playerProfileRouter(
   commandPublisher: CommandPublisher,
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,
 ): express.Router {
-  const getAllPlayersProfiles = async (request: Request, response: Response) => {
-    const queryResult = await queryPublisher.execute<FindAllPlayerProfilesResult>(new FindAllPlayerProfiles());
-    return response.status(StatusCodes.OK).json(new PlayerProfilesListDto(queryResult.map(toPlayerProfileDto)));
-  };
-
-  const createPlayerProfile = async (request: Request, response: Response) => {
-    const requestBody: PostPlayerProfileRequestBody = request.body;
-    const commandResult = await commandPublisher.execute(new CreatePlayerProfile(requestBody));
+  const createUserProfile = async (request: Request, response: Response) => {
+    const { userId } = request.params;
+    const requestBody: PostUserProfileRequestBody = request.body;
+    const commandResult = await commandPublisher.execute(new CreateUserProfile({ userId, displayName: requestBody.displayName }));
     return commandResult.process(
       () => response.status(StatusCodes.CREATED).json(requestBody).send(),
       (failureReason) => response.status(StatusCodes.BAD_REQUEST).json({ message: failureReason.message }),
     );
   };
 
-  const getPlayerProfileById = async (request: Request, response: Response) => {
-    const { playerId } = request.params;
-    const queryResult = await queryPublisher.execute<FindPlayerProfileByIdResult>(new FindPlayerProfileById({ playerId }));
+  const getUserProfileById = async (request: Request, response: Response) => {
+    const { userId } = request.params;
+    const queryResult = await queryPublisher.execute<FindUserProfileByIdResult>(new FindUserProfileById({ userId }));
     if (!queryResult) {
-      return response.status(StatusCodes.NOT_FOUND).json({ message: `Player profile with id = ${playerId} not found!` });
+      return response.status(StatusCodes.NOT_FOUND).json({ message: `Player profile with id = ${userId} not found!` });
     }
-    return response.status(StatusCodes.OK).json(toPlayerProfileDto(queryResult));
+    return response.status(StatusCodes.OK).json(queryResult);
   };
 
   const router = express.Router();
-  router.post('', createPlayerProfile);
-  router.get('', getAllPlayersProfiles);
-  router.get('/:playerId', getPlayerProfileById);
+  router.post('/:userId/display-name', createUserProfile);
+  router.get('/:userId/display-name', getUserProfileById);
   return router;
-}
-
-function toPlayerProfileDto(playerProfile: PlayerProfile): PlayerProfileDto {
-  return new PlayerProfileDto(
-    playerProfile.playerId,
-    playerProfile.firstName,
-    playerProfile.lastName,
-    playerProfile.phoneNumber,
-    playerProfile.emailAddress,
-  );
 }
