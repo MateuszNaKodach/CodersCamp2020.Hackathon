@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
-    minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
+    minHeight: `100vh`,
     flexGrow: 1,
     backgroundColor: '#E8EBEE',
   },
