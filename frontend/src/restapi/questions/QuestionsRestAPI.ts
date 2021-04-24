@@ -69,15 +69,35 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
         .then((result) => result.data)
         .catch((e) => undefined);
     },
-    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string } | undefined> {
+    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string; questionId: string } | undefined> {
       return await axios
-        .get<{ text: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
+        .get<{ text: string; questionId: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
           headers: {
             Authorization: getAuthorizationTokenValue(),
           },
         })
         .then((res) => res.data)
         .catch((e) => undefined);
+    },
+    async postCurrentGroupQuestionAnswer(body: {
+      groupId: string;
+      questionId: string;
+      answerAuthorId: string;
+      text: string;
+    }): Promise<void> {
+      await axios.post(
+        `${currentConfig.baseUrl}/current-question/${body.groupId}`,
+        {
+          questionId: body.questionId,
+          answerAuthorId: body.answerAuthorId,
+          text: body.text,
+        },
+        {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        },
+      );
     },
   };
 };
