@@ -9,7 +9,6 @@ const style: CSSProperties = {
   minWidth: '100%',
   width: '40vh',
   color: 'white',
-  marginBottom: '1vh',
   textAlign: 'center',
   fontSize: '1.25rem',
   lineHeight: '2rem',
@@ -43,9 +42,8 @@ export const Dustbin: FC<DustbinProps> = memo(function Dustbin({ accepts, isOver
   return connectDropTarget(
     <div ref={connectDropTarget} style={{ ...style }}>
       <Card style={{ padding: '5%', marginBottom: '5%'}}>
-        <div style={{marginBottom: '10%'}}>{answer}</div>
-
-        {lastDroppedItem && <Card style={{backgroundColor: THEME.palette.primary.main, color: THEME.palette.primary.contrastText}}>{lastDroppedItem.name}</Card>}
+        <div style={{marginBottom: '5%'}}>{answer}</div>
+        { <Card style={{backgroundColor: THEME.palette.primary.main, color: THEME.palette.primary.contrastText}}>{lastDroppedItem? lastDroppedItem.name: ""}</Card>}
       </Card>
     </div>,
   );

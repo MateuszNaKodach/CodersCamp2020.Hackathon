@@ -4,6 +4,7 @@ import { Button, makeStyles } from '@material-ui/core';
  type TextButtonProps = {
    readonly text: string;
    readonly onClick: undefined | (() => void);
+    disabled: boolean
  };
 
  const useStyles = makeStyles((theme) => ({
@@ -13,10 +14,13 @@ import { Button, makeStyles } from '@material-ui/core';
     color: `${THEME.palette.primary.contrastText}`,
     padding: '8px 25px',
     zIndex: 1,
+    '&:hover': {
+      background: "#3a5f91",
+    },
   },
 }));
 
- const ClickButton = ({ text, onClick }: TextButtonProps) => {
+ const ClickButton = ({ text, onClick, disabled }: TextButtonProps) => {
    const classes = useStyles()
    return (
      <Button
@@ -24,6 +28,7 @@ import { Button, makeStyles } from '@material-ui/core';
        color="primary"
        size="large"
        className={classes.button}
+       disabled={disabled}
      >
        {text}
      </Button>

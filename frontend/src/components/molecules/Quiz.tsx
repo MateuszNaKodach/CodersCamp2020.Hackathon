@@ -4,7 +4,6 @@ import Dustbin from './DustBin';
 import Box from './Box';
 import { ItemTypes } from './ItemTypes';
 import update from 'immutability-helper';
-import { THEME } from '../atoms/constants/ThemeMUI';
 import { DndProvider } from 'react-dnd';
 import ClickButton from '../atoms/Button/ClickButton';
 import Title from '../atoms/Title/Title';
@@ -51,6 +50,8 @@ export const Quiz: FC = memo(function Quiz() {
 
   const [droppedBoxNames, setDroppedBoxNames] = useState<string[]>([]);
 
+  const [allAnserwsMoved, setAllAnswersMoved] = useState<boolean>(false);
+
   function isDropped(boxName: string) {
     return droppedBoxNames.indexOf(boxName) > -1;
   }
@@ -58,60 +59,57 @@ export const Quiz: FC = memo(function Quiz() {
   const handleDrop = useCallback(
     (index: number, item: { name: string }) => {
       const { name } = item;
-      //if (!isDropped(name)) {
-        setDroppedBoxNames(update(droppedBoxNames, name ? { $push: [name] } : { $push: [] }));
-        setDustbins(
-          update(dustbins, {
-            [index]: {
-              lastDroppedItem: {
-                $set: item,
-              },
+      setDroppedBoxNames(update(droppedBoxNames, name ? { $push: [name] } : { $push: [] }));
+      setDustbins(
+        update(dustbins, {
+          [index]: {
+            lastDroppedItem: {
+              $set: item,
             },
-          }),
-        );
-      //}
+          },
+        }),
+      );
+      setAllAnswersMoved((droppedBoxNames.length >= boxes.length-1))
     },
     [droppedBoxNames, dustbins],
   );
 
   return (
     <div>
-      <Title text ="Treść pytania"/>
-    <DndProvider backend={HTML5Backend}>
-      <div
-        style={{
-          marginTop: '5%',
-          marginBottom: '5%',
-          display: 'flex',
-          flexDirection: 'row',
-          width: '90%',
-          marginLeft: '5%',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          {dustbins.map(({ accepts, lastDroppedItem }, index) => (
-            <Dustbin
-              accepts={accepts}
-              lastDroppedItem={lastDroppedItem}
-              onDrop={(item) => handleDrop(index, item)}
-              key={index}
-              answer={'Ulubiony kolor?'}
-            />
-          ))}
-        </div>
+      <Title text="Treść pytania" />
+      <DndProvider backend={HTML5Backend}>
+        <div
+          style={{
+            marginTop: '2.5%',
+            display: 'flex',
+            flexDirection: 'row',
+            width: '90%',
+            marginLeft: '5%',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {dustbins.map(({ accepts, lastDroppedItem }, index) => (
+              <Dustbin
+                accepts={accepts}
+                lastDroppedItem={lastDroppedItem}
+                onDrop={(item) => handleDrop(index, item)}
+                key={index}
+                answer={'Ulubiony kolor?'}
+              />
+            ))}
+          </div>
 
-        <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-          {boxes.map(({ name, type }, index) => (
-            <Box name={name} type={type} isDropped={isDropped(name)} key={index} />
-          ))}
+          <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {boxes.map(({ name, type }, index) => (
+              <Box name={name} type={type} isDropped={isDropped(name)} key={index} />
+            ))}
+          </div>
         </div>
+      </DndProvider>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%'}}>
+        <ClickButton text="Sprawdź wynik" onClick={() => {alert("test")}} disabled={!allAnserwsMoved} />
       </div>
-    </DndProvider>
-    <div style={{display:'flex', justifyContent:'center'}}>
-      <ClickButton text="Sprawdź wytnik" onClick= {()=>{}}/>
     </div>
-    </div>
-
   );
 });
