@@ -2,6 +2,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
 import ClickButton from '../../atoms/Button/ClickButton';
+import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 
 const onClick = () => {
 };
@@ -35,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     overflow: 'auto',
     position: 'relative',
+    paddingTop: APP_BAR_HEIGHT,
+    minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
     flexGrow: 1,
-    height: '100vh',
   },
 }));
