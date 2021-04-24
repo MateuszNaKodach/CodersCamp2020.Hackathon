@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
   grid: { marginTop: '150px' },
 }));
 
-export const GROUP_ID = "group1"
-
 export function UserQuestion() {
 
   const [postQuestionState, postQuestion] = useAsyncFn(async (props: {groupId: string , text: string }) => {
