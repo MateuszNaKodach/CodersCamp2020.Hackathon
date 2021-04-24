@@ -1,7 +1,7 @@
 import React from 'react';
 import { PATH_FOR_IMAGES } from '../constants/imgPaths';
 
-export default function LogInIlu() {
+export default function LeftSplash() {
   return (
     <div>
       <img
