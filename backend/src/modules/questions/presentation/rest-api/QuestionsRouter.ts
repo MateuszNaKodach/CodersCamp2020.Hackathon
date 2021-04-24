@@ -17,12 +17,14 @@ export function questionsRouter(
     const questionId = requestBody.questionId;
     const groupId = requestBody.groupId;
     const text = requestBody.text;
-    const commandResult = await commandPublisher.execute(new DefineQuestion({
-      questionId,
-      groupId,
-      text,
-      authorId: userId,
-    }));
+    const commandResult = await commandPublisher.execute(
+      new DefineQuestion({
+        questionId,
+        groupId,
+        text,
+        authorId: userId,
+      }),
+    );
     return commandResult.process(
       () => response.status(StatusCodes.OK).json().send(),
       (failureReason) => response.status(StatusCodes.BAD_REQUEST).json({ message: failureReason.message }),
