@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
+import {EntityIdGenerator} from '../../components/atoms/idGenerator/EntityIdGenerator';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
@@ -45,14 +45,25 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
     // },
     async postQuestion(body: { groupId: string; text: string }): Promise<void> {
       await axios.post(
-        `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
-        { ...body, questionId: EntityIdGenerator.generate() },
-        {
-          headers: {
-            Authorization: getAuthorizationTokenValue(),
+          `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
+          {...body, questionId: EntityIdGenerator.generate()},
+          {
+            headers: {
+              Authorization: getAuthorizationTokenValue(),
+            },
           },
-        },
       );
+    },
+    async getQuestion(body: { groupId: string }): Promise<{ questionId: string, text: string } | undefined> {
+      return await axios.get<{questions: { questionId: string, text: string; groupId: string }[]}>(
+          `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
+          {
+            headers: {
+              Authorization: getAuthorizationTokenValue(),
+            },
+          },
+      ).then(r => r.data.questions.find(q => q.groupId === body.groupId))
+          .catch(e => undefined);
     },
   };
 };
