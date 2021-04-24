@@ -6,9 +6,9 @@ export class InMemoryAnswerGroupQuestionRepository implements AnswerGroupQuestio
 
   findAllByGroupId(groupId: string): Promise<QuestionAnswer[] | undefined> {
     return Promise.resolve(
-        Object.keys(this.entities)
-            .filter((id) => this.entities[id].groupId === groupId)
-            .map((id) => this.entities[id]),
+      Object.keys(this.entities)
+        .filter((id) => this.entities[id].groupId === groupId)
+        .map((id) => this.entities[id]),
     );
   }
 
