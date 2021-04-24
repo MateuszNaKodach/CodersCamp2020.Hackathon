@@ -11,7 +11,20 @@ tags:
     description: Open/Closing registrations for tournament
   - name: Players profiles
     description: Save and get players profiles
+  - name: Ask Group Question
 paths:
+  /current-question/{groupid}:
+    get:
+      tags:
+        - Ask Group Question
+      description: Fetch current group question by group ID
+      responses:
+        200:
+          description: Current group question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentGroupQuestionDto'
   /tournament-registrations:
     get:
       tags:
@@ -151,6 +164,28 @@ paths:
                 $ref: '#/components/schemas/PlayerProfileDto'
 components:
   schemas:
+    CurrentGroupQuestionDto:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question
+          type: string
+          format: uuid
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        groupId:
+          description: Identifier of the group
+          type: string
+          format: uuid
+          example: 5320fc2c-bbd7-427c-9439-02f76583agh7
+        authorId:
+          description: Identifier of the question author
+          type: string
+          format: uuid
+          example: 8879fc2c-bbd7-427c-9439-02f76584bgc3
+        text:
+          description: Question text
+          type: string
+          example: What is your favourite pie?
     TournamentRegistrationsListDto:
       type: array
       items:
