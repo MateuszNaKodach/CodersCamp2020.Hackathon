@@ -9,10 +9,11 @@ export default function InitialsAvatar() {
       <Avatar
         style={{
           fontWeight: 700,
-          backgroundColor: `${THEME.palette.primary.contrastText}`,
-          marginRight: '25px',
-          width: '60px',
-          height: '60px',
+          backgroundColor: `${THEME.palette.primary.main}`,
+          marginRight: '20px',
+          marginLeft: '20px',
+          width: '45px',
+          height: '45px',
         }}
       >
         IN

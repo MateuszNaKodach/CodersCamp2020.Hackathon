@@ -47,7 +47,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
             example: 2480fc2c-bbd7-427c-9439-02f76583aef5
       requestBody:
         content:
@@ -57,7 +56,7 @@ paths:
       responses:
         200:
           description: Question successfully answered
-  /current-question/{groupid}:
+  /current-question/{groupId}:
     get:
       tags:
         - Ask Group Question
@@ -69,7 +68,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
             example: 2480fc2c-bbd7-427c-9439-02f76583aef5
       responses:
         200:
@@ -116,6 +114,21 @@ paths:
       responses:
         200:
           description: Question successfully saved
+  /questions/force/{groupId}:
+    post:
+      tags:
+        - Questions
+      description: Force ask question
+      parameters:
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Question successfully asked
   /quizzes:
     get:
       tags:
@@ -211,17 +224,14 @@ components:
         questionId:
           description: Identifier of the question
           type: string
-          format: uuid
           example: 2480fc2c-bbd7-427c-9439-02f76583aef5
         groupId:
           description: Identifier of the group
           type: string
-          format: uuid
           example: 5320fc2c-bbd7-427c-9439-02f76583agh7
         authorId:
           description: Identifier of the question author
           type: string
-          format: uuid
           example: 8879fc2c-bbd7-427c-9439-02f76584bgc3
         text:
           description: Question text
@@ -299,12 +309,10 @@ components:
         questionId:
           description: Identifier of the question for which answer is given
           type: string
-          format: uuid
           example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
         answerAuthorId:
           description: Identifier of the answer author for which answer is given
           type: string
-          format: uuid
           example: 44b2b9d9-1740-42f9-89e5-c8f652ec4e11
         text:
           description: Text of the author for which answer is given

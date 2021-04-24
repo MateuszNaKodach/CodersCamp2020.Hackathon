@@ -7,11 +7,14 @@ import { PostDefineQuestionsRequestBody } from './request/PostDefineQuestionsReq
 import { DefineQuestion } from '../../core/application/command/DefineQuestion';
 import { FindQuestionsByAuthorId, FindQuestionsByAuthorIdResult } from '../../core/application/query/FindQuestionsByAuthorId';
 import { UserQuestionsDto } from './response/UserQuestionsDto';
+import { GroupQuestionsRepository } from '../../core/application/GroupQuestionsRepository';
+import { getQuestionsToAsk } from '../../core/application/event/TimeHasPassedEventHandler';
 
 export function questionsRouter(
   commandPublisher: CommandPublisher,
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,
+  groupQuestionsRepository: GroupQuestionsRepository,
 ): express.Router {
   const postDefineQuestion = async (request: Request, response: Response) => {
     const { userId } = request.params;
@@ -47,8 +50,20 @@ export function questionsRouter(
     );
   };
 
+  const postForceAskGroupQuestion = async (request: Request, response: Response) => {
+    const { groupId } = request.params;
+    const questions = await groupQuestionsRepository.findByGroupId(groupId);
+    if (!questions) {
+      return response.status(StatusCodes.NOT_FOUND).json({ message: `Group questions with id = ${groupId} does not exist.` });
+    } else {
+      await getQuestionsToAsk(questions, commandPublisher);
+      return response.status(StatusCodes.OK).json().send();
+    }
+  };
+
   const router = express.Router();
   router.post('/:userId', postDefineQuestion);
   router.get('/:userId', getQuestionsByAuthorId);
+  router.post('/force/:groupId', postForceAskGroupQuestion);
   return router;
 }

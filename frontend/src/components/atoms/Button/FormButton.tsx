@@ -1,10 +1,8 @@
 import { Button, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import { THEME } from '../constants/ThemeMUI';
 
 type TextButtonProps = {
   readonly text: string;
-  readonly onLink: string;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -14,22 +12,23 @@ const useStyles = makeStyles((theme) => ({
     color: `${THEME.palette.primary.contrastText}`,
     padding: '8px 25px',
     zIndex: 1,
+    '&:hover': {
+      background: "#3a5f91",
+    },
   },
 }));
 
-const LinkButton = ({ text, onLink }: TextButtonProps) => {
+const FormButton = ({ text }: TextButtonProps) => {
   const classes = useStyles();
   return (
-    <Link to={onLink} style={{ textDecoration: 'none' }}>
-      <Button
-        color="primary"
-        size="large"
-        className={classes.button}
-      >
-        {text}
-      </Button>
-    </Link>
+    <Button
+      size='large'
+      type='submit'
+      className={classes.button}
+    >
+      {text}
+    </Button>
   );
 };
 
-export default LinkButton;
+export default FormButton;
