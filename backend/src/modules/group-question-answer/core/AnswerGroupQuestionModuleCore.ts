@@ -3,9 +3,13 @@ import { AnswerGroupQuestionCommandHandler } from './application/command/AnswerG
 import { AnswerGroupQuestion } from './application/command/AnswerGroupQuestion';
 import { DomainEventPublisher } from '../../../shared/core/application/event/DomainEventBus';
 import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
-import {AnswerGroupQuestionRepository} from "./application/AnswerGroupQuestionRepository";
+import { AnswerGroupQuestionRepository } from './application/AnswerGroupQuestionRepository';
 
-export function AnswerGroupQuestionModuleCore(eventPublisher: DomainEventPublisher, currentTimeProvider: CurrentTimeProvider, repository: AnswerGroupQuestionRepository): ModuleCore {
+export function AnswerGroupQuestionModuleCore(
+  eventPublisher: DomainEventPublisher,
+  currentTimeProvider: CurrentTimeProvider,
+  repository: AnswerGroupQuestionRepository,
+): ModuleCore {
   return {
     commandHandlers: [
       {
