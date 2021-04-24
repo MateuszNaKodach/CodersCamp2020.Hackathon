@@ -37,10 +37,10 @@ import { MongoPlayers } from './modules/tournaments-registrations/infrastructure
 import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
 import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
 import { TimeModuleCore } from './modules/time/core/TimeModuleCore';
-import { GroupQuizModuleCore } from './modules/group-quiz/core/GroupQuizModuleCore';
-import { InMemoryGroupQuizRepository } from './modules/group-quiz/infrastructure/InMemoryGroupQuizRepository';
-import { GroupQuizRestApiModule } from './modules/group-quiz/presentation/rest-api/GroupQuizRestApiModule';
-import { StartQuiz } from './modules/group-quiz/core/application/command/StartQuiz';
+import { GroupQuizModuleCore } from './modules/quizzes/core/GroupQuizModuleCore';
+import { InMemoryGroupQuizRepository } from './modules/quizzes/infrastructure/InMemoryGroupQuizRepository';
+import { GroupQuizRestApiModule } from './modules/quizzes/presentation/rest-api/GroupQuizRestApiModule';
+import { StartQuiz } from './modules/quizzes/core/application/command/StartQuiz';
 
 config();
 
@@ -106,7 +106,7 @@ export async function TableSoccerTournamentsApplication(
 async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator: EntityIdGenerator) {
   const classFirstA = 'TeamBackend';
   const createQuiz1 = StartQuiz.command({
-    quizId: "Quiz1",
+    quizId: 'Quiz1',
     groupId: classFirstA,
     question: {
       questionId: entityIdGenerator.generate(),
@@ -126,7 +126,7 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
     ],
   });
   const createQuiz2 = StartQuiz.command({
-    quizId: "Quiz2",
+    quizId: 'Quiz2',
     groupId: classFirstA,
     question: {
       questionId: entityIdGenerator.generate(),
