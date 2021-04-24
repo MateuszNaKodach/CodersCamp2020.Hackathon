@@ -1,4 +1,4 @@
-export class StartQuiz  {
+export class StartQuiz {
   readonly quizId: string;
   readonly groupId: string;
   readonly question: { questionId: string; text: string };
@@ -14,10 +14,10 @@ export class StartQuiz  {
   }
 
   constructor(
-      quizId: string,
-      groupId: string,
-      question: { questionId: string; text: string },
-      answers: { answerId: string; userId: string; text: string }[],
+    quizId: string,
+    groupId: string,
+    question: { questionId: string; text: string },
+    answers: { answerId: string; userId: string; text: string }[],
   ) {
     this.quizId = quizId;
     this.groupId = groupId;
