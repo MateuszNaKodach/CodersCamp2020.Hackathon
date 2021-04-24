@@ -31,10 +31,10 @@ export function defineNewQuestion(
   const questions = state?.questions.map((question) =>
     question.groupId === groupId
       ? {
-        ...question,
-        questionId,
-        text,
-      }
+          ...question,
+          questionId,
+          text,
+        }
       : question,
   );
   const userQuestions = new UserQuestions({
