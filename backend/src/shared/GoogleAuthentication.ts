@@ -1,8 +1,16 @@
 import { OAuth2Client, TokenPayload } from 'google-auth-library';
 
-export const googleAuth: (token: string | undefined) => Promise<void> = async (token: string | undefined) => {
+export type GoogleAuthUser = {
+  readonly userId: string;
+  readonly email: string | undefined;
+  readonly givenName: string | undefined;
+  readonly familyName: string | undefined;
+  readonly photoUrl: string | undefined;
+};
+
+export async function googleAuth(token: string | undefined): Promise<GoogleAuthUser | undefined> {
   if (process.env.GOOGLE_CLIENT_ID === undefined) {
-    return;
+    return Promise.resolve(undefined);
   }
   const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
   if (token === undefined) {
@@ -18,7 +26,7 @@ export const googleAuth: (token: string | undefined) => Promise<void> = async (t
     throw new Error("Such account doesn't exists!.");
   }
 
-  // const {sub, email, name, picture} = payload;
-  // const userId = sub;
-  // return {userId, email, fullName: name, photoUrl: picture};
-};
+  const { sub, email, given_name, family_name, picture } = payload;
+  const userId = sub;
+  return { userId, email, givenName: given_name, familyName: family_name, photoUrl: picture };
+}
