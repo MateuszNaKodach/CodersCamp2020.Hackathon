@@ -4,6 +4,8 @@ import { UserQuestionsRepository } from './application/UserQuestionsRepository';
 import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { DefineQuestion } from './application/command/DefineQuestion';
 import { DefineQuestionCommandHandler } from './application/command/DefineQuestionCommandHandler';
+import { FindQuestionsByAuthorId } from './application/query/FindQuestionsByAuthorId';
+import { FindQuestionsByAuthorIdQueryHandler } from './application/query/FindQuestionsByAuthorIdQueryHandler';
 
 export function QuestionsModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -18,6 +20,11 @@ export function QuestionsModuleCore(
       },
     ],
     eventHandlers: [],
-    queryHandlers: [],
+    queryHandlers: [
+      {
+        queryType: FindQuestionsByAuthorId,
+        handler: new FindQuestionsByAuthorIdQueryHandler(questionsRepository),
+      },
+    ],
   };
 }
