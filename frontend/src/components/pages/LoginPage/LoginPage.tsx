@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     width: "100vw",
     height: "95vh",
     backgroundColor: "#E8EBEE",
+    alignItems: "center"
   },
   bottomBar: {
     zIndex: theme.zIndex.appBar,
@@ -45,17 +46,23 @@ export function LoginPage(props: { onAuthenticated: (user: { email: string }) =>
 
   return (
       <>
-        <Grid className={styles.mainGrid}>
-          <Typography variant="h3" style={{fontWeight: 900}}>Cześć!</Typography>
-          <Typography variant="h6">Poznaj swój nowy zespół dzięki Integramic.</Typography>
-          <GoogleLogin
-              clientId={googleClientId}
-              buttonText="Zaloguj się za pomocą Google"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy={"single_host_origin"}
-              isSignedIn={true}
-          />
+        <Grid container className={styles.mainGrid}>
+          <Grid item xs={12} md={6}>
+
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h3" style={{fontWeight: 900}}>Cześć!</Typography>
+            <Typography variant="h6">Poznaj swój nowy zespół dzięki Integramic.</Typography>
+            <div style={{marginTop: "2rem"}}/>
+            <GoogleLogin
+                clientId={googleClientId}
+                buttonText="Zaloguj się za pomocą Google"
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={"single_host_origin"}
+                isSignedIn={true}
+            />
+          </Grid>
         </Grid>
         <div className={styles.bottomBar}>
           <Typography variant="body1" style={{color: 'white'}}>CodersCamp Hackathon 2020</Typography>

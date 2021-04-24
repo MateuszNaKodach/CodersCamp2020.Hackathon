@@ -49,22 +49,14 @@ jobs:
         run: docker-compose -f docker-compose.local.yaml --log-level INFO up -d
       - name: Unit & Integration Tests | Run all tests
         run: npm run test:ci
-      - name: Upload test coverage report to Codecov
-        uses: codecov/codecov-action@v1
+      - name: Deploy on Heroku from develop branch
+        if: github.ref == 'refs/heads/develop'
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          flags: backend, unittests, integrationtests
-
-#      Deploy not configured
-#      - name: Deploy on Heroku from develop branch
-#        if: github.ref == 'refs/heads/develop'
-#        uses: akhileshns/heroku-deploy@v3.12.12
-#        with:
-#          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-#          heroku_app_name: "coderscamp2020-tablesoccer"
-#          heroku_email: "mateusz.nowak@coderscrew.pl"
-#          usedocker: true
-#          branch: develop
-#          appdir: backend
-#          env_file: ".env.heroku"
-#        env:
-#          HD_MONGO_CONNECTION_STRING: ${{secrets.HEROKU_MONGO_CONNECTION_STRING}}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "coderscamp2020-hackathon"
+          heroku_email: "mateusz.nowak@coderscrew.pl"
+          usedocker: true
+          branch: develop
+          appdir: backend
+          env_file: ".env"
