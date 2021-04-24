@@ -50,8 +50,7 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
         </div>
       </Box>
     </Drawer>
-  )
-    ;
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
       width: theme.spacing(0),
     },
   },
-    box:{
-      margin: 0
-    }
+  box: {
+    margin: 0,
+  },
 }));
