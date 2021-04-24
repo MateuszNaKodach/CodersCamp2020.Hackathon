@@ -35,10 +35,11 @@ export function UserQuestion() {
           direction="column"
           justify="center"
           alignItems="center"
+          style={{marginTop: "150px"}}
         >
       <TextField
         id="question"
-        style={{ padding: "10px", marginBottom: "40px", backgroundColor: '#FFFFFF', width: "70%"}}
+        style={{ padding: "10px", marginBottom: "60px", backgroundColor: '#FFFFFF', width: "70%"}}
         name='question'
         placeholder="Twoje pytanie?"
         value={formik.values.question}

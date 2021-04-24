@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: APP_BAR_HEIGHT,
     minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
     flexGrow: 1,
-    backgroundColor: "#E8EBEE"
+    backgroundColor: "#E8EBEE",
+    zIndex: 0
   },
 }));
