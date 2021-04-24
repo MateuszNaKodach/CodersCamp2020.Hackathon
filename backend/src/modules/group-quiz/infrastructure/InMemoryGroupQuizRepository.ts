@@ -1,6 +1,5 @@
 import {GroupQuiz} from "../core/domain/GroupQuiz";
 import {GroupQuizRepository} from "../core/application/GroupQuizRepository";
-import {PlayerProfile} from "../../player-profiles/core/domain/PlayerProfile";
 
 export class InMemoryGroupQuizRepository implements GroupQuizRepository {
   private readonly entities: { [groupId: string]: GroupQuiz } = {};
