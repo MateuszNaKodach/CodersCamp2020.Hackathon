@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   container: {height: "100%", width: "100%", textAlign: "center"}
 }));
 
-export function GroupQuestionContainer() {
+export function GroupQuestionView() {
 
   const classes = useStyles();
   return (

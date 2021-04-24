@@ -2,7 +2,7 @@ import { makeStyles, Typography } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
-import { GroupQuestionContainer } from '../GroupQuestionContainer/GroupQuestionContainer';
+import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
 
 
 export function AppMain() {
@@ -22,7 +22,7 @@ export function AppMain() {
 
           <Route path={PATH_FOR_USER_QUESTION} exact>
 
-            <GroupQuestionContainer />
+            <GroupQuestionView />
 
           </Route>
 
