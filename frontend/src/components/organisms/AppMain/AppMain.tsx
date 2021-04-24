@@ -42,6 +42,5 @@ const useStyles = makeStyles((theme) => ({
     minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
     flexGrow: 1,
     backgroundColor: "#E8EBEE",
-    zIndex: 0
   },
 }));
