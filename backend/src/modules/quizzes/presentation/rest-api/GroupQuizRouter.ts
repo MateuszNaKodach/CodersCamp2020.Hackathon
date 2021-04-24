@@ -12,6 +12,7 @@ import { FindQuizSolutions } from '../../core/application/query/FindQuizSolution
 import { QuizSolution } from '../../core/domain/QuizSolution';
 import { FindQuizById } from '../../core/application/query/FindQuizById';
 import { authenticatedUser } from '../../../../shared/GoogleAuthentication';
+import { SumUserScores } from '../../../scores/core/application/command/SumUserScores';
 
 export function groupQuizRouter(
   commandPublisher: CommandPublisher,
@@ -38,7 +39,13 @@ export function groupQuizRouter(
     const quizId = request.params.quizId as string;
     const requestBody: PostQuizSolutionRequestBody = request.body;
     const solutionAuthorId = (await authenticatedUser(request))?.userId ?? requestBody.solutionAuthorId ?? 'LoggedUserId';
-    const commandResult = await commandPublisher.execute(ResolveQuiz.command({ ...requestBody, quizId: quizId, solutionAuthorId }));
+    const commandResult = await commandPublisher.execute(
+      ResolveQuiz.command({
+        ...requestBody,
+        quizId: quizId,
+        solutionAuthorId,
+      }),
+    );
     return commandResult.process(
       () => response.status(StatusCodes.OK).send(),
       (failureReason) => response.status(StatusCodes.BAD_REQUEST).json({ message: failureReason.message }),
@@ -74,6 +81,7 @@ export function groupQuizRouter(
         .find((a) => a.userId === userAnswer.userId && a.answerId === userAnswer.answerId),
     );
 
+    await commandPublisher.execute(new SumUserScores({ userId, score: userCorrectAnswers.length }));
     return response.status(StatusCodes.OK).json({ ...userQuizSolution, userCorrectAnswers });
   };
 
