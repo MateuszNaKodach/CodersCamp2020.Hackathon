@@ -1,1 +1,1 @@
-export * from "./MatchDetailsRestAPI";
+export * from './MatchDetailsRestAPI';
