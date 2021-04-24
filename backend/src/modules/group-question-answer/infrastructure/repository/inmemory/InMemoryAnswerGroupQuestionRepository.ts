@@ -13,7 +13,7 @@ export class InMemoryAnswerGroupQuestionRepository implements AnswerGroupQuestio
   }
 
   async save(question: QuestionAnswer): Promise<void> {
-    this.entities[question.questionId] = question;
+    this.entities[`${question.questionId}_${question.answerAuthorId}`] = question;
   }
 
   findAllByQuestionId(questionId: string): Promise<QuestionAnswer[]> {

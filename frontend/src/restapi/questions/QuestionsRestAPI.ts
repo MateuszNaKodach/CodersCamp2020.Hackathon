@@ -1,7 +1,7 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
 import { PATH_BASE_URL } from '../../components/atoms/constants/apiPaths';
+import { getAuthorizationTokenValue, getAuthorizedUserId } from '../cookies';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
@@ -10,10 +10,6 @@ export type QuestionsRestApiConfig = {
 const defaultConfig: QuestionsRestApiConfig = {
   baseUrl: PATH_BASE_URL,
 };
-const cookies = new Cookies();
-
-const getAuthorizationTokenValue = () => `${cookies.get('authenticationToken').value}`;
-const getAuthorizedUserId = () => `${cookies.get('currentUser').userId}`;
 
 export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
   const currentConfig = {
@@ -22,28 +18,6 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
     baseUrl: process.env.REACT_APP_REST_API_BASE_URL ?? config?.baseUrl ?? defaultConfig.baseUrl,
   };
   return {
-    // getRegisteredPlayersIds(tournamentId: string): Promise<TournamentRegistrationsDto> {
-    //   return axios
-    //     .get<TournamentRegistrationsDto>(`${currentConfig.baseUrl}/tournament-registrations/${tournamentId}`)
-    //     .then((res) => res.data);
-    // },
-    // async postPlayersForTournament(body: { tournamentId: string; playerId: string }): Promise<void> {
-    //   await axios.post(`${currentConfig.baseUrl}/tournament-registrations/${body.tournamentId}/players`, body);
-    // },
-    // async closeTournamentRegistration(tournamentId: string): Promise<void> {
-    //   await axios.post(`${currentConfig.baseUrl}/tournament-registrations/${tournamentId}/close`, null, { params: { tournamentId } });
-    // },
-    // getAllTournamentsRegistrations(): Promise<TournamentRegistrationsListDto> {
-    //   return axios.get<TournamentRegistrationsListDto>(`${currentConfig.baseUrl}/tournament-registrations/`).then((res) => res.data);
-    // },
-    // async createTournament(body: { tournamentId: string }): Promise<void> {
-    //   const cookies = new Cookies();
-    //   await axios.post(`${currentConfig.baseUrl}/tournament-registrations`, body, {
-    //     headers: {
-    //       Authorization: `${JSON.parse(cookies.get('authenticationToken')).value}`,
-    //     },
-    //   });
-    // },
     async postQuestion(body: { groupId: string; text: string }): Promise<void> {
       await axios.post(
         `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
@@ -66,6 +40,16 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
           },
         )
         .then((r) => r.data.questions.find((q) => q.groupId === body.groupId))
+        .catch((e) => undefined);
+    },
+    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string } | undefined> {
+      return await axios
+        .get<{ text: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        })
+        .then((res) => res.data)
         .catch((e) => undefined);
     },
   };
