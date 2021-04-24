@@ -10,6 +10,7 @@ export class AnswerGroupQuestionCommandHandler implements CommandHandler<AnswerG
      private readonly eventPublisher: DomainEventPublisher,
      private readonly currentTimeProvider: CurrentTimeProvider,
   ) {
+
   }
 
   async execute(command: AnswerGroupQuestion): Promise<CommandResult> {
