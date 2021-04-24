@@ -20,10 +20,14 @@ export function Integramic() {
     setIsOpenDrawer(false);
   };
 
-  const [currentUserCookie, updateCurrentUserCookie] = useCookie("currentUser");
+  const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
   console.log("CURRENT USER", currentUserCookie)
   if (currentUserCookie === null) {
     return <LoginPage onAuthenticated={({email, userId}) => updateCurrentUserCookie(JSON.stringify({email, userId}))} />;
+  }
+
+  function onLoggedOut() {
+    deleteCurrentUserCookie()
   }
 
   return (
@@ -37,7 +41,7 @@ export function Integramic() {
               <AppBar />
 
 
-              <AppSidebar />
+              <AppSidebar onLoggedOut={onLoggedOut}/>
 
               <AppMain />
             </Router>
