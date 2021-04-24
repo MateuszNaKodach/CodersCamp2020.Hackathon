@@ -4,8 +4,7 @@ import { GroupQuestions } from '../../domain/GroupQuestions';
 import { GroupQuestionWasAsked } from '../../../../asking-question/core/domain/event/GroupQuestionWasAsked';
 
 export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestionWasAsked> {
-  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {
-  }
+  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {}
 
   async handle(event: GroupQuestionWasAsked): Promise<void> {
     const questionId = event.questionId;

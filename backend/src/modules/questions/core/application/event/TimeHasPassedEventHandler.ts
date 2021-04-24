@@ -6,8 +6,7 @@ import { CommandPublisher } from '../../../../../shared/core/application/command
 import { AskGroupQuestion } from '../../../../asking-question/core/application/command/AskGroupQuestion';
 
 export class TimeHasPassedEventHandler implements EventHandler<TimeHasPassed> {
-  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository, private readonly commandPublisher: CommandPublisher) {
-  }
+  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository, private readonly commandPublisher: CommandPublisher) {}
 
   async handle(event: TimeHasPassed): Promise<void> {
     const groupQuestions = await this.groupQuestionsRepository.findAll();
