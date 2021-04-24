@@ -11,11 +11,17 @@ import { GoogleLogout } from 'react-google-login';
 import Box from '@material-ui/core/Box';
 import { Centered } from '../../atoms/Centered';
 import ClickButton from '../../atoms/Button/ClickButton';
+import { useAsyncRetry } from 'react-use';
+import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
+import { GROUP_ID } from '../../atoms/constants/ids';
+import { ForceQuestionRestAPI } from '../../../restapi/forceQuestion/ForceQuestionRestAPI';
 
 export function AppSidebar(props: { onLoggedOut: () => void }) {
   const classes = useStyles();
   const { handleDrawerClose } = useContext(AppContext);
   const { isOpenDrawer } = useContext(AppContext);
+
+  const forceNextQuestion = () => ForceQuestionRestAPI().forceQuestion();
 
   return (
     <Drawer
@@ -36,9 +42,9 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
           </div>
         </Centered>
         <Centered>
-          <ClickButton onClick={()=>{}} disabled={false} text="Zadaj pytanie"/>
+          <ClickButton onClick={() => forceNextQuestion()} disabled={false} text='Zadaj pytanie' />
         </Centered>
-        <div >
+        <div>
           <Centered>
             <UserAvatarAndName />
           </Centered>

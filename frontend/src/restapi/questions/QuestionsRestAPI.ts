@@ -1,13 +1,14 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
+import { PATH_BASE_URL } from '../../components/atoms/constants/apiPaths';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
 };
 
 const defaultConfig: QuestionsRestApiConfig = {
-  baseUrl: 'http://localhost:5000/rest-api',
+  baseUrl: PATH_BASE_URL,
 };
 const cookies = new Cookies();
 
