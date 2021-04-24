@@ -7,28 +7,12 @@ import {useCookie} from "react-use";
 import {useHistory} from "react-router-dom";
 
 export default function UserAvatarAndName() {
-  const history = useHistory()
-  const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
-  const [currentAuthenticationToken, updateAuthenticationTokenCookie, deleteAuthenticationTokenCookie] = useCookie("authenticationToken");
-
-  const onSuccess = () => {
-    deleteCurrentUserCookie()
-    deleteAuthenticationTokenCookie()
-    history.push("/")
-  };
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Divider />
         <InitialsAvatar />
         <UserNameAndOrganization />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', justifyContent: 'center' }}>
-        <GoogleLogout
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
-            buttonText="Logout"
-            onLogoutSuccess={onSuccess}
-        />
       </div>
     </div>
   );
