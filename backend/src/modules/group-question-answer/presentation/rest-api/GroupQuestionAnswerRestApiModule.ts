@@ -11,6 +11,6 @@ export function GroupQuestionAnswerRestApiModule(
 ): ModuleRestApi {
   return {
     router: groupQuestionAnswerRouter(commandPublisher, eventPublisher, queryPublisher),
-    path: '/current-question/:groupId/answers\n',
+    path: '/current-question/:groupId/answers',
   };
 }
