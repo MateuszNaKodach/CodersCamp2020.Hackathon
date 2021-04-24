@@ -1,12 +1,13 @@
 import { EventHandler } from '../../../../../shared/core/application/event/EventHandler';
 import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
-import { Question } from '../../domain/Question';
 import { GroupQuestions } from '../../domain/GroupQuestions';
+import { GroupQuestionWasAsked } from '../../../../asking-question/core/domain/event/GroupQuestionWasAsked';
 
-export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestionAsked> {
-  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {}
+export class GroupQuestionAskedEventHandler implements EventHandler<GroupQuestionWasAsked> {
+  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {
+  }
 
-  async handle(event: GroupQuestionAsked): Promise<void> {
+  async handle(event: GroupQuestionWasAsked): Promise<void> {
     const questionId = event.questionId;
     const groupId = event.groupId;
 

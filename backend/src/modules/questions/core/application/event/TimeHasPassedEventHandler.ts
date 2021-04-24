@@ -3,6 +3,7 @@ import { TimeHasPassed } from '../../../../time/core/domain/event/TimeHasPassed'
 import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
 import { GroupQuestions } from '../../domain/GroupQuestions';
 import { CommandPublisher } from '../../../../../shared/core/application/command/CommandBus';
+import { AskGroupQuestion } from '../../../../asking-question/core/application/command/AskGroupQuestion';
 
 export class TimeHasPassedEventHandler implements EventHandler<TimeHasPassed> {
   constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository, private readonly commandPublisher: CommandPublisher) {

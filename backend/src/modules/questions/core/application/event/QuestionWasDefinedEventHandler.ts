@@ -2,6 +2,7 @@ import { EventHandler } from '../../../../../shared/core/application/event/Event
 import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
 import { Question } from '../../domain/Question';
 import { GroupQuestions } from '../../domain/GroupQuestions';
+import { QuestionWasDefined } from '../../domain/event/QuestionWasDefined';
 
 export class QuestionWasDefinedEventHandler implements EventHandler<QuestionWasDefined> {
   constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {}
