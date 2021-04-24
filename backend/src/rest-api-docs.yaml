@@ -172,22 +172,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/CurrentGroupQuizDto'
   /quizzes/{quizId}/solutions:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get all solutions for given quiz
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: Solutions
     post:
       tags:
         - Group Quizzes
       description: Post quiz solution
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostPlayerProfileRequestBody'
+              $ref: '#/components/schemas/PostQuizSolutionRequestBody'
       responses:
         200:
-          description: Player profile successfully created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostPlayerProfileResponseBody'
+          description: Solution successfully saved
 components:
   schemas:
     TournamentRegistrationsListDto:

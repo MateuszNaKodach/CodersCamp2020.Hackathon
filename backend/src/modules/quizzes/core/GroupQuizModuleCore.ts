@@ -10,6 +10,8 @@ import { FindCurrentQuizByGroupIdQueryHandler } from './application/query/FindCu
 import { ResolveQuiz } from './application/command/ResolveQuiz';
 import { ResolveQuizCommandHandler } from './application/command/ResolveQuizCommandHandler';
 import { QuizSolutionsRepository } from './application/QuizSolutionsRepository';
+import { FindQuizSolutions } from './application/query/FindQuizSolutions';
+import { FindQuizSolutionsQueryHandler } from './application/query/FindQuizSolutionsQueryHandler';
 
 export function GroupQuizModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -34,6 +36,10 @@ export function GroupQuizModuleCore(
       {
         queryType: FindCurrentQuizByGroupId,
         handler: new FindCurrentQuizByGroupIdQueryHandler(groupQuizRepository),
+      },
+      {
+        queryType: FindQuizSolutions,
+        handler: new FindQuizSolutionsQueryHandler(quizSolutionsRepository),
       },
     ],
   };

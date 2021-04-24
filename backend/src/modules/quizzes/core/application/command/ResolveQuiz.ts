@@ -11,11 +11,7 @@ export class ResolveQuiz {
     return new ResolveQuiz(props.quizId, props.solutionAuthorId, props.solution);
   }
 
-  constructor(
-    quizId: string,
-    solutionAuthorId: string,
-    solution: { answerId: string; userId: string }[],
-  ) {
+  constructor(quizId: string, solutionAuthorId: string, solution: { answerId: string; userId: string }[]) {
     this.quizId = quizId;
     this.solutionAuthorId = solutionAuthorId;
     this.solution = solution;

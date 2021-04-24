@@ -6,8 +6,10 @@ import {StatusCodes} from 'http-status-codes';
 import {FindCurrentQuizByGroupId} from '../../core/application/query/FindCurrentQuizByGroupId';
 import {GroupQuiz} from '../../core/domain/GroupQuiz';
 import {GroupQuizDto} from './response/GroupQuizDto';
-import {PostQuizSolutionRequestBody} from "./request/PostQuizSolutionRequestBody";
-import {ResolveQuiz} from "../../core/application/command/ResolveQuiz";
+import {PostQuizSolutionRequestBody} from './request/PostQuizSolutionRequestBody';
+import {ResolveQuiz} from '../../core/application/command/ResolveQuiz';
+import {FindQuizSolutions} from "../../core/application/query/FindQuizSolutions";
+import {QuizSolution} from "../../core/domain/QuizSolution";
 
 export function groupQuizRouter(
     commandPublisher: CommandPublisher,
@@ -32,18 +34,24 @@ export function groupQuizRouter(
 
   const postQuizSolution = async (request: Request, response: Response) => {
     const quizId = request.params.quizId as string;
-    const requestBody: PostQuizSolutionRequestBody = request.body
-    const solutionAuthorId = requestBody.solutionAuthorId ?? "LoggedUserId"
+    const requestBody: PostQuizSolutionRequestBody = request.body;
+    const solutionAuthorId = requestBody.solutionAuthorId ?? 'LoggedUserId';
     const commandResult = await commandPublisher.execute(ResolveQuiz.command({...requestBody, quizId: quizId, solutionAuthorId}));
     return commandResult.process(
         () => response.status(StatusCodes.OK).send(),
-        (failureReason) => response.status(StatusCodes.BAD_REQUEST).json({ message: failureReason.message }),
+        (failureReason) => response.status(StatusCodes.BAD_REQUEST).json({message: failureReason.message}),
     );
   };
 
+  const getQuizSolutions = async (request: Request, response: Response) => {
+    const quizId = request.params.quizId as string;
+    const queryResult = await queryPublisher.execute<QuizSolution[]>(new FindQuizSolutions({quizId}));
+    return response.status(StatusCodes.OK).json({items: queryResult});
+  };
 
   const router = express.Router();
   router.get('/', getGroupQuiz);
   router.post('/:quizId/solutions', postQuizSolution);
+  router.get('/:quizId/solutions', getQuizSolutions);
   return router;
 }
