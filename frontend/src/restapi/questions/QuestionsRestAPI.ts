@@ -42,6 +42,33 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
         .then((r) => r.data.questions.find((q) => q.groupId === body.groupId))
         .catch((e) => undefined);
     },
+    async getQuiz(body: {
+      groupId: string;
+    }): Promise<
+      | {
+          startedAt: string;
+          quizId: string;
+          groupId: string;
+          answers: [{ answerId: string; text: string }];
+          users: [{ userId: string }];
+        }
+      | undefined
+    > {
+      return await axios
+        .get<{
+          startedAt: string;
+          quizId: string;
+          groupId: string;
+          answers: [{ answerId: string; text: string }];
+          users: [{ userId: string }];
+        }>(`${currentConfig.baseUrl}/quizzes?groupId=group1`, {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        })
+        .then((result) => result.data)
+        .catch((e) => undefined);
+    },
     async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string; questionId: string } | undefined> {
       return await axios
         .get<{ text: string; questionId: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
