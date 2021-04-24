@@ -11,6 +11,8 @@ tags:
     description: Open/Closing registrations for tournament
   - name: Players profiles
     description: Save and get players profiles
+  - name: Group Quizzes
+    description: Quizzes for groups
   - name: Ask Group Question
 paths:
   /current-question/{groupid}:
@@ -162,6 +164,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerProfileDto'
+  /quizzes:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get current quiz for group
+      parameters:
+        - name: groupId
+          in: query
+          description: Group Id
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: Current quiz for group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentGroupQuizDto'
 components:
   schemas:
     CurrentGroupQuestionDto:
@@ -302,3 +324,74 @@ components:
           items:
             $ref: '#/components/schemas/PlayerProfileDto'
           uniqueItems: true
+    CurrentGroupQuizDto:
+      type: object
+      properties:
+        quizId:
+          description: Identifier of the quiz
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        groupId:
+          description: Identifier of the group which is quiz for
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        startedAt:
+          description: When quiz was started
+          type: string
+          example: date
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizAnswerDto'
+          uniqueItems: true
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizUserDto'
+          uniqueItems: true
+    QuizUserDto:
+      type: object
+      properties:
+        userId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+    QuizAnswerDto:
+      type: object
+      properties:
+        answerId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        text:
+          description: Body of the answer
+          type: string
+          example: Moja odpowiedz na zadane pytanie
+
+    PostAnswerGroupQuestionRequestBody:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question for which answer is given
+          type: string
+          format: uuid
+          example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
+        groupId:
+          description: Identifier of the group for which answer is given
+          type: string
+          format: uuid
+          example: 653e8ff0-1de8-43f1-b5e3-f83a635cbf0e
+        answerAuthorId:
+          description: Identifier of the answer author for which answer is given
+          type: string
+          format: uuid
+          example: 44b2b9d9-1740-42f9-89e5-c8f652ec4e11
+        text:
+          description: Text of the author for which answer is given
+          type: string
+          example: "Where were you last vacation"
+      required:
+        - questionId
+        - groupId
+        - answerAuthorId
+        - text
