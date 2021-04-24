@@ -3,8 +3,6 @@ import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import LogInIlu from '../../atoms/alignedImages/LogInIlu';
 import {useCookie} from "react-use";
-import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
-import LeftSplash from '../../atoms/alignedImages/LeftSplash';
 import LogInSplash from '../../atoms/alignedImages/LogInSplash';
 import {useHistory} from "react-router-dom";
 
@@ -27,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'center',
     justifyContent: 'center',
   },
+  insideGrid: {
+    zIndex: 1,
+  }
 }));
 
 export function LoginPage(props: { onAuthenticated?: (user: { email: string }) => void }) {
@@ -64,7 +65,7 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string }) =
     <>
       <Grid container className={styles.mainGrid}>
         <Grid item xs={12} md={6}></Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} className={styles.insideGrid}>
           <Typography variant="h3" style={{ fontWeight: 900 }}>
             Cześć!
           </Typography>
