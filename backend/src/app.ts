@@ -60,8 +60,9 @@ export async function IntegramicApplication(
     restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
   };
 
+  const askingGroupQuestionRepository = AskingGroupQuestionRepository();
   const askingGroupQuestionModule: Module = {
-    core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, new InMemoryAskingGroupQuestionRepository()),
+    core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, askingGroupQuestionRepository),
     restApi: AskingGroupQuestionRestApiModule(commandBus, eventBus, queryBus),
   };
 
@@ -166,4 +167,8 @@ function GroupQuestionsRepository() {
 
 function AnswerGroupQuestionRepository() {
   return new InMemoryAnswerGroupQuestionRepository();
+}
+
+function AskingGroupQuestionRepository() {
+  return new InMemoryAskingGroupQuestionRepository();
 }
