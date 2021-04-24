@@ -10,7 +10,6 @@ const style: CSSProperties = {
   minWidth: '100%',
   width: '40vh',
   color: THEME.palette.primary.main,
-  marginBottom: '4vh',
   textAlign: 'center',
   fontSize: '1.25rem',
   lineHeight: '2rem',
@@ -35,7 +34,7 @@ export const Box: FC<BoxProps> = memo(function Box({
 }) {
   const opacity = isDropped ? 0.4 : 1;
   return connectDragSource(
-    <div>
+    <div style={{marginTop:'4vh'}}>
       <Card  style={{...style, opacity}}>
       {name}
       </Card>

@@ -1,11 +1,12 @@
 import { Button, makeStyles } from '@material-ui/core';
-import { THEME } from '../constants/ThemeMUI';
+ import { THEME } from '../constants/ThemeMUI';
 
-type TextButtonProps = {
-  readonly text: string;
-};
+ type TextButtonProps = {
+   readonly text: string;
+   readonly onClick: undefined | (() => void);
+ };
 
-const useStyles = makeStyles((theme) => ({
+ const useStyles = makeStyles((theme) => ({
   button: {
     fontWeight: 500,
     backgroundColor: `${THEME.palette.primary.main}`,
@@ -15,17 +16,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ClickButton = ({ text }: TextButtonProps) => {
-  const classes = useStyles();
-  return (
-    <Button
-      size='large'
-      type='submit'
-      className={classes.button}
-    >
-      {text}
-    </Button>
-  );
-};
+ const ClickButton = ({ text, onClick }: TextButtonProps) => {
+   const classes = useStyles()
+   return (
+     <Button
+       onClick={onClick}
+       color="primary"
+       size="large"
+       className={classes.button}
+     >
+       {text}
+     </Button>
+   );
+ };
 
-export default ClickButton;
+ export default ClickButton;

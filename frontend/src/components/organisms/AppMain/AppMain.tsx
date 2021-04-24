@@ -2,15 +2,13 @@ import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW, PATH_FOR_QUIZ, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
+import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
 import React from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import Example from '../../molecules/example'
+import {Quiz} from '../../molecules/Quiz'
 
 import Title from '../../atoms/Title/Title';
-
-import { GroupQuestionContainer } from '../GroupQuestionContainer/GroupQuestionContainer';
-import Quiz from '../../molecules/example';
 
 export function AppMain() {
   const classes = useStyles();
@@ -20,11 +18,13 @@ export function AppMain() {
       <Router>
         <Switch>
           <Route path={PATH_FOR_MAIN_VIEW} exact>
-            <Title text="Here goes question???" />
+            <Title text='Here goes question???' />
           </Route>
 
           <Route path={PATH_FOR_USER_QUESTION} exact>
-            <GroupQuestionContainer />
+
+            <GroupQuestionView />
+
           </Route>
 
           <Route path={PATH_FOR_QUIZ} exact>
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
-    minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
+    minHeight: `100vh`,
     flexGrow: 1,
     backgroundColor: '#E8EBEE',
   },
