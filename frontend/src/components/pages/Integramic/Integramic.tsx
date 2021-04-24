@@ -8,7 +8,8 @@ const onClick = () => {};
 export function Integramic() {
   return (
     <MuiThemeProvider theme={THEME}>
-      <Typography>Responsive h3</Typography>
+      <Typography variant="h2">Responsive h3</Typography>
+
       <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
     </MuiThemeProvider>
   );
