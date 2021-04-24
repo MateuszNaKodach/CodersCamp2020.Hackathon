@@ -1,14 +1,14 @@
-import { QuestionsRepository } from '../../../core/application/QuestionsRepository';
+import { UserQuestionsRepository } from '../../../core/application/UserQuestionsRepository';
 import { UserQuestions } from '../../../core/domain/UserQuestions';
 
-export class InMemoryQuestionsRepository implements QuestionsRepository {
+export class InMemoryQuestionsRepository implements UserQuestionsRepository {
   private readonly entities: { [id: string]: UserQuestions } = {};
 
   async save(userQuestions: UserQuestions): Promise<void> {
-    this.entities[userQuestions.questionId] = userQuestions;
+    this.entities[userQuestions.authorId] = userQuestions;
   }
 
-  findAll(): Promise<UserQuestions[]> {
-    return Promise.resolve(Object.keys(this.entities).map((id) => this.entities[id]));
+  findByAuthorId(authorId: string): Promise<UserQuestions | undefined> {
+    return Promise.resolve(this.entities[authorId]);
   }
 }

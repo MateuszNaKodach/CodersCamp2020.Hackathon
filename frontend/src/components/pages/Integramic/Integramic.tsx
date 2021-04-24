@@ -1,22 +1,58 @@
-import React from 'react';
-import { MuiThemeProvider, Typography, unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core';
+import React, { useState } from 'react';
+import {
+  CssBaseline,
+  makeStyles,
+  MuiThemeProvider,
+} from '@material-ui/core';
 import { THEME } from '../../atoms/constants/ThemeMUI';
-import ClickButton from '../../atoms/Button/ClickButton';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import Example from '../../molecules/example'
+import { AppSidebar } from '../../organisms/AppSidebar/AppSidebar';
+import { AppContext } from '../../atoms/hooks/AppContext';
+import { AppBar } from '../../organisms/AppBar/AppBar';
+import { AppMain } from '../../organisms/AppMain/AppMain';
+import { LoginPage } from '../LoginPage/LoginPage';
 
-
-
-const onClick = () => {};
 
 export function Integramic() {
+  const classes = useStyles();
+  const [isOpenDrawer, setIsOpenDrawer] = useState(true);
+
+  const handleDrawerOpen = () => {
+    setIsOpenDrawer(true);
+  };
+  const handleDrawerClose = () => {
+    setIsOpenDrawer(false);
+  };
+
+  const [state, setState] = useState<AuthState>({authenticatedUser: undefined, isLoading: false});
+  if (state.authenticatedUser === undefined) {
+    return <LoginPage onAuthenticated={user => setState({authenticatedUser: user, isLoading: false})} />
+  }
+
   return (
     <MuiThemeProvider theme={THEME}>
-      <Typography variant="h2">Responsive h3</Typography>
+      <div className={classes.root}>
+        <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
+          <CssBaseline />
 
-      <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
-        
+          <AppBar />
+
+          <AppSidebar />
+          <AppMain />
+
+        </AppContext.Provider>
+      </div>
     </MuiThemeProvider>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+}));
+
+export type AuthState = {
+  readonly authenticatedUser: { email: string } | undefined;
+  readonly isLoading: boolean
+}
+

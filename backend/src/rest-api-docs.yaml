@@ -7,15 +7,13 @@ servers:
   - url: /rest-api
     description: REST API v1
 tags:
-  - name: Tournament Registrations
-    description: Open/Closing registrations for tournament
-  - name: Players profiles
-    description: Save and get players profiles
   - name: Group Quizzes
     description: Quizzes for groups
   - name: Groups
     description: Available groups
   - name: Ask Group Question
+  - name: Questions
+    description: Defined questions
 paths:
   /current-question/{groupid}:
     get:
@@ -29,143 +27,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CurrentGroupQuestionDto'
-  /tournament-registrations:
+  /questions/{userId}:
     get:
       tags:
-        - Tournament Registrations
-      description: Fetch list of all torunament registrations
+        - Questions
+      description: Fetch list of all questions defined by user
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
       responses:
         200:
-          description: All existing tournament registrations
+          description: Questions defined by requested user
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TournamentRegistrationsListDto'
+                $ref: '#/components/schemas/UserQuestionsDto'
     post:
       tags:
-        - Tournament Registrations
-      description: Open new tournament registrations
+        - Questions
+      description: Define question
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostTournamentRegistrationsRequestBody'
-      responses:
-        201:
-          description: Tournament registrations successfully opened
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostTournamentRegistrationsResponseBody'
-  /tournament-registrations/{tournamentId}:
-    get:
-      tags:
-        - Tournament Registrations
-      description: Fetch list of all torunament registrations
-      parameters:
-        - name: tournamentId
-          in: path
-          description: Tournament ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+              $ref: '#/components/schemas/PostDefineQuestionsRequestBody'
       responses:
         200:
-          description: Tournament Registrations with for requested tournament
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TournamentRegistrationsDto'
-  /tournament-registrations/{tournamentId}/close:
-    post:
-      tags:
-        - Tournament Registrations
-      description: Close tournament registrations
-      parameters:
-        - name: tournamentId
-          in: path
-          description: Tournament ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      responses:
-        200:
-          description: Tournament registrations was successfully closed
-  /tournament-registrations/{tournamentId}/players:
-    post:
-      tags:
-        - Tournament Registrations
-      description: Register player for participation in the tournament
-      parameters:
-        - name: tournamentId
-          in: path
-          description: Tournament ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostRegisterPlayerForTournamentRequestBody'
-      responses:
-        200:
-          description: Player successfully registered for the tournament
-  /players-profiles:
-    post:
-      tags:
-        - Players profiles
-      description: Create new player profile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostPlayerProfileRequestBody'
-      responses:
-        200:
-          description: Player profile successfully created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostPlayerProfileResponseBody'
-    get:
-      tags:
-        - Players profiles
-      description: Fetch list of all players profiles
-      responses:
-        200:
-          description: All existing players profiles
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlayerProfilesListDto'
-  /players-profiles/{playerdId}:
-    get:
-      tags:
-        - Players profiles
-      description: Get player profile under given Player ID
-      parameters:
-        - name: playerdId
-          in: path
-          description: Player ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      responses:
-        200:
-          description: Player profile for requested player ID
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlayerProfileDto'
+          description: Question successfully saved
   /quizzes:
     get:
       tags:
@@ -222,6 +121,29 @@ paths:
       responses:
         200:
           description: Solution successfully saved
+  /quizzes/{quizId}/solutions/{userId}:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get all solutions for given quiz
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        - name: userId
+          in: path
+          description: UserId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: User solution with good answers
   /groups:
     get:
       tags:
@@ -254,122 +176,6 @@ components:
           description: Question text
           type: string
           example: What is your favourite pie?
-    TournamentRegistrationsListDto:
-      type: array
-      items:
-        $ref: '#/components/schemas/TournamentRegistrationsDto'
-      uniqueItems: true
-    TournamentRegistrationsDto:
-      type: object
-      properties:
-        tournamentId:
-          description: Identifier of the tournament
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-        status:
-          description: status of the tournament registrations
-          type: string
-          enum:
-            - OPENED
-            - CLOSED
-          example: OPENED
-        registeredPlayersIds:
-          description: ids of players which registered for the tournament
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-    PostRegisterPlayerForTournamentRequestBody:
-      type: object
-      properties:
-        playerId:
-          description: Identifier of the player
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      required:
-        - playerId
-    PostTournamentRegistrationsResponseBody:
-      type: object
-      properties:
-        tournamentId:
-          description: Identifier of the tournament for which registrations where opened
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      required:
-        - tournamentId
-    PostTournamentRegistrationsRequestBody:
-      type: object
-      properties:
-        tournamentId:
-          description: Identifier of the tournament for which registrations should be opened
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-      required:
-        - tournamentId
-    PostPlayerProfileRequestBody:
-      type: object
-      properties:
-        playerId:
-          description: Identifier of the player profile which should be created
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phoneNumber:
-          type: string
-        emailAddress:
-          type: string
-    PostPlayerProfileResponseBody:
-      type: object
-      properties:
-        playerId:
-          description: Identifier of the player profile which should be created
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phoneNumber:
-          type: string
-        emailAddress:
-          type: string
-    PlayerProfileDto:
-      type: object
-      properties:
-        playerId:
-          description: Identifier of the player profile which should be created
-          type: string
-          format: uuid
-          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
-        firstName:
-          type: string
-          example: Jan
-        lastName:
-          type: string
-          example: Kowalski
-        phoneNumber:
-          type: string
-          example: 123456789
-        emailAddress:
-          type: string
-          example: email@address.com
-    PlayerProfilesListDto:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PlayerProfileDto'
-          uniqueItems: true
     CurrentGroupQuizDto:
       type: object
       properties:
@@ -463,3 +269,41 @@ components:
         - groupId
         - answerAuthorId
         - text
+    UserQuestionsDto:
+      type: object
+      properties:
+        authorId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionDto'
+          uniqueItems: true
+    QuestionDto:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question
+          type: string
+          example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
+        groupId:
+          type: string
+          example: 653e8ff0-1de8-43f1-b5e3-f83a635cbf0e
+        text:
+          type: string
+          example: "Where were you last vacation"
+    PostDefineQuestionsRequestBody:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question
+          type: string
+          example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
+        groupId:
+          type: string
+          example: 653e8ff0-1de8-43f1-b5e3-f83a635cbf0e
+        text:
+          type: string
+          example: "Where were you last vacation"

@@ -7,7 +7,7 @@ export const THEME = createMuiTheme({
       contrastText: '#153259',
     },
     secondary: {
-      main: '#FFD100',
+      main: '#666666',
       contrastText: '#000000',
     },
   },
