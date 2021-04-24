@@ -7,9 +7,9 @@ import { PlayerProfileDto } from './response/PlayerProfileDto';
 import { PlayerProfile } from '../../core/domain/PlayerProfile';
 import { PostPlayerProfileRequestBody } from './request/PostPlayerProfileRequestBody';
 import { CommandPublisher } from '../../../../shared/core/application/command/CommandBus';
-import { CreatePlayerProfile } from '../../core/application/command/CreatePlayerProfile';
 import { DomainEventPublisher } from '../../../../shared/core/application/event/DomainEventBus';
 import { FindPlayerProfileById, FindPlayerProfileByIdResult } from '../../core/application/query/FindPlayerProfileById';
+import { CreatePlayerProfile } from '../../core/application/command/CreatePlayerProfile';
 
 export function playerProfileRouter(
   commandPublisher: CommandPublisher,
@@ -48,7 +48,7 @@ export function playerProfileRouter(
 
 function toPlayerProfileDto(playerProfile: PlayerProfile): PlayerProfileDto {
   return new PlayerProfileDto(
-    playerProfile.playerId.raw,
+    playerProfile.playerId,
     playerProfile.firstName,
     playerProfile.lastName,
     playerProfile.phoneNumber,

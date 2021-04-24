@@ -7,6 +7,8 @@ import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { FindPlayerProfileById } from './application/query/FindPlayerProfileById';
 import { FindPlayerProfileByIdQueryHandler } from './application/query/FindPlayerProfileByIdQueryHandler';
 import { CommandPublisher } from '../../../shared/core/application/command/CommandBus';
+import { CreatePlayerProfileCommandHandler } from './application/command/CreatePlayerProfileCommandHandler';
+import { CreatePlayerProfile } from './application/command/CreatePlayerProfile';
 
 export function PlayerProfilesModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -15,7 +17,12 @@ export function PlayerProfilesModuleCore(
   playerProfileRepository: PlayerProfilesRepository,
 ): ModuleCore {
   return {
-    commandHandlers: [],
+    commandHandlers: [
+      {
+        commandType: CreatePlayerProfile,
+        handler: new CreatePlayerProfileCommandHandler(eventPublisher, currentTimeProvider, playerProfileRepository),
+      },
+    ],
     eventHandlers: [],
     queryHandlers: [
       {
