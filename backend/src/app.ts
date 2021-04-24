@@ -41,6 +41,9 @@ import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-
 import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/ScoresRestApiModule';
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
+import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerProfilesModuleCore';
+import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
+import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
 
 config();
 
@@ -89,6 +92,12 @@ export async function IntegramicApplication(
     restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus, groupQuestionsRepository),
   };
 
+  const playerProfileRepository = PlayerProfilesRepository();
+  const playerProfilesModule: Module = {
+    core: PlayerProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
+    restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
+  };
+
   const timeModule: Module = {
     core: TimeModuleCore(eventBus, currentTimeProvider),
   };
@@ -109,6 +118,7 @@ export async function IntegramicApplication(
     process.env.QUESTIONS_MODULE === 'ENABLED' ? questionsModule : undefined,
     process.env.ASKING_GROUP_QUESTION_MODULE === 'ENABLED' ? askingGroupQuestionModule : undefined,
     process.env.SCORES_MODULE === 'ENABLED' ? scoresModule : undefined,
+    process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
     timeModule,
     quizModule,
   ].filter(isDefined);
@@ -192,4 +202,8 @@ function AskingGroupQuestionRepository() {
 
 function ScoresRepository() {
   return new InMemoryScoresRepository();
+}
+
+function PlayerProfilesRepository() {
+  return new InMemoryPlayerProfileRepository();
 }
