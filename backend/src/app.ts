@@ -54,16 +54,23 @@ export async function IntegramicApplication(
     await connectToMongoDb();
   }
 
-  const answerGroupQuestionRepository = AnswerGroupQuestionRepository();
-  const groupQuestionAnswerModule: Module = {
-    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider, answerGroupQuestionRepository),
-    restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
-  };
-
   const askingGroupQuestionRepository = AskingGroupQuestionRepository();
   const askingGroupQuestionModule: Module = {
     core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, askingGroupQuestionRepository),
     restApi: AskingGroupQuestionRestApiModule(commandBus, eventBus, queryBus),
+  };
+
+  const answerGroupQuestionRepository = AnswerGroupQuestionRepository();
+  const groupQuestionAnswerModule: Module = {
+    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider, answerGroupQuestionRepository),
+    restApi: GroupQuestionAnswerRestApiModule(
+      commandBus,
+      eventBus,
+      queryBus,
+      answerGroupQuestionRepository,
+      askingGroupQuestionRepository,
+      entityIdGenerator,
+    ),
   };
 
   const questionsRepository = QuestionsRepository();

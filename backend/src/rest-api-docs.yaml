@@ -15,7 +15,25 @@ tags:
   - name: Questions
     description: Defined questions
   - name: Answer Group Question
+  - name: Force Start Quiz
+    description: To avoid waiting for time interval, post request to force start quiz
 paths:
+  /current-question/{groupId}/forceStartQuiz:
+    post:
+      tags:
+        - Force Start Quiz
+      description: Force start quiz
+      parameters:
+        - name: groupId
+          in: path
+          description: Group ID
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: Quiz started
   /current-question/{groupId}/answers:
     post:
       tags:
