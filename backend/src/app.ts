@@ -36,13 +36,13 @@ import { QuestionsRestApiModule } from './modules/questions/presentation/rest-ap
 import { AskingGroupQuestionRestApiModule } from './modules/asking-question/presentation/rest-api/AskingGroupQuestionRestApiModule';
 import { AskingGroupQuestionModuleCore } from './modules/asking-question/core/AskingGroupQuestionModuleCore';
 import { InMemoryGroupQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryGroupQuestionsRepository';
+import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-answer/infrastructure/repository/inmemory/InMemoryAnswerGroupQuestionRepository';
 import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/ScoresRestApiModule';
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
-import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerProfilesModuleCore';
-import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
-import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
-import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-answer/infrastructure/repository/inmemory/InMemoryAnswerGroupQuestionRepository';
+import { UserProfilesModuleCore } from './modules/player-profiles/core/UserProfilesModuleCore';
+import { UserProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/UserProfileRestApiModule';
+import { InMemoryUserProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryUserProfileRepository';
 
 config();
 
@@ -92,8 +92,8 @@ export async function IntegramicApplication(
 
   const playerProfileRepository = PlayerProfilesRepository();
   const playerProfilesModule: Module = {
-    core: PlayerProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
-    restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
+    core: UserProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
+    restApi: UserProfileRestApiModule(commandBus, eventBus, queryBus),
   };
 
   const timeModule: Module = {
@@ -199,5 +199,5 @@ function ScoresRepository() {
 }
 
 function PlayerProfilesRepository() {
-  return new InMemoryPlayerProfileRepository();
+  return new InMemoryUserProfileRepository();
 }

@@ -5,10 +5,9 @@
 
 #### Netlify Deployment
 
-URL: https://wkps.netlify.app/
+URL: https://integramic.netlify.app/
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8b1e040a-66a9-4aa9-be7c-0c5e002105df/deploy-status)](https://app.netlify.com/sites/wkps/deploys)
-
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b58805a5-da13-46ca-8d7c-50d62b0577c0/deploy-status)](https://app.netlify.com/sites/integramic/deploys)
 
 ### Backend
 
