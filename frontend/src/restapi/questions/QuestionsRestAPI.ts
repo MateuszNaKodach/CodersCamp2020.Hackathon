@@ -54,5 +54,18 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
         },
       );
     },
+    async getQuestion(body: { groupId: string }): Promise<{ questionId: string; text: string } | undefined> {
+      return await axios
+        .get<{ questions: { questionId: string; text: string; groupId: string }[] }>(
+          `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
+          {
+            headers: {
+              Authorization: getAuthorizationTokenValue(),
+            },
+          },
+        )
+        .then((r) => r.data.questions.find((q) => q.groupId === body.groupId))
+        .catch((e) => undefined);
+    },
   };
 };
