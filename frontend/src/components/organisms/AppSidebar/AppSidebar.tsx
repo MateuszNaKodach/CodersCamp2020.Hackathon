@@ -7,6 +7,7 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import { DRAWER_WIDTH } from '../../atoms/constants/sizes';
 import Logo from '../../atoms/alignedImages/Logo';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
+import Box from '@material-ui/core/Box';
 
 export function AppSidebar() {
   const classes = useStyles();
@@ -21,21 +22,26 @@ export function AppSidebar() {
       }}
       open={isOpenDrawer}
     >
-      <div className={classes.toolbarIcon}>
-        <Logo />
-        <IconButton onClick={handleDrawerClose}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </div>
-      <div style={{ position: 'absolute', bottom: '50px' }}>
-        <UserAvatarAndName />
-      </div>
+      <Box display='flex' flexDirection='column' justifyContent='space-between' p={1} m={1} bgcolor='background.paper' height='100%'>
+        <div className={classes.toolbarIcon}>
+          <Logo />
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+
+        <div style={{}}>
+          <UserAvatarAndName />
+        </div>
+
+      </Box>
     </Drawer>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   toolbarIcon: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -60,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
+      width: theme.spacing(0),
     },
   },
 }));
