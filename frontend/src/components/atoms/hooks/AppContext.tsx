@@ -1,9 +1,11 @@
-import {createContext} from 'react';
+import { createContext } from 'react';
 
 export const defaultObject = {
   isOpenDrawer: false,
-  handleDrawerOpen: ()=>{},
-  handleDrawerClose: ()=>{},
+  handleDrawerOpen: () => {
+  },
+  handleDrawerClose: () => {
+  },
 };
 
-export const AppContext= createContext(defaultObject);
+export const AppContext = createContext(defaultObject);

@@ -1,10 +1,10 @@
-import {  makeStyles, Typography } from '@material-ui/core';
-import React, { useContext } from 'react';
+import { makeStyles, Typography } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
 import ClickButton from '../../atoms/Button/ClickButton';
 
-const onClick = () => {};
+const onClick = () => {
+};
 
 export function AppMain() {
   const classes = useStyles();
