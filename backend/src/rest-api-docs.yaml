@@ -222,6 +222,29 @@ paths:
       responses:
         200:
           description: Solution successfully saved
+  /quizzes/{quizId}/solutions/{userId}:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get all solutions for given quiz
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        - name: userId
+          in: path
+          description: UserId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: User solution with good answers
   /groups:
     get:
       tags:
