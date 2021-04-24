@@ -1,13 +1,19 @@
 import { makeStyles } from '@material-ui/core';
 import {  Route, Switch } from 'react-router-dom';
-import {  PATH_FOR_USER_QUIZ } from '../../atoms/constants/routerPaths';
-import { PATH_FOR_MAIN_VIEW,  PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
+import {
+  PATH_FOR_MAIN_VIEW,
+  PATH_FOR_USER_QUIZ,
+  PATH_FOR_USER_ANSWER,
+  PATH_FOR_USER_QUESTION,
+} from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
 import React from 'react';
-import {Quiz} from '../../molecules/Quiz'
+import { Quiz } from '../../molecules/Quiz';
+
 import Title from '../../atoms/Title/Title';
 import { NavBar } from '../NavBar/NavBar';
+import { GroupAnswerView } from '../GroupAnswerView/GroupAnswerView';
 
 export function AppMain() {
   const classes = useStyles();
@@ -23,6 +29,10 @@ export function AppMain() {
 
         <Route path={PATH_FOR_USER_QUESTION} exact>
           <GroupQuestionView />
+        </Route>
+
+        <Route path={PATH_FOR_USER_ANSWER} exact>
+          <GroupAnswerView />
         </Route>
 
           <Route path={PATH_FOR_USER_QUIZ} exact>

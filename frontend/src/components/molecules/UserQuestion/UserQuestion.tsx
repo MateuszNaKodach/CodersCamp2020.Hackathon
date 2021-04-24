@@ -85,7 +85,7 @@ export function UserQuestion() {
         }}
       />
 
-      <FormButton text='ZADAJ PYTANIE' disabled={postQuestionState.loading || getQuestionState.loading} />
+      <FormButton text='ZADAJ PYTANIE' />
 
         </Grid>
       </form>
