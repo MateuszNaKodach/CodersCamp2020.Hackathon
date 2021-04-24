@@ -5,7 +5,7 @@ import LeftSplash from '../../atoms/alignedImages/LeftSplash';
 import QuestionIlu from '../../atoms/alignedImages/QuestionIlu';
 
 const useStyles = makeStyles((theme) => ({
-  container: {height: "100%", width: "100%", textAlign: "center"}
+  container: { height: '100%', width: '100%', textAlign: 'center' },
 }));
 
 export function GroupQuestionView() {

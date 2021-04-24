@@ -28,17 +28,19 @@ export function Integramic() {
   return (
     <MuiThemeProvider theme={THEME}>
       <div className={classes.root}>
-        <Router>
         <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
-          <CssBaseline />
+          <Router>
 
-          <AppBar />
+            <CssBaseline />
 
-          <AppSidebar />
+            <AppBar />
 
-          <AppMain />
+
+            <AppSidebar />
+
+            <AppMain />
+          </Router>
         </AppContext.Provider>
-        </Router>
       </div>
     </MuiThemeProvider>
   );
