@@ -51,7 +51,7 @@ export function askGroupQuestion(
   const groupQuestion = new GroupQuestions({
     questionList: groupQuestions.questionList,
     questionAskedLastlyDate: currentTimeProvider(),
-    groupId: groupQuestions!.groupId,
+    groupId: groupQuestions.groupId,
     questionAskedLastly: {
       questionId: command.questionId,
       text: command.text,
