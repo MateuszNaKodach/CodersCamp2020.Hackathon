@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {EntityIdGenerator} from "../../components/atoms/idGenerator/EntityIdGenerator";
+import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
@@ -13,7 +13,6 @@ const cookies = new Cookies();
 
 const getAuthorizationTokenValue = () => `${cookies.get('authenticationToken').value}`;
 const getAuthorizedUserId = () => `${cookies.get('currentUser').userId}`;
-
 
 export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
   const currentConfig = {
@@ -44,12 +43,16 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
     //     },
     //   });
     // },
-    async postQuestion(body: { groupId: string, text: string }): Promise<void> {
-      await axios.post(`${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`, {...body, questionId: EntityIdGenerator.generate()}, {
-        headers: {
-          Authorization: getAuthorizationTokenValue(),
+    async postQuestion(body: { groupId: string; text: string }): Promise<void> {
+      await axios.post(
+        `${currentConfig.baseUrl}/questions/${getAuthorizedUserId()}`,
+        { ...body, questionId: EntityIdGenerator.generate() },
+        {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
         },
-      });
+      );
     },
   };
 };
