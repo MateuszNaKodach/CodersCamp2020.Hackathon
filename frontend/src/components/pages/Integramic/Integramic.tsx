@@ -30,7 +30,6 @@ export function Integramic() {
       <div className={classes.root}>
         <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
           <Router>
-            <NavBar />
 
             <CssBaseline />
 
