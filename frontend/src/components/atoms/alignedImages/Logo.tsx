@@ -1,5 +1,5 @@
 import React from 'react';
-import { PATH_FOR_IMAGES } from '../../atoms/constants/imgPaths';
+import { PATH_FOR_IMAGES } from '../constants/imgPaths';
 
 export default function Logo() {
   return (

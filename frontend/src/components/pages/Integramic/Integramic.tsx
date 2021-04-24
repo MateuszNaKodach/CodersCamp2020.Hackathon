@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
-import {
-  CssBaseline,
-  makeStyles,
-  MuiThemeProvider,
-} from '@material-ui/core';
+import { CssBaseline, makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { THEME } from '../../atoms/constants/ThemeMUI';
 import { AppSidebar } from '../../organisms/AppSidebar/AppSidebar';
 import { AppContext } from '../../atoms/hooks/AppContext';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
-
 
 export function Integramic() {
   const classes = useStyles();
@@ -23,9 +18,9 @@ export function Integramic() {
     setIsOpenDrawer(false);
   };
 
-  const [state, setState] = useState<AuthState>({authenticatedUser: undefined, isLoading: false});
+  const [state, setState] = useState<AuthState>({ authenticatedUser: undefined, isLoading: false });
   if (state.authenticatedUser === undefined) {
-    return <LoginPage onAuthenticated={user => setState({authenticatedUser: user, isLoading: false})} />
+    return <LoginPage onAuthenticated={(user) => setState({ authenticatedUser: user, isLoading: false })} />;
   }
 
   return (
@@ -39,7 +34,6 @@ export function Integramic() {
           <AppSidebar />
 
           <AppMain />
-
         </AppContext.Provider>
       </div>
     </MuiThemeProvider>
@@ -54,6 +48,5 @@ const useStyles = makeStyles((theme) => ({
 
 export type AuthState = {
   readonly authenticatedUser: { email: string } | undefined;
-  readonly isLoading: boolean
-}
-
+  readonly isLoading: boolean;
+};
