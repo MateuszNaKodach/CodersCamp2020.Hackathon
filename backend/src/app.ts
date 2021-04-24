@@ -37,6 +37,9 @@ import { MongoPlayers } from './modules/tournaments-registrations/infrastructure
 import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
 import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
 import { TimeModuleCore } from './modules/time/core/TimeModuleCore';
+import {GroupQuizModuleCore} from "./modules/group-quiz/core/GroupQuizModuleCore";
+import {InMemoryGroupQuizRepository} from "./modules/group-quiz/infrastructure/InMemoryGroupQuizRepository";
+import {GroupQuizRestApiModule} from "./modules/group-quiz/presentation/rest-api/GroupQuizRestApiModule";
 
 config();
 
@@ -72,6 +75,11 @@ export async function TableSoccerTournamentsApplication(
     core: TimeModuleCore(eventBus, currentTimeProvider),
   };
 
+  const quizModule: Module = {
+    core: GroupQuizModuleCore(eventBus, commandBus, currentTimeProvider, new InMemoryGroupQuizRepository()),
+    restApi: GroupQuizRestApiModule(commandBus, eventBus, queryBus)
+  }
+
   const sendingEmailModule: Module = EmailModuleCore();
 
   const modules: Module[] = [
@@ -79,6 +87,7 @@ export async function TableSoccerTournamentsApplication(
     process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
     process.env.EMAILS_SENDING_MODULE === 'ENABLED' ? sendingEmailModule : undefined,
     timeModule,
+    quizModule
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);

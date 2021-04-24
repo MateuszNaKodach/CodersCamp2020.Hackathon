@@ -13,7 +13,7 @@ export class StartQuiz  {
     return new StartQuiz(props.quizId, props.groupId, props.question, props.answers);
   }
 
-  private constructor(
+  constructor(
       quizId: string,
       groupId: string,
       question: { questionId: string; text: string },
