@@ -1,18 +1,15 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
+import { PATH_BASE_URL } from '../../components/atoms/constants/apiPaths';
+import { getAuthorizationTokenValue, getAuthorizedUserId } from '../cookies';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
 };
 
 const defaultConfig: QuestionsRestApiConfig = {
-  baseUrl: 'http://localhost:5000/rest-api',
+  baseUrl: PATH_BASE_URL,
 };
-const cookies = new Cookies();
-
-const getAuthorizationTokenValue = () => `${cookies.get('authenticationToken').value}`;
-const getAuthorizedUserId = () => `${cookies.get('currentUser').userId}`;
 
 export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
   const currentConfig = {
@@ -45,18 +42,35 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
         .then((r) => r.data.questions.find((q) => q.groupId === body.groupId))
         .catch((e) => undefined);
     },
-    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string } | undefined> {
+    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string; questionId: string } | undefined> {
       return await axios
-        .get<{text: string}>(
-          `${currentConfig.baseUrl}/current-question/${body.groupId}`,
-          {
-            headers: {
-              Authorization: getAuthorizationTokenValue(),
-            }
-          }
-        )
-        .then((res)=> res.data)
-        .catch((e) => undefined)
-    }
+        .get<{ text: string; questionId: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        })
+        .then((res) => res.data)
+        .catch((e) => undefined);
+    },
+    async postCurrentGroupQuestionAnswer(body: {
+      groupId: string;
+      questionId: string;
+      answerAuthorId: string;
+      text: string;
+    }): Promise<void> {
+      await axios.post(
+        `${currentConfig.baseUrl}/current-question/${body.groupId}`,
+        {
+          questionId: body.questionId,
+          answerAuthorId: body.answerAuthorId,
+          text: body.text,
+        },
+        {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        },
+      );
+    },
   };
 };
