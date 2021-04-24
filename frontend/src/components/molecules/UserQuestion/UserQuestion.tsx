@@ -1,5 +1,5 @@
 import React from 'react';
-import ClickButton from '../../atoms/Button/ClickButton';
+import FormButton from '../../atoms/Button/FormButton';
 import { Grid, makeStyles, TextField } from '@material-ui/core';
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -62,7 +62,7 @@ export function UserQuestion() {
         }}
       />
 
-      <ClickButton text='ZADAJ PYTANIE' />
+      <FormButton text='ZADAJ PYTANIE' />
 
         </Grid>
       </form>
