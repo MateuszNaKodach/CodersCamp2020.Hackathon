@@ -1,1 +1,1 @@
-export * from "./TournamentRegistrationsRestAPI";
+export * from './TournamentRegistrationsRestAPI';
