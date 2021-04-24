@@ -20,7 +20,16 @@ export function askGroupQuestion(
   command: { questionId: string; groupId: string; authorId: string; text: string },
   currentTimeProvider: CurrentTimeProvider,
 ): DomainCommandResult<GroupQuestion> {
-  if (command.text.trim().length === 0) {
+  if (command.questionId.trim().length <= 0) {
+    throw new Error('QuestionId cannot be empty!');
+  }
+  if (command.groupId.trim().length <= 0) {
+    throw new Error('GroupId cannot be empty!');
+  }
+  if (command.authorId.trim().length <= 0) {
+    throw new Error('AuthorId cannot be empty!');
+  }
+  if (command.text.trim().length <= 0) {
     throw new Error('Question cannot be empty!');
   }
 
