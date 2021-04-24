@@ -1,5 +1,6 @@
 import { Button, makeStyles } from '@material-ui/core';
 import { THEME } from '../constants/ThemeMUI';
+import SendIcon from '@material-ui/icons/Send';
 
 type TextButtonProps = {
   readonly text: string;
@@ -13,8 +14,12 @@ const useStyles = makeStyles((theme) => ({
     padding: '8px 25px',
     zIndex: 1,
     '&:hover': {
-      background: "#3a5f91",
+      background: '#3a5f91',
     },
+  },
+  icon: {
+    marginLeft: '10px',
+    marginBottom: "2px"
   },
 }));
 
@@ -25,6 +30,7 @@ const FormButton = ({ text }: TextButtonProps) => {
       size='large'
       type='submit'
       className={classes.button}
+      endIcon={<SendIcon className={classes.icon} />}
     >
       {text}
     </Button>
