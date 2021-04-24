@@ -171,6 +171,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CurrentGroupQuizDto'
+  /quizzes/{quizId}/solutions:
+    post:
+      tags:
+        - Group Quizzes
+      description: Post quiz solution
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPlayerProfileRequestBody'
+      responses:
+        200:
+          description: Player profile successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostPlayerProfileResponseBody'
 components:
   schemas:
     TournamentRegistrationsListDto:
@@ -332,3 +349,22 @@ components:
           description: Body of the answer
           type: string
           example: Moja odpowiedz na zadane pytanie
+    QuizSolutionAnswerDto:
+      type: object
+      properties:
+        answerId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        userId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+    PostQuizSolutionRequestBody:
+      type: object
+      properties:
+        solution:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizSolutionAnswerDto'
+          uniqueItems: true

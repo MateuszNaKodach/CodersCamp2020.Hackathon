@@ -3,31 +3,24 @@ import { DomainCommandResult } from '../../../../shared/core/domain/DomainComman
 
 export class QuizSolution {
   readonly quizId: string;
-  readonly groupId: string;
-  readonly questionId: string;
   readonly solutionAuthorId: string;
   readonly solution: { answerId: string; userId: string }[];
 
   static fromProps(props: {
     readonly quizId: string;
-    readonly groupId: string;
-    readonly questionId: string;
     readonly solutionAuthorId: string;
     readonly solution: { answerId: string; userId: string }[];
   }): QuizSolution {
-    return new QuizSolution(props.quizId, props.groupId, props.questionId, props.solutionAuthorId, props.solution);
+    return new QuizSolution(props.quizId, props.solutionAuthorId, props.solution);
   }
 
   constructor(
     quizId: string,
-    groupId: string,
-    questionId: string,
+
     solutionAuthorId: string,
     solution: { answerId: string; userId: string }[],
   ) {
     this.quizId = quizId;
-    this.groupId = groupId;
-    this.questionId = questionId;
     this.solutionAuthorId = solutionAuthorId;
     this.solution = solution;
   }
