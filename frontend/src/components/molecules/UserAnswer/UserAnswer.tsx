@@ -5,6 +5,10 @@ import { useFormik } from 'formik';
 import EditIcon from '@material-ui/icons/Edit';
 import FormButton from '../../atoms/Button/FormButton';
 import Title from '../../atoms/Title/Title';
+import { useAsyncRetry } from 'react-use';
+import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
+import { GROUP_ID } from '../UserQuestion/UserQuestion';
+import { useHistory } from 'react-router-dom';
 
 const validationSchema = yup.object({
   answer: yup
@@ -18,11 +22,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function UserAnswer() {
-  const [question, setQuestion] = useState();
+  const history = useHistory();
 
-  useEffect(()=> {
-
-  })
+  const currentGroupQuestion = useAsyncRetry(async () =>
+    await QuestionsRestApi()
+      .getCurrentGroupQuestion({groupId: GROUP_ID })
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -40,10 +45,17 @@ export function UserAnswer() {
     },
   });
 
+  function questionUnknown() {
+    history.push('/questionUnknown');
+  }
+
   const classes = useStyles();
   return (
     <>
-    <Title text='Here goes question???' />
+      {currentGroupQuestion.value?.text ? <Title text={currentGroupQuestion.value.text} /> :
+        questionUnknown()
+      }
+
     <form onSubmit={formik.handleSubmit}>
       <Grid
         container
