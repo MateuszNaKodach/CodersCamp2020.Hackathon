@@ -7,8 +7,8 @@ import FormButton from '../../atoms/Button/FormButton';
 import Title from '../../atoms/Title/Title';
 import { useAsyncRetry } from 'react-use';
 import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
-import { GROUP_ID } from '../UserQuestion/UserQuestion';
 import { useHistory } from 'react-router-dom';
+import { GROUP_ID } from '../../atoms/constants/ids';
 
 const validationSchema = yup.object({
   answer: yup
