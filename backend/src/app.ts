@@ -36,11 +36,15 @@ import { SendEmailModuleCore } from './modules/email-sending/core/SendEmailModul
 import { MongoPlayers } from './modules/tournaments-registrations/infrastructure/repository/mongo/MongoPlayers';
 import { RetryCommandBus } from './shared/infrastructure/core/application/command/RetryCommandBus';
 import { LoggingCommandBus } from './shared/infrastructure/core/application/command/LoggingCommandBus';
+import { AnswerGroupQuestionModuleCore } from './modules/group-question-answer/core/AnswerGroupQuestionModuleCore';
+import { GroupQuestionAnswerRestApiModule } from './modules/group-question-answer/presentation/rest-api/GroupQuestionAnswerRestApiModule';
 import { TimeModuleCore } from './modules/time/core/TimeModuleCore';
 import { GroupQuizModuleCore } from './modules/quizzes/core/GroupQuizModuleCore';
 import { InMemoryGroupQuizRepository } from './modules/quizzes/infrastructure/InMemoryGroupQuizRepository';
 import { GroupQuizRestApiModule } from './modules/quizzes/presentation/rest-api/GroupQuizRestApiModule';
 import { StartQuiz } from './modules/quizzes/core/application/command/StartQuiz';
+import { InMemoryQuizSolutionsRepository } from './modules/quizzes/infrastructure/InMemoryQuizSolutionsRepository';
+import { GroupsRestApiModule } from './modules/groups/presentation/rest-api/GroupsRestApiModule';
 
 config();
 
@@ -60,6 +64,11 @@ export async function TableSoccerTournamentsApplication(
     await connectToPostgreSql();
   }
 
+  const groupQuestionAnswerModule: Module = {
+    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider),
+    restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
+  };
+
   const tournamentRegistrationsRepository = TournamentRegistrationsRepository();
   const players = TournamentRegistrationsPlayers();
   const tournamentsRegistrationsModule: Module = {
@@ -77,13 +86,20 @@ export async function TableSoccerTournamentsApplication(
   };
 
   const quizModule: Module = {
-    core: GroupQuizModuleCore(eventBus, commandBus, currentTimeProvider, new InMemoryGroupQuizRepository()),
+    core: GroupQuizModuleCore(
+      eventBus,
+      commandBus,
+      currentTimeProvider,
+      new InMemoryGroupQuizRepository(),
+      new InMemoryQuizSolutionsRepository(),
+    ),
     restApi: GroupQuizRestApiModule(commandBus, eventBus, queryBus),
   };
 
   const sendingEmailModule: Module = EmailModuleCore();
 
   const modules: Module[] = [
+    process.env.GROUP_QUESTION_ANSWER_MODULE === 'ENABLED' ? groupQuestionAnswerModule : undefined,
     process.env.TOURNAMENTS_REGISTRATIONS_MODULE === 'ENABLED' ? tournamentsRegistrationsModule : undefined,
     process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
     process.env.EMAILS_SENDING_MODULE === 'ENABLED' ? sendingEmailModule : undefined,
@@ -95,7 +111,7 @@ export async function TableSoccerTournamentsApplication(
   initializeModuleCores(commandBus, eventBus, queryBus, modulesCores);
 
   const modulesRestApis: ModuleRestApi[] = modules.map((module) => module.restApi).filter(isDefined);
-  const restApi = restApiExpressServer(modulesRestApis);
+  const restApi = restApiExpressServer([...modulesRestApis, GroupsRestApiModule(commandBus, eventBus, queryBus)]);
 
   //await initializeDummyData(commandBus, entityIdGenerator);
   await initializeDummyQuizzes(commandBus, entityIdGenerator);

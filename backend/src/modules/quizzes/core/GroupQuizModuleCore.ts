@@ -7,12 +7,18 @@ import { StartQuiz } from './application/command/StartQuiz';
 import { StartQuizCommandHandler } from './application/command/StartQuizCommandHandler';
 import { FindCurrentQuizByGroupId } from './application/query/FindCurrentQuizByGroupId';
 import { FindCurrentQuizByGroupIdQueryHandler } from './application/query/FindCurrentQuizByGroupIdQueryHandler';
+import { ResolveQuiz } from './application/command/ResolveQuiz';
+import { ResolveQuizCommandHandler } from './application/command/ResolveQuizCommandHandler';
+import { QuizSolutionsRepository } from './application/QuizSolutionsRepository';
+import { FindQuizSolutions } from './application/query/FindQuizSolutions';
+import { FindQuizSolutionsQueryHandler } from './application/query/FindQuizSolutionsQueryHandler';
 
 export function GroupQuizModuleCore(
   eventPublisher: DomainEventPublisher,
   commandPublisher: CommandPublisher,
   currentTimeProvider: CurrentTimeProvider,
   groupQuizRepository: GroupQuizRepository,
+  quizSolutionsRepository: QuizSolutionsRepository,
 ): ModuleCore {
   return {
     commandHandlers: [
@@ -20,12 +26,20 @@ export function GroupQuizModuleCore(
         commandType: StartQuiz,
         handler: new StartQuizCommandHandler(eventPublisher, currentTimeProvider, groupQuizRepository),
       },
+      {
+        commandType: ResolveQuiz,
+        handler: new ResolveQuizCommandHandler(eventPublisher, currentTimeProvider, quizSolutionsRepository),
+      },
     ],
     eventHandlers: [],
     queryHandlers: [
       {
         queryType: FindCurrentQuizByGroupId,
         handler: new FindCurrentQuizByGroupIdQueryHandler(groupQuizRepository),
+      },
+      {
+        queryType: FindQuizSolutions,
+        handler: new FindQuizSolutionsQueryHandler(quizSolutionsRepository),
       },
     ],
   };

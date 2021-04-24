@@ -13,7 +13,22 @@ tags:
     description: Save and get players profiles
   - name: Group Quizzes
     description: Quizzes for groups
+  - name: Groups
+    description: Available groups
+  - name: Ask Group Question
 paths:
+  /current-question/{groupid}:
+    get:
+      tags:
+        - Ask Group Question
+      description: Fetch current group question by group ID
+      responses:
+        200:
+          description: Current group question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentGroupQuestionDto'
   /tournament-registrations:
     get:
       tags:
@@ -151,14 +166,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerProfileDto'
-  /quizzes/{groupId}:
+  /quizzes:
     get:
       tags:
         - Group Quizzes
       description: Get current quiz for group
       parameters:
         - name: groupId
-          in: path
+          in: query
           description: Group Id
           required: true
           schema:
@@ -171,8 +186,74 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CurrentGroupQuizDto'
+  /quizzes/{quizId}/solutions:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get all solutions for given quiz
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: Solutions
+    post:
+      tags:
+        - Group Quizzes
+      description: Post quiz solution
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostQuizSolutionRequestBody'
+      responses:
+        200:
+          description: Solution successfully saved
+  /groups:
+    get:
+      tags:
+        - Groups
+      description: Get all available groups
+      responses:
+        200:
+          description: All available groups
 components:
   schemas:
+    CurrentGroupQuestionDto:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question
+          type: string
+          format: uuid
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        groupId:
+          description: Identifier of the group
+          type: string
+          format: uuid
+          example: 5320fc2c-bbd7-427c-9439-02f76583agh7
+        authorId:
+          description: Identifier of the question author
+          type: string
+          format: uuid
+          example: 8879fc2c-bbd7-427c-9439-02f76584bgc3
+        text:
+          description: Question text
+          type: string
+          example: What is your favourite pie?
     TournamentRegistrationsListDto:
       type: array
       items:
@@ -332,3 +413,53 @@ components:
           description: Body of the answer
           type: string
           example: Moja odpowiedz na zadane pytanie
+    QuizSolutionAnswerDto:
+      type: object
+      properties:
+        answerId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        userId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+    PostQuizSolutionRequestBody:
+      type: object
+      properties:
+        solutionAuthorId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        solution:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizSolutionAnswerDto'
+          uniqueItems: true
+    PostAnswerGroupQuestionRequestBody:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question for which answer is given
+          type: string
+          format: uuid
+          example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
+        groupId:
+          description: Identifier of the group for which answer is given
+          type: string
+          format: uuid
+          example: 653e8ff0-1de8-43f1-b5e3-f83a635cbf0e
+        answerAuthorId:
+          description: Identifier of the answer author for which answer is given
+          type: string
+          format: uuid
+          example: 44b2b9d9-1740-42f9-89e5-c8f652ec4e11
+        text:
+          description: Text of the author for which answer is given
+          type: string
+          example: "Where were you last vacation"
+      required:
+        - questionId
+        - groupId
+        - answerAuthorId
+        - text
