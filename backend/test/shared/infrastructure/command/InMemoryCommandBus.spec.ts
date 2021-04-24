@@ -39,7 +39,9 @@ describe('InMemoryCommandBus', () => {
       it('then result is success', () => {
         expect(commandResult.isSuccess()).toBeTruthy();
         expect(commandResult).toBeInstanceOf(Success);
-        expect((commandResult as Success).value).toStrictEqual({ tournamentId: 'SampleId' });
+        expect((commandResult as Success).value).toStrictEqual({
+          tournamentId: 'SampleId',
+        });
       });
 
       it('then result is not failure', () => {
@@ -74,7 +76,10 @@ describe('InMemoryCommandBus', () => {
     });
 
     it('when try to execute command without registered handler, then executing should fail', async () => {
-      const registerPlayer = new RegisterPlayer({ tournamentId: 'SampleId', playerId: 'PlayerId' });
+      const registerPlayer = new RegisterPlayer({
+        tournamentId: 'SampleId',
+        playerId: 'PlayerId',
+      });
 
       await expect(commandBus.execute(registerPlayer)).rejects.toThrowError(
         `The command handler for the "RegisterPlayer" command was not found!`,
@@ -143,7 +148,10 @@ describe('InMemoryCommandBus', () => {
     });
 
     it('when try to execute command without registered handler, then executing should fail', async () => {
-      const registerPlayer = new RegisterPlayer({ tournamentId: 'SampleId', playerId: 'PlayerId' });
+      const registerPlayer = new RegisterPlayer({
+        tournamentId: 'SampleId',
+        playerId: 'PlayerId',
+      });
 
       await expect(commandBus.execute(registerPlayer)).rejects.toThrowError(
         `The command handler for the "RegisterPlayer" command was not found!`,
