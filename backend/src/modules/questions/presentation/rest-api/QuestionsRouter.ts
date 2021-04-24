@@ -5,6 +5,8 @@ import { DomainEventPublisher } from '../../../../shared/core/application/event/
 import { StatusCodes } from 'http-status-codes';
 import { PostDefineQuestionsRequestBody } from './request/PostDefineQuestionsRequestBody';
 import { DefineQuestion } from '../../core/application/command/DefineQuestion';
+import { FindQuestionsByAuthorId, FindQuestionsByAuthorIdResult } from '../../core/application/query/FindQuestionsByAuthorId';
+import { UserQuestionsDto } from './response/UserQuestionsDto';
 
 export function questionsRouter(
   commandPublisher: CommandPublisher,
@@ -31,7 +33,22 @@ export function questionsRouter(
     );
   };
 
+  const getQuestionsByAuthorId = async (request: Request, response: Response) => {
+    const { userId } = request.params;
+    const queryResult = await queryPublisher.execute<FindQuestionsByAuthorIdResult>(new FindQuestionsByAuthorId({ authorId: userId }));
+    if (!queryResult) {
+      return response.status(StatusCodes.NOT_FOUND).json({ message: `User with id = ${userId} did not define any question.` });
+    }
+    return response.status(StatusCodes.OK).json(
+      new UserQuestionsDto({
+        authorId: userId,
+        questions: queryResult.questions,
+      }),
+    );
+  };
+
   const router = express.Router();
   router.post('/:userId', postDefineQuestion);
+  router.get('/:userId', getQuestionsByAuthorId);
   return router;
 }
