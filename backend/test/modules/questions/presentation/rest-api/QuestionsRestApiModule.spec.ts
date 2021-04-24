@@ -33,7 +33,7 @@ describe('Questions REST API', () => {
 
   it('POST /rest-api/questions/:userId | when command failure', async () => {
     //Given
-    const commandPublisher = CommandPublisherMock(CommandResult.failureDueTo(new Error('Question already exist.')));
+    const commandPublisher = CommandPublisherMock(CommandResult.failureDueTo(new Error('Question already exists.')));
     const { agent } = testModuleRestApi(QuestionsRestApiModule, { commandPublisher });
 
     //When
@@ -49,6 +49,6 @@ describe('Questions REST API', () => {
       }),
     );
     expect(status).toBe(StatusCodes.BAD_REQUEST);
-    expect(body).toStrictEqual({ message: 'Question already exist.' });
+    expect(body).toStrictEqual({ message: 'Question already exists.' });
   });
 });
