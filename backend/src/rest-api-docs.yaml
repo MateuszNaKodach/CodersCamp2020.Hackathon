@@ -11,8 +11,8 @@ tags:
     description: Open/Closing registrations for tournament
   - name: Players profiles
     description: Save and get players profiles
-  - name: Group Quizes
-    description: Quizes for groups
+  - name: Group Quizzes
+    description: Quizzes for groups
 paths:
   /tournament-registrations:
     get:
@@ -151,11 +151,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerProfileDto'
-  /quiz/{groupId}:
+  /quizzes/{groupId}:
     get:
       tags:
-        - Group Quizes
+        - Group Quizzes
       description: Get current quiz for group
+      parameters:
+        - name: groupId
+          in: path
+          description: Group Id
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
       responses:
         200:
           description: Current quiz for group
@@ -287,12 +295,10 @@ components:
         quizId:
           description: Identifier of the quiz
           type: string
-          format: uuid
           example: 2480fc2c-bbd7-427c-9439-02f76583aef5
         groupId:
           description: Identifier of the group which is quiz for
           type: string
-          format: uuid
           example: 2480fc2c-bbd7-427c-9439-02f76583aef5
         startedAt:
           description: When quiz was started
@@ -314,7 +320,6 @@ components:
         userId:
           description: Identifier of the user
           type: string
-          format: uuid
           example: 2480fc2c-bbd7-427c-9439-02f76583aef5
     QuizAnswerDto:
       type: object
@@ -322,7 +327,6 @@ components:
         answerId:
           description: Identifier of the user
           type: string
-          format: uuid
           example: 2480fc2c-bbd7-427c-9439-02f76583aef5
         text:
           description: Body of the answer

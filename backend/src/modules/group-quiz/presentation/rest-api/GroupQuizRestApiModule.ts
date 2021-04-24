@@ -11,6 +11,6 @@ export function GroupQuizRestApiModule(
 ): ModuleRestApi {
   return {
     router: groupQuizRouter(commandPublisher, eventPublisher, queryPublisher),
-    path: '/quizes',
+    path: '/quizzes',
   };
 }

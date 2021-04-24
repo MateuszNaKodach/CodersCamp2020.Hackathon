@@ -97,15 +97,15 @@ export async function TableSoccerTournamentsApplication(
   const modulesRestApis: ModuleRestApi[] = modules.map((module) => module.restApi).filter(isDefined);
   const restApi = restApiExpressServer(modulesRestApis);
 
-  await initializeDummyData(commandBus, entityIdGenerator);
-  await initializeDummyQuizes(commandBus, entityIdGenerator);
+  //await initializeDummyData(commandBus, entityIdGenerator);
+  await initializeDummyQuizzes(commandBus, entityIdGenerator);
 
   return { restApi };
 }
 
-async function initializeDummyQuizes(commandBus: CommandBus, entityIdGenerator: EntityIdGenerator) {
+async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator: EntityIdGenerator) {
   const classFirstA = 'TeamBackend';
-  StartQuiz.command({
+  const createQuiz = StartQuiz.command({
     quizId: entityIdGenerator.generate(),
     groupId: classFirstA,
     question: {
@@ -125,6 +125,7 @@ async function initializeDummyQuizes(commandBus: CommandBus, entityIdGenerator: 
       },
     ],
   });
+  await commandBus.execute(createQuiz);
 }
 
 //TODO: Remove for production usage
