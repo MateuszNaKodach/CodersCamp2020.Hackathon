@@ -12,13 +12,14 @@ export function groupQuestionAnswerRouter(
   queryPublisher: QueryPublisher,
 ): express.Router {
   const postAnswerGroupQuestion = async (request: Request, response: Response) => {
+    const { groupId } = request.params;
     const requestBody: PostAnswerGroupQuestionRequestBody = request.body;
-    const { questionId, groupId, answerAuthorId, text } = requestBody;
+    const { questionId, answerAuthorId, text } = requestBody;
 
     const commandResult = await commandPublisher.execute(
       new AnswerGroupQuestion({
         questionId,
-        groupId,
+        groupId: groupId,
         answerAuthorId,
         text,
       }),
@@ -31,6 +32,6 @@ export function groupQuestionAnswerRouter(
   };
 
   const router = express.Router();
-  router.post('/group-question-answers', postAnswerGroupQuestion);
+  router.post('/', postAnswerGroupQuestion);
   return router;
 }
