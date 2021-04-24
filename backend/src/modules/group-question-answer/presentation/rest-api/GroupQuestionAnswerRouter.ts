@@ -1,6 +1,5 @@
 import { CommandPublisher } from '../../../../shared/core/application/command/CommandBus';
 import { DomainEventPublisher } from '../../../../shared/core/application/event/DomainEventBus';
-import { QueryPublisherMock } from '../../../../../test/test-support/shared/core/QueryPublisherMock';
 import { QueryPublisher } from '../../../../shared/core/application/query/QueryBus';
 import express, { Request, Response } from 'express';
 import { AnswerGroupQuestion } from '../../core/application/command/AnswerGroupQuestion';
@@ -13,13 +12,14 @@ export function groupQuestionAnswerRouter(
   queryPublisher: QueryPublisher,
 ): express.Router {
   const postAnswerGroupQuestion = async (request: Request, response: Response) => {
+    const { groupId } = request.params;
     const requestBody: PostAnswerGroupQuestionRequestBody = request.body;
-    const { questionId, groupId, answerAuthorId, text } = requestBody;
+    const { questionId, answerAuthorId, text } = requestBody;
 
     const commandResult = await commandPublisher.execute(
       new AnswerGroupQuestion({
         questionId,
-        groupId,
+        groupId: groupId,
         answerAuthorId,
         text,
       }),
@@ -32,6 +32,6 @@ export function groupQuestionAnswerRouter(
   };
 
   const router = express.Router();
-  router.post('/group-question-answers', postAnswerGroupQuestion);
+  router.post('/', postAnswerGroupQuestion);
   return router;
 }

@@ -28,15 +28,7 @@ export function defineNewQuestion(
     throw new Error(`Question already exists.`);
   }
 
-  const questions = state?.questions.map((question) =>
-    question.groupId === groupId
-      ? {
-          ...question,
-          questionId,
-          text,
-        }
-      : question,
-  );
+  const questions = state?.questions.filter((question) => question.groupId !== groupId);
   const userQuestions = new UserQuestions({
     authorId,
     questions: questions ? [...questions] : [],
