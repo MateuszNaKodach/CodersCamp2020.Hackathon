@@ -23,7 +23,7 @@ export function Integramic() {
   const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
   console.log("CURRENT USER", currentUserCookie)
   if (currentUserCookie === null) {
-    return <LoginPage onAuthenticated={({email, userId}) => updateCurrentUserCookie(JSON.stringify({email, userId}))} />;
+    return <LoginPage onAuthenticated={({email, userId, displayName}) => updateCurrentUserCookie(JSON.stringify({email, userId, displayName}))} />;
   }
 
   function onLoggedOut() {
