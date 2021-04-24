@@ -25,7 +25,7 @@ export function AppMain() {
           <Route path="/quiz" exact>
           <DndProvider backend={HTML5Backend}>
               <Example />
-            </DndProvider>
+          </DndProvider>
           </Route>
         </Switch>
       </Router>

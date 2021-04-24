@@ -4,6 +4,8 @@ import Dustbin from './DustBin'
 import Box from './Box'
 import { ItemTypes } from './ItemTypes'
 import update from 'immutability-helper'
+import ClickButton from '../atoms/Button/ClickButton'
+import { THEME } from '../atoms/constants/ThemeMUI'
 
 interface DustbinState {
   accepts: string[]
@@ -24,13 +26,13 @@ export interface BoxSpec {
   type: string
 }
 
-export interface ContainerState {
+export interface QuizState {
   droppedBoxNames: string[]
   dustbins: DustbinSpec[]
   boxes: BoxSpec[]
 }
 
-export const Container: FC = memo(function Container() {
+export const Quiz: FC = memo(function Quiz() {
   const [dustbins, setDustbins] = useState<DustbinState[]>([
     { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
     { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
@@ -39,8 +41,8 @@ export const Container: FC = memo(function Container() {
   ])
 
   const [boxes] = useState<BoxState[]>([
-    { name: 'Bottle', type: ItemTypes.ANSWER },
-    { name: 'Banana', type: ItemTypes.ANSWER },
+    { name: 'Jan Nowak', type: ItemTypes.ANSWER },
+    { name: 'Beata Szydło', type: ItemTypes.ANSWER },
     { name: 'Magazine', type: ItemTypes.ANSWER },
     { name: 'Dupa', type:ItemTypes.ANSWER}
   ])
@@ -54,6 +56,7 @@ export const Container: FC = memo(function Container() {
   const handleDrop = useCallback(
     (index: number, item: { name: string }) => {
       const { name } = item
+      if(!isDropped(name)){
       setDroppedBoxNames(
         update(droppedBoxNames, name ? { $push: [name] } : { $push: [] }),
       )
@@ -66,11 +69,12 @@ export const Container: FC = memo(function Container() {
           },
         }),
       )
-    },
+    }},
     [droppedBoxNames, dustbins],
   )
 
   return (
+    <div>
     <div style={{marginTop:'5%', marginBottom:'5%', display: 'flex', flexDirection:'row', width:'90%', marginLeft:'5%', justifyContent: 'center' }}>
       <div style={{ overflow: 'hidden', clear: 'both' , display:'flex', flexDirection:'column', justifyContent: 'center'}}>
         {dustbins.map(({ accepts, lastDroppedItem }, index) => (
@@ -94,6 +98,11 @@ export const Container: FC = memo(function Container() {
           />
         ))}
       </div>
+      </div>
+      <div style={{display:'flex', justifyContent:'center'}}>
+        <ClickButton text="Zatwierdź odpowiedzi" onClick={()=>{alert("test")} } ></ClickButton>
+      </div>
     </div>
+    
   )
 })

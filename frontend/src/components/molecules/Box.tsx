@@ -23,7 +23,6 @@ export interface BoxProps {
   type: string;
   isDropped: boolean;
 
-  // Collected Props
   connectDragSource: ConnectDragSource;
   isDragging: boolean;
 }
@@ -37,7 +36,7 @@ export const Box: FC<BoxProps> = memo(function Box({
   const opacity = isDropped ? 0.4 : 1;
   return connectDragSource(
     <div>
-      <Card  style={{...style}}>
+      <Card  style={{...style, opacity}}>
       {name}
       </Card>
     </div>

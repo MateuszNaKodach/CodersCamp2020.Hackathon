@@ -1,1 +1,1 @@
-export { Container as default } from './Container'
+export { Quiz as default } from './Quiz'
