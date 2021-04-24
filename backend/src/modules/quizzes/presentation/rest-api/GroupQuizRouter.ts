@@ -10,6 +10,7 @@ import { PostQuizSolutionRequestBody } from './request/PostQuizSolutionRequestBo
 import { ResolveQuiz } from '../../core/application/command/ResolveQuiz';
 import { FindQuizSolutions } from '../../core/application/query/FindQuizSolutions';
 import { QuizSolution } from '../../core/domain/QuizSolution';
+import { FindQuizById } from '../../core/application/query/FindQuizById';
 
 export function groupQuizRouter(
   commandPublisher: CommandPublisher,
@@ -49,9 +50,36 @@ export function groupQuizRouter(
     return response.status(StatusCodes.OK).json({ items: queryResult });
   };
 
+  /**
+   * Ugly code, but works fine
+   * @param request
+   * @param response
+   */
+  const getUserSolutionAndScores = async (request: Request, response: Response) => {
+    const quizId = request.params.quizId as string;
+    const userId = request.params.userId as string;
+    const allQuizSolutions = await queryPublisher.execute<QuizSolution[]>(new FindQuizSolutions({ quizId }));
+    const userQuizSolution = allQuizSolutions.find((solution) => solution.solutionAuthorId === userId);
+    if (!userQuizSolution) {
+      return response.status(StatusCodes.NOT_FOUND).json({ message: 'Solution not found' });
+    }
+    const quiz = await queryPublisher.execute<GroupQuiz | undefined>(new FindQuizById({ quizId }));
+    if (!quiz) {
+      return response.status(StatusCodes.NOT_FOUND).json({ message: 'Quiz not found' });
+    }
+    const userCorrectAnswers = userQuizSolution.solution.filter((userAnswer) =>
+      quiz.answers
+        .map((a) => ({ answerId: a.answerId, userId: a.userId }))
+        .find((a) => a.userId === userAnswer.userId && a.answerId === userAnswer.answerId),
+    );
+
+    return response.status(StatusCodes.OK).json({ ...userQuizSolution, userCorrectAnswers });
+  };
+
   const router = express.Router();
   router.get('/', getGroupQuiz);
   router.post('/:quizId/solutions', postQuizSolution);
   router.get('/:quizId/solutions', getQuizSolutions);
+  router.get('/:quizId/solutions/:userId', getUserSolutionAndScores);
   return router;
 }

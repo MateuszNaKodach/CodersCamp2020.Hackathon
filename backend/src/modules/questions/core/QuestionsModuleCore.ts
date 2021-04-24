@@ -1,6 +1,6 @@
 import { ModuleCore } from '../../../shared/core/ModuleCore';
 import { DomainEventPublisher } from '../../../shared/core/application/event/DomainEventBus';
-import { QuestionsRepository } from './application/QuestionsRepository';
+import { UserQuestionsRepository } from './application/UserQuestionsRepository';
 import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { DefineQuestion } from './application/command/DefineQuestion';
 import { DefineQuestionCommandHandler } from './application/command/DefineQuestionCommandHandler';
@@ -17,8 +17,8 @@ export function QuestionsModuleCore(
   eventPublisher: DomainEventPublisher,
   commandPublisher: CommandPublisher,
   currentTimeProvider: CurrentTimeProvider,
-  questionsRepository: QuestionsRepository,
   groupQuestionsRepository: GroupQuestionsRepository,
+  questionsRepository: UserQuestionsRepository,
 ): ModuleCore {
   return {
     commandHandlers: [
