@@ -15,7 +15,7 @@ export class GroupQuiz {
     groupId: string;
     question: { questionId: string; text: string };
     answers: { answerId: string; userId: string; text: string }[];
-  }) {
+  }): GroupQuiz {
     return new GroupQuiz(props.startedAt, props.quizId, props.groupId, props.question, props.answers);
   }
 
