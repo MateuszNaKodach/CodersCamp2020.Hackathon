@@ -12,6 +12,8 @@ import { QuestionWasDefinedEventHandler } from './application/event/QuestionWasD
 import { TimeHasPassed } from '../../time/core/domain/event/TimeHasPassed';
 import { TimeHasPassedEventHandler } from './application/event/TimeHasPassedEventHandler';
 import { CommandPublisher } from '../../../shared/core/application/command/CommandBus';
+import { FindQuestionsByAuthorId } from './application/query/FindQuestionsByAuthorId';
+import { FindQuestionsByAuthorIdQueryHandler } from './application/query/FindQuestionsByAuthorIdQueryHandler';
 
 export function QuestionsModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -41,6 +43,11 @@ export function QuestionsModuleCore(
         handler: new TimeHasPassedEventHandler(groupQuestionsRepository, commandPublisher),
       },
     ],
-    queryHandlers: [],
+    queryHandlers: [
+      {
+        queryType: FindQuestionsByAuthorId,
+        handler: new FindQuestionsByAuthorIdQueryHandler(questionsRepository),
+      },
+    ],
   };
 }
