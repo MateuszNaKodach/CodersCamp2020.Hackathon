@@ -33,6 +33,9 @@ import { QuestionsModuleCore } from './modules/questions/core/QuestionsModuleCor
 import { MongoQuestionsRepository } from './modules/questions/infrastructure/repository/mongo/MongoQuestionsRepository';
 import { InMemoryQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryQuestionsRepository';
 import { QuestionsRestApiModule } from './modules/questions/presentation/rest-api/QuestionsRestApiModule';
+import { AskingGroupQuestionRestApiModule } from './modules/asking-question/presentation/rest-api/AskingGroupQuestionRestApiModule';
+import { AskingGroupQuestionModuleCore } from './modules/asking-question/core/AskingGroupQuestionModuleCore';
+import { InMemoryAskingGroupQuestionRepository } from './modules/asking-question/infrastructure/repository/inmemory/InMemoryAskingGroupQuestionRepository';
 
 config();
 
@@ -52,6 +55,11 @@ export async function IntegramicApplication(
   const groupQuestionAnswerModule: Module = {
     core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider),
     restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
+  };
+
+  const askingGroupQuestionModule: Module = {
+    core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, new InMemoryAskingGroupQuestionRepository()),
+    restApi: AskingGroupQuestionRestApiModule(commandBus, eventBus, queryBus),
   };
 
   const questionsRepository = QuestionsRepository();
@@ -78,6 +86,7 @@ export async function IntegramicApplication(
   const modules: Module[] = [
     process.env.GROUP_QUESTION_ANSWER_MODULE === 'ENABLED' ? groupQuestionAnswerModule : undefined,
     process.env.QUESTIONS_MODULE === 'ENABLED' ? questionsModule : undefined,
+    process.env.ASKING_GROUP_QUESTION_MODULE === 'ENABLED' ? askingGroupQuestionModule : undefined,
     timeModule,
     quizModule,
   ].filter(isDefined);

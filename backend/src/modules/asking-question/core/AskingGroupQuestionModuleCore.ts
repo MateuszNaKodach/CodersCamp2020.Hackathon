@@ -8,7 +8,7 @@ import { AskingGroupQuestionRepository } from './application/AskingGroupQuestion
 import { FindCurrentGroupQuestionByGroupId } from './application/query/FindCurrentGroupQuestionByGroupId';
 import { FindCurrentGroupQuestionByGroupIdQueryHandler } from './application/query/FindCurrentGroupQuestionByGroupIdQueryHandler';
 
-export function PlayerProfilesModuleCore(
+export function AskingGroupQuestionModuleCore(
   eventPublisher: DomainEventPublisher,
   commandPublisher: CommandPublisher,
   currentTimeProvider: CurrentTimeProvider,
