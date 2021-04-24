@@ -26,6 +26,16 @@ export class GroupQuiz {
     this.question = question;
     this.answers = answers;
   }
+
+  usersToMatchRandomized(): { userId: string }[] {
+    return this.answers.map(a => ({userId: a.userId}))
+        .sort((a, b) => 0.5 - Math.random())
+  }
+
+  answersToMatchRandomized(): { answerId: string, text: string }[] {
+    return this.answers.map(a => ({answerId: a.answerId, text: a.text}))
+        .sort((a, b) => 0.5 - Math.random())
+  }
 }
 
 

@@ -2,14 +2,15 @@ import {GroupQuiz} from "../core/domain/GroupQuiz";
 import {GroupQuizRepository} from "../core/application/GroupQuizRepository";
 
 export class InMemoryGroupQuizRepository implements GroupQuizRepository {
-  private readonly entities: { [groupId: string]: GroupQuiz } = {};
+  private readonly entities: { [quizId: string]: GroupQuiz } = {};
 
-  findByGroupId(groupId: string): Promise<GroupQuiz | undefined> {
-    return Promise.resolve(this.entities[groupId]);
+  findByGroupId(groupId: string): Promise<GroupQuiz[]> {
+    const result = Object.values(this.entities).filter(quiz => quiz.groupId === groupId)
+    return Promise.resolve(result);
   }
 
   save(quiz: GroupQuiz): Promise<void> {
-    this.entities[quiz.groupId] = quiz;
-    return Promise.resolve(undefined);
+    this.entities[quiz.quizId] = quiz;
+    return Promise.resolve();
   }
 }

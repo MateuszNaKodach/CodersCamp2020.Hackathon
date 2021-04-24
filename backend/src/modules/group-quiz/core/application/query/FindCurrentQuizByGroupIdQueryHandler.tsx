@@ -12,7 +12,11 @@ export class FindCurrentQuizByGroupIdQueryHandler implements QueryHandler<FindCu
   }
 
   async execute(query: FindCurrentQuizByGroupId): Promise<GroupQuiz | undefined> {
-    return this.repository.findByGroupId(query.groupId);
+    const quizesForGroup = await this.repository.findByGroupId(query.groupId);
+    if(quizesForGroup.length === 0){
+      return undefined
+    }
+    return quizesForGroup.sort((a,b) => b.startedAt.getDate() - a.startedAt.getDate())[0]
   }
 
 }
