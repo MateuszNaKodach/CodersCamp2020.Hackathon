@@ -8,6 +8,7 @@ import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
 import { NavBar } from '../../organisms/NavBar/NavBar';
 import { BrowserRouter as Router } from 'react-router-dom';
+import Toolbar from '@material-ui/core/Toolbar';
 
 export function Integramic() {
   const classes = useStyles();

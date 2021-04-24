@@ -4,17 +4,21 @@ import { useHistory } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { PATH_FOR_USER_ANSWER, PATH_FOR_USER_QUESTION, PATH_FOR_USER_QUIZ } from '../../atoms/constants/routerPaths';
-import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 
 const useStyles = makeStyles({
   root: {
+    position: 'relative',
+    tabContainer:"100%",
+    backgroundColor: 'rgba(255,255,255,1)',
+  },
+  tabContainer:{
     zIndex: 100,
-    position: 'absolute',
-    top: APP_BAR_HEIGHT,
+    position: "relative",
     flexGrow: 1,
     backgroundColor: 'rgba(255,255,255,1)',
-    width: '100%',
-  },
+    width: '480px',
+    margin: "0 auto"
+  }
 });
 
 export function NavBar() {
@@ -40,9 +44,9 @@ export function NavBar() {
     }
   }, [value]);
 
-
   return (
-    <div className={classes.root}>
+<div  className={classes.root}>
+    <div className={classes.tabContainer}>
       <Tabs
         value={value}
         onChange={handleChange}
@@ -55,5 +59,6 @@ export function NavBar() {
         <Tab label='Quiz' />
       </Tabs>
     </div>
+</div>
   );
 }

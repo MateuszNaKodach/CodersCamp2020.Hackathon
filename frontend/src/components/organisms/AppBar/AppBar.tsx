@@ -28,10 +28,8 @@ export function AppBar() {
         <Typography component='h1' variant='h4' color='inherit' noWrap className={classes.title}>
           Grupa 1
         </Typography>
-      </Toolbar>
-      <div style={{ width: '100vw' }}>
 
-      </div>
+      </Toolbar>
 
     </AppBarFromSigma>
   );

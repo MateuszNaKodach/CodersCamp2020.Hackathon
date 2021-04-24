@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {  Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
@@ -11,8 +11,9 @@ export function AppMain() {
   const classes = useStyles();
   return (
     <main className={classes.content}>
+
+      <NavBar />
       <Switch>
-        <NavBar />
 
         <Route path={PATH_FOR_MAIN_VIEW} exact>
           <Title text='Here goes question???' />
@@ -30,7 +31,7 @@ export function AppMain() {
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    overflow: 'auto',
+    overflow: 'hidden',
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
     minHeight: `100vh`,
