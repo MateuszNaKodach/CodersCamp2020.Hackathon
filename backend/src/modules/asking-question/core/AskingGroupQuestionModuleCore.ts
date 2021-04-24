@@ -5,6 +5,8 @@ import { ModuleCore } from '../../../shared/core/ModuleCore';
 import { AskGroupQuestionCommandHandler } from './application/command/AskGroupQuestionCommandHandler';
 import { AskGroupQuestion } from './application/command/AskGroupQuestion';
 import { AskingGroupQuestionRepository } from './application/AskingGroupQuestionRepository';
+import {FindCurrentGroupQuestionByGroupId} from "./application/query/FindCurrentGroupQuestionByGroupId";
+import {FindCurrentGroupQuestionByGroupIdQueryHandler} from "./application/query/FindCurrentGroupQuestionByGroupIdQueryHandler";
 
 export function PlayerProfilesModuleCore(
   eventPublisher: DomainEventPublisher,
@@ -20,6 +22,11 @@ export function PlayerProfilesModuleCore(
       },
     ],
     eventHandlers: [],
-    queryHandlers: [],
+    queryHandlers: [
+      {
+        queryType: FindCurrentGroupQuestionByGroupId,
+        handler: new FindCurrentGroupQuestionByGroupIdQueryHandler(groupQuestionRepository),
+      }
+    ],
   };
 }
