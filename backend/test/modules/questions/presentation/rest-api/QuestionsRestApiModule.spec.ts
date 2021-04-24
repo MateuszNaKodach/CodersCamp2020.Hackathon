@@ -19,12 +19,14 @@ describe('Questions REST API', () => {
     const { body, status } = await agent.post('/rest-api/questions/sampleUserId').send({ questionId, groupId, text });
 
     //Then
-    expect(commandPublisher.executeCalls).toBeCalledWith(new DefineQuestion({
-      questionId,
-      groupId,
-      text,
-      authorId: 'sampleUserId',
-    }));
+    expect(commandPublisher.executeCalls).toBeCalledWith(
+      new DefineQuestion({
+        questionId,
+        groupId,
+        text,
+        authorId: 'sampleUserId',
+      }),
+    );
     expect(status).toBe(StatusCodes.OK);
     expect(body).toBeEmpty();
   });
@@ -38,12 +40,14 @@ describe('Questions REST API', () => {
     const { body, status } = await agent.post('/rest-api/questions/sampleUserId').send({ questionId, groupId, text });
 
     //Then
-    expect(commandPublisher.executeCalls).toBeCalledWith(new DefineQuestion({
-      questionId,
-      groupId,
-      text,
-      authorId: 'sampleUserId',
-    }));
+    expect(commandPublisher.executeCalls).toBeCalledWith(
+      new DefineQuestion({
+        questionId,
+        groupId,
+        text,
+        authorId: 'sampleUserId',
+      }),
+    );
     expect(status).toBe(StatusCodes.BAD_REQUEST);
     expect(body).toStrictEqual({ message: 'Question already exist.' });
   });
