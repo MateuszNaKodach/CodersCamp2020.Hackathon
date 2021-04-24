@@ -10,6 +10,7 @@ import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndNa
 import { GoogleLogout } from 'react-google-login';
 import Box from '@material-ui/core/Box';
 import { Centered } from '../../atoms/Centered';
+import ClickButton from '../../atoms/Button/ClickButton';
 
 export function AppSidebar(props: { onLoggedOut: () => void }) {
   const classes = useStyles();
@@ -25,7 +26,7 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
       open={isOpenDrawer}
     >
       <Box display='flex' flexDirection='column' justifyContent='space-between' p={1} m={1} bgcolor='background.paper'
-           height='100%' alignItems='flex-start' className={classes.box}>
+           height='100%' alignItems='stretch' className={classes.box}>
         <Centered>
           <div className={classes.toolbarIcon}>
             <Logo />
@@ -34,7 +35,10 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
             </IconButton>
           </div>
         </Centered>
-        <div style={{ position: 'absolute', bottom: '50px' }}>
+        <Centered>
+          <ClickButton onClick={()=>{}} disabled={false} text="Zadaj pytanie"/>
+        </Centered>
+        <div >
           <Centered>
             <UserAvatarAndName />
           </Centered>
@@ -67,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     width: DRAWER_WIDTH,
     paddingTop: '30px',
+    paddingBottom: '30px',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
