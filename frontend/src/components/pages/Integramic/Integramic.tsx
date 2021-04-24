@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { AppBar as AppBarFromSigma, CssBaseline, makeStyles, MuiThemeProvider } from '@material-ui/core';
+import { CssBaseline, makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { THEME } from '../../atoms/constants/ThemeMUI';
 import { AppSidebar } from '../../organisms/AppSidebar/AppSidebar';
 import { AppContext } from '../../atoms/hooks/AppContext';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
-import { NavBar } from '../../organisms/NavBar/NavBar';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Toolbar from '@material-ui/core/Toolbar';
+import {useCookie} from "react-use";
+import {BrowserRouter as Router} from "react-router-dom";
 
 export function Integramic() {
   const classes = useStyles();
@@ -21,9 +20,9 @@ export function Integramic() {
     setIsOpenDrawer(false);
   };
 
-  const [state, setState] = useState<AuthState>({ authenticatedUser: undefined, isLoading: false });
-  if (state.authenticatedUser === undefined) {
-    return <LoginPage onAuthenticated={(user) => setState({ authenticatedUser: user, isLoading: false })} />;
+  const [currentUserCookie] = useCookie("currentUser");
+  if (!currentUserCookie) {
+    return <LoginPage />;
   }
 
   return (

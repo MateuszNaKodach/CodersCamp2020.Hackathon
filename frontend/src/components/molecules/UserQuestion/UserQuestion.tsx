@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FormButton from '../../atoms/Button/FormButton';
 import { Grid, makeStyles, TextField } from '@material-ui/core';
 import * as yup from "yup";
 import { useFormik } from "formik";
 import EditIcon from '@material-ui/icons/Edit';
+import {QuestionsRestApi} from "../../../restapi/questions/QuestionsRestAPI";
+import {useAsyncFn, useAsyncRetry} from "react-use";
 
 const validationSchema = yup.object({
   question: yup
@@ -16,7 +18,27 @@ const useStyles = makeStyles((theme) => ({
   grid: { marginTop: '150px' },
 }));
 
+const GROUP_ID = "group1"
+
 export function UserQuestion() {
+
+  const [postQuestionState, postQuestion] = useAsyncFn(async (props: {groupId: string , text: string }) => {
+    await QuestionsRestApi()
+        .postQuestion({groupId: GROUP_ID, text: props.text})
+  })
+
+  const getQuestionState = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getQuestion({groupId: GROUP_ID})
+  })
+
+  useEffect(()=>{
+    if(getQuestionState.value){
+      formik.setValues({question: getQuestionState?.value?.text ?? ""})
+    }
+  }, [getQuestionState?.loading])
+
+  console.log(getQuestionState)
 
   const formik = useFormik({
     initialValues: {
@@ -26,8 +48,9 @@ export function UserQuestion() {
     onSubmit: async (values) => {
       try {
         console.log(`${values.question}`);
+        await postQuestion({groupId: GROUP_ID, text: values.question})
       } catch (error) {
-        alert(error.response.data.message);
+        alert(error);
       }
     },
   });
@@ -62,7 +85,7 @@ export function UserQuestion() {
         }}
       />
 
-      <FormButton text='ZADAJ PYTANIE' />
+      <FormButton text='ZADAJ PYTANIE' disabled={postQuestionState.loading || getQuestionState.loading} />
 
         </Grid>
       </form>
