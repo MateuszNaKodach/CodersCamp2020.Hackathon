@@ -1,9 +1,7 @@
 import * as express from "express"
 
-declare global {
-  namespace Express {
-    interface Request {
-      authenticatedUser?: { userId: string }
-    }
+export namespace Express {
+  interface Request {
+    authenticatedUser?: { userId: string }
   }
 }

@@ -1,4 +1,5 @@
 import { OAuth2Client, TokenPayload } from 'google-auth-library';
+import { Request } from 'express';
 
 export type GoogleAuthUser = {
   readonly userId: string;
@@ -7,6 +8,10 @@ export type GoogleAuthUser = {
   readonly familyName: string | undefined;
   readonly photoUrl: string | undefined;
 };
+
+export async function authenticatedUser(req: Request): Promise<GoogleAuthUser | undefined> {
+  return googleAuth(req.headers.authorization);
+}
 
 export async function googleAuth(token: string | undefined): Promise<GoogleAuthUser | undefined> {
   if (process.env.GOOGLE_CLIENT_ID === undefined) {
