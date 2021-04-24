@@ -5,6 +5,7 @@ import express, { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { FindCurrentQuizByGroupId } from '../../core/application/query/FindCurrentQuizByGroupId';
 import { GroupQuiz } from '../../core/domain/GroupQuiz';
+import { GroupQuizDto } from './GroupQuizDto';
 
 export function groupQuizRouter(
   commandPublisher: CommandPublisher,
@@ -17,13 +18,14 @@ export function groupQuizRouter(
     if (!queryResult) {
       return response.status(StatusCodes.NOT_FOUND).json({ message: `Quiz for group = ${groupId} not found!` });
     }
-    return response.status(StatusCodes.OK).json({
+    const groupQuizDto: GroupQuizDto = {
       startedAt: queryResult.startedAt,
       quizId: queryResult.quizId,
       groupId: queryResult.groupId,
       answers: queryResult.answersToMatchRandomized(),
       users: queryResult.usersToMatchRandomized(),
-    });
+    };
+    return response.status(StatusCodes.OK).json(groupQuizDto);
   };
 
   const router = express.Router();
