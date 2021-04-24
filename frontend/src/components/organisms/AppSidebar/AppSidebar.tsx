@@ -7,14 +7,18 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import { DRAWER_WIDTH } from '../../atoms/constants/sizes';
 import Logo from '../../atoms/alignedImages/Logo';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
-import {GoogleLogout} from "react-google-login";
-import {useHistory} from "react-router-dom";
-import {useCookie} from "react-use";
+import { GoogleLogout } from 'react-google-login';
+import Box from '@material-ui/core/Box';
+import { Centered } from '../../atoms/Centered';
+import ClickButton from '../../atoms/Button/ClickButton';
+import { ForceQuestionRestAPI } from '../../../restapi/forceQuestion/ForceQuestionRestAPI';
 
-export function AppSidebar(props: {onLoggedOut: () => void}) {
+export function AppSidebar(props: { onLoggedOut: () => void }) {
   const classes = useStyles();
   const { handleDrawerClose } = useContext(AppContext);
   const { isOpenDrawer } = useContext(AppContext);
+
+  const forceNextQuestion = () => ForceQuestionRestAPI().forceQuestion();
 
   return (
     <Drawer
@@ -24,28 +28,41 @@ export function AppSidebar(props: {onLoggedOut: () => void}) {
       }}
       open={isOpenDrawer}
     >
-      <div className={classes.toolbarIcon}>
-        <Logo />
-        <IconButton onClick={handleDrawerClose}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </div>
-      <div style={{ position: 'absolute', bottom: '50px' }}>
-        <UserAvatarAndName />
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', justifyContent: 'center' }}>
-          <GoogleLogout
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
-              buttonText="Logout"
-              onLogoutSuccess={props.onLoggedOut}
-          />
+      <Box display='flex' flexDirection='column' justifyContent='space-between' p={1} m={1} bgcolor='background.paper'
+           height='100%' alignItems='stretch' className={classes.box}>
+        <Centered>
+          <div className={classes.toolbarIcon}>
+            <Logo />
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+        </Centered>
+        <Centered>
+          <ClickButton onClick={() => forceNextQuestion()} disabled={false} text='wymuś pytanie' />
+        </Centered>
+        <div>
+          <Centered>
+            <UserAvatarAndName />
+          </Centered>
+          <Centered>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', justifyContent: 'center' }}>
+              <GoogleLogout
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
+                buttonText='Logout'
+                onLogoutSuccess={props.onLoggedOut}
+              />
+            </div>
+          </Centered>
         </div>
-      </div>
+      </Box>
     </Drawer>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   toolbarIcon: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -57,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     width: DRAWER_WIDTH,
     paddingTop: '30px',
+    paddingBottom: '30px',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -70,7 +88,10 @@ const useStyles = makeStyles((theme) => ({
     }),
     width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
+      width: theme.spacing(0),
     },
+  },
+  box: {
+    margin: 0,
   },
 }));

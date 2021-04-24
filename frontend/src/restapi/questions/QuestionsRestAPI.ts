@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
+import { PATH_BASE_URL } from '../../components/atoms/constants/apiPaths';
 import { getAuthorizationTokenValue, getAuthorizedUserId } from '../cookies';
 
 export type QuestionsRestApiConfig = {
@@ -7,7 +8,7 @@ export type QuestionsRestApiConfig = {
 };
 
 const defaultConfig: QuestionsRestApiConfig = {
-  baseUrl: 'http://localhost:5000/rest-api',
+  baseUrl: PATH_BASE_URL,
 };
 
 export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {

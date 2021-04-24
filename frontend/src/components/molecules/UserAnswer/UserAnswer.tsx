@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { Grid, makeStyles, TextField } from '@material-ui/core';
 import { useFormik } from 'formik';
 import EditIcon from '@material-ui/icons/Edit';
 import FormButton from '../../atoms/Button/FormButton';
 import Title from '../../atoms/Title/Title';
-import { useAsyncFn, useAsyncRetry } from 'react-use';
-import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
-import { GROUP_ID } from '../UserQuestion/UserQuestion';
+import { useAsyncFn } from 'react-use';
 import { getAuthorizedUserId } from '../../../restapi/cookies';
 import { CurrentGroupQuestionUnknown } from '../../organisms/CurrentGroupQuestionUknown/CurrentGroupQuestionUnknown';
+import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
+import { GROUP_ID } from '../../atoms/constants/ids';
 
 const validationSchema = yup.object({
   answer: yup
     .string()
-    .required('Odpowiedź jest pusta...'),
+    .required("Odpowiedź jest pusta..."),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ export function UserAnswer() {
 
   const formik = useFormik({
     initialValues: {
-      answer: '',
+      answer: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values, formikHelpers) => {

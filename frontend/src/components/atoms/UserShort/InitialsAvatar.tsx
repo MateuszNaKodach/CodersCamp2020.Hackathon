@@ -10,8 +10,8 @@ export default function InitialsAvatar() {
         style={{
           fontWeight: 700,
           backgroundColor: `${THEME.palette.primary.main}`,
-          marginRight: '20px',
-          marginLeft: '20px',
+          marginRight: '8px',
+          marginLeft: '8px',
           width: '45px',
           height: '45px',
         }}
