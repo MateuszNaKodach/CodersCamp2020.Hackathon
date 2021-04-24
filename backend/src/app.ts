@@ -33,6 +33,7 @@ import { QuestionsModuleCore } from './modules/questions/core/QuestionsModuleCor
 import { MongoQuestionsRepository } from './modules/questions/infrastructure/repository/mongo/MongoQuestionsRepository';
 import { InMemoryQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryQuestionsRepository';
 import { QuestionsRestApiModule } from './modules/questions/presentation/rest-api/QuestionsRestApiModule';
+import { InMemoryGroupQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryGroupQuestionsRepository';
 
 config();
 
@@ -55,8 +56,9 @@ export async function IntegramicApplication(
   };
 
   const questionsRepository = QuestionsRepository();
+  const groupQuestionsRepository = GroupQuestionsRepository();
   const questionsModule: Module = {
-    core: QuestionsModuleCore(eventBus, currentTimeProvider, questionsRepository),
+    core: QuestionsModuleCore(eventBus, commandBus, currentTimeProvider, groupQuestionsRepository, questionsRepository),
     restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus),
   };
 
@@ -145,4 +147,8 @@ function QuestionsRepository() {
     return new MongoQuestionsRepository();
   }
   return new InMemoryQuestionsRepository();
+}
+
+function GroupQuestionsRepository() {
+  return new InMemoryGroupQuestionsRepository();
 }
