@@ -5,6 +5,7 @@ import ClickButton from '../../atoms/Button/ClickButton';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
+import Logo from '../../atoms/Logo/Logo';
 
 const onClick = () => {};
 
@@ -19,6 +20,7 @@ export function Integramic() {
             <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
 
             <UserAvatarAndName />
+            <Logo />
           </Route>
         </Switch>
       </Router>
