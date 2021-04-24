@@ -105,8 +105,8 @@ export async function TableSoccerTournamentsApplication(
 
 async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator: EntityIdGenerator) {
   const classFirstA = 'TeamBackend';
-  const createQuiz = StartQuiz.command({
-    quizId: entityIdGenerator.generate(),
+  const createQuiz1 = StartQuiz.command({
+    quizId: "Quiz1",
     groupId: classFirstA,
     question: {
       questionId: entityIdGenerator.generate(),
@@ -125,7 +125,28 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
       },
     ],
   });
-  await commandBus.execute(createQuiz);
+  const createQuiz2 = StartQuiz.command({
+    quizId: "Quiz2",
+    groupId: classFirstA,
+    question: {
+      questionId: entityIdGenerator.generate(),
+      text: 'W jakim szkoleniu chciałbyś wziąć udział?',
+    },
+    answers: [
+      {
+        answerId: entityIdGenerator.generate(),
+        userId: entityIdGenerator.generate(),
+        text: 'W szkoleniu z Event Modelingu.',
+      },
+      {
+        answerId: entityIdGenerator.generate(),
+        userId: entityIdGenerator.generate(),
+        text: 'Dawajcie DDD.',
+      },
+    ],
+  });
+  await commandBus.execute(createQuiz1);
+  await commandBus.execute(createQuiz2);
 }
 
 //TODO: Remove for production usage
