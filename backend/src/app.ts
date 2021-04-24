@@ -114,13 +114,13 @@ export async function IntegramicApplication(
   };
 
   const modules: Module[] = [
-    process.env.GROUP_QUESTION_ANSWER_MODULE === 'ENABLED' ? groupQuestionAnswerModule : undefined,
-    process.env.QUESTIONS_MODULE === 'ENABLED' ? questionsModule : undefined,
-    process.env.ASKING_GROUP_QUESTION_MODULE === 'ENABLED' ? askingGroupQuestionModule : undefined,
-    process.env.SCORES_MODULE === 'ENABLED' ? scoresModule : undefined,
-    process.env.PLAYER_PROFILES_MODULE === 'ENABLED' ? playerProfilesModule : undefined,
+    groupQuestionAnswerModule,
+    questionsModule,
+    askingGroupQuestionModule,
+    scoresModule,
     timeModule,
     quizModule,
+    playerProfilesModule
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);
