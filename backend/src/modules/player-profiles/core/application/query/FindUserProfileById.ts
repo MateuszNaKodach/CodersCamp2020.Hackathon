@@ -1,4 +1,4 @@
-import {UserProfile} from "../../domain/UserProfile";
+import { UserProfile } from '../../domain/UserProfile';
 
 export class FindUserProfileById {
   readonly userId: string;

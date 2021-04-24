@@ -8,16 +8,9 @@ export class UserProfile {
   }
 }
 
-export function createUserProfile(
-  command: {
-    userId: string;
-    displayName: string;
-  },
-): UserProfile {
+export function createUserProfile(command: { userId: string; displayName: string }): UserProfile {
   return new UserProfile({
     userId: command.userId,
     displayName: command.displayName,
   });
-
-
 }

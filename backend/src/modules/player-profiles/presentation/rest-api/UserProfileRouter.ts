@@ -1,11 +1,11 @@
-import express, {Request, Response} from 'express';
-import {QueryPublisher} from '../../../../shared/core/application/query/QueryBus';
-import {StatusCodes} from 'http-status-codes';
-import {CommandPublisher} from '../../../../shared/core/application/command/CommandBus';
-import {DomainEventPublisher} from '../../../../shared/core/application/event/DomainEventBus';
-import {FindUserProfileById, FindUserProfileByIdResult} from '../../core/application/query/FindUserProfileById';
-import {CreateUserProfile} from '../../core/application/command/CreateUserProfile';
-import {PostUserProfileRequestBody} from "./request/PostUserProfileRequestBody";
+import express, { Request, Response } from 'express';
+import { QueryPublisher } from '../../../../shared/core/application/query/QueryBus';
+import { StatusCodes } from 'http-status-codes';
+import { CommandPublisher } from '../../../../shared/core/application/command/CommandBus';
+import { DomainEventPublisher } from '../../../../shared/core/application/event/DomainEventBus';
+import { FindUserProfileById, FindUserProfileByIdResult } from '../../core/application/query/FindUserProfileById';
+import { CreateUserProfile } from '../../core/application/command/CreateUserProfile';
+import { PostUserProfileRequestBody } from './request/PostUserProfileRequestBody';
 
 export function userProfileRouter(
   commandPublisher: CommandPublisher,
