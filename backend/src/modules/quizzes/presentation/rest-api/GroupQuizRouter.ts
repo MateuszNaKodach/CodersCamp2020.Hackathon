@@ -50,6 +50,11 @@ export function groupQuizRouter(
     return response.status(StatusCodes.OK).json({items: queryResult});
   };
 
+  /**
+   * Ugly code, but works fine
+   * @param request
+   * @param response
+   */
   const getUserSolutionAndScores = async (request: Request, response: Response) => {
     const quizId = request.params.quizId as string;
     const userId = request.params.userId as string;
@@ -63,7 +68,7 @@ export function groupQuizRouter(
       return response.status(StatusCodes.NOT_FOUND).json({message: "Quiz not found"})
     }
     const userCorrectAnswers = userQuizSolution.solution
-        .filter(userAnswer => quiz.answers.map(a => ({answerId: a.answerId, userId: a.userId})).includes(userAnswer))
+        .filter(userAnswer => quiz.answers.map(a => ({answerId: a.answerId, userId: a.userId})).find(a => a.userId === userAnswer.userId && a.answerId === userAnswer.answerId))
 
     return response.status(StatusCodes.OK).json({...userQuizSolution, userCorrectAnswers});
   };
