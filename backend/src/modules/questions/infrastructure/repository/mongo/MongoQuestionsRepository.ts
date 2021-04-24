@@ -1,8 +1,8 @@
-import { QuestionsRepository } from '../../../core/application/QuestionsRepository';
+import { UserQuestionsRepository } from '../../../core/application/UserQuestionsRepository';
 import { UserQuestions } from '../../../core/domain/UserQuestions';
 import mongoose, { Schema } from 'mongoose';
 
-export class MongoQuestionsRepository implements QuestionsRepository {
+export class MongoQuestionsRepository implements UserQuestionsRepository {
   async save(userQuestions: UserQuestions): Promise<void> {
     await MongoTournamentRegistrations.findOneAndUpdate(
       { _id: userQuestions.questionId },
