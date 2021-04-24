@@ -1,11 +1,10 @@
-import { CommandPublisher } from '../../../../shared/core/application/command/CommandBus';
-import { DomainEventPublisher } from '../../../../shared/core/application/event/DomainEventBus';
-import { QueryPublisherMock } from '../../../../../test/test-support/shared/core/QueryPublisherMock';
-import { QueryPublisher } from '../../../../shared/core/application/query/QueryBus';
-import express, { Request, Response } from 'express';
-import { AnswerGroupQuestion } from '../../core/application/command/AnswerGroupQuestion';
-import { StatusCodes } from 'http-status-codes';
-import { PostAnswerGroupQuestionRequestBody } from './request/PostAnswerGroupQuestionRequestBody';
+import {CommandPublisher} from '../../../../shared/core/application/command/CommandBus';
+import {DomainEventPublisher} from '../../../../shared/core/application/event/DomainEventBus';
+import {QueryPublisher} from '../../../../shared/core/application/query/QueryBus';
+import express, {Request, Response} from 'express';
+import {AnswerGroupQuestion} from '../../core/application/command/AnswerGroupQuestion';
+import {StatusCodes} from 'http-status-codes';
+import {PostAnswerGroupQuestionRequestBody} from './request/PostAnswerGroupQuestionRequestBody';
 
 export function groupQuestionAnswerRouter(
   commandPublisher: CommandPublisher,
