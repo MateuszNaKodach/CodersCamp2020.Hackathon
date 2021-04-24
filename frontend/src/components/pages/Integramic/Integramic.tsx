@@ -6,6 +6,8 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
+import {useCookie} from "react-use";
+import {BrowserRouter as Router} from "react-router-dom";
 
 export function Integramic() {
   const classes = useStyles();
@@ -18,22 +20,26 @@ export function Integramic() {
     setIsOpenDrawer(false);
   };
 
-  const [state, setState] = useState<AuthState>({ authenticatedUser: undefined, isLoading: false });
-  if (state.authenticatedUser === undefined) {
-    return <LoginPage onAuthenticated={(user) => setState({ authenticatedUser: user, isLoading: false })} />;
+  const [currentUserCookie] = useCookie("currentUser");
+  if (!currentUserCookie) {
+    return <LoginPage />;
   }
 
   return (
     <MuiThemeProvider theme={THEME}>
       <div className={classes.root}>
         <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
-          <CssBaseline />
+          <Router>
 
-          <AppBar />
+            <CssBaseline />
 
-          <AppSidebar />
+            <AppBar />
 
-          <AppMain />
+
+            <AppSidebar />
+
+            <AppMain />
+          </Router>
         </AppContext.Provider>
       </div>
     </MuiThemeProvider>

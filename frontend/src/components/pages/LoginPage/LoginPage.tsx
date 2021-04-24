@@ -1,11 +1,10 @@
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
-import { authenticated, unauthenticated } from '../../../restapi/authentication/authentication';
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
-import { Route } from 'react-router-dom';
 import LogInIlu from '../../atoms/alignedImages/LogInIlu';
-import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
-import LeftSplash from '../../atoms/alignedImages/LeftSplash';
+import {useCookie} from "react-use";
+import LogInSplash from '../../atoms/alignedImages/LogInSplash';
+import {useHistory} from "react-router-dom";
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -26,21 +25,36 @@ const useStyles = makeStyles((theme) => ({
     alignContent: 'center',
     justifyContent: 'center',
   },
+  insideGrid: {
+    zIndex: 1,
+  }
 }));
 
-export function LoginPage(props: { onAuthenticated: (user: { email: string }) => void }) {
+export function LoginPage(props: { onAuthenticated?: (user: { email: string }) => void }) {
+  const history = useHistory();
   const styles = useStyles();
+  const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
+  const [currentAuthenticationToken, updateAuthenticationTokenCookie, deleteAuthenticationTokenCookie] = useCookie("authenticationToken");
+
+
   const onSuccess = (loginResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+    console.log("GOOGLE RESPONSE", loginResponse)
     if (loginResponse.code) {
-      unauthenticated();
+      deleteCurrentUserCookie();
+      deleteAuthenticationTokenCookie();
       return;
     }
     const successResponse = loginResponse as GoogleLoginResponse;
-    authenticated({ token: successResponse.tokenId, email: successResponse.profileObj.email });
-    props.onAuthenticated({ email: successResponse.profileObj.email });
+    updateCurrentUserCookie(JSON.stringify({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId }))
+    updateAuthenticationTokenCookie(JSON.stringify({ value: successResponse.tokenId }))
+    history.push("/question")
+    if(props.onAuthenticated){
+      props.onAuthenticated({ email: successResponse.profileObj.email });
+    }
   };
   const onFailure = (error: any) => {
-    unauthenticated();
+    deleteCurrentUserCookie();
+    deleteAuthenticationTokenCookie();
   };
 
   if (googleClientId === undefined) {
@@ -51,7 +65,7 @@ export function LoginPage(props: { onAuthenticated: (user: { email: string }) =>
     <>
       <Grid container className={styles.mainGrid}>
         <Grid item xs={12} md={6}></Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} className={styles.insideGrid}>
           <Typography variant="h3" style={{ fontWeight: 900 }}>
             Cześć!
           </Typography>
@@ -67,6 +81,7 @@ export function LoginPage(props: { onAuthenticated: (user: { email: string }) =>
           />
         </Grid>
         <LogInIlu />
+        <LogInSplash />
       </Grid>
       <div className={styles.bottomBar}>
         <Typography variant="body1" style={{ color: 'white' }}>
