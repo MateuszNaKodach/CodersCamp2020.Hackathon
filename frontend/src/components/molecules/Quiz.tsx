@@ -1,5 +1,5 @@
 import React, { FC, memo, useState, useCallback, useEffect,  } from 'react';
-import { HTML5Backend, NativeTypes } from 'react-dnd-html5-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import Dustbin from './DustBin';
 import Box from './Box';
 import update from 'immutability-helper';
@@ -9,9 +9,9 @@ import Title from '../atoms/Title/Title';
 import QuizSplashR from '../atoms/alignedImages/QuizSplashR';
 import QuizSplashL from '../atoms/alignedImages/QuizSplashL';
 import { QuestionsRestApi } from '../../restapi/questions/QuestionsRestAPI';
-import { GROUP_ID } from './UserQuestion/UserQuestion';
 import  {useAsyncRetry} from "react-use";
 import { ItemTypes } from './ItemTypes';
+import {GROUP_ID} from "../atoms/constants/ids";
 
 interface DustbinState {
   accepts: string[];
@@ -81,7 +81,7 @@ export const Quiz: FC = memo(function Quiz() {
   })
 
   useEffect(() => {
-    
+
     let dustbins: DustbinState[] = []
     quizData.value?.answers.forEach((element) => {
       dustbins.push( { accepts: [ItemTypes.ANSWER], lastDroppedItem: null , text: element.text},)
