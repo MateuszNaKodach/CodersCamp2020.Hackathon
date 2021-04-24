@@ -7,6 +7,7 @@ import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
 import {useCookie} from "react-use";
+import {BrowserRouter as Router} from "react-router-dom";
 
 export function Integramic() {
   const classes = useStyles();
@@ -27,6 +28,7 @@ export function Integramic() {
   return (
     <MuiThemeProvider theme={THEME}>
       <div className={classes.root}>
+        <Router>
         <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
           <CssBaseline />
 
@@ -36,6 +38,7 @@ export function Integramic() {
 
           <AppMain />
         </AppContext.Provider>
+        </Router>
       </div>
     </MuiThemeProvider>
   );

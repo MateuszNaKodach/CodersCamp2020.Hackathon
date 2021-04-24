@@ -6,6 +6,7 @@ import {useCookie} from "react-use";
 import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
 import LeftSplash from '../../atoms/alignedImages/LeftSplash';
 import LogInSplash from '../../atoms/alignedImages/LogInSplash';
+import {useHistory} from "react-router-dom";
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export function LoginPage(props: { onAuthenticated?: (user: { email: string }) => void }) {
+  const history = useHistory();
   const styles = useStyles();
   const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
   const [currentAuthenticationToken, updateAuthenticationTokenCookie, deleteAuthenticationTokenCookie] = useCookie("authenticationToken");
@@ -44,6 +46,7 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string }) =
     const successResponse = loginResponse as GoogleLoginResponse;
     updateCurrentUserCookie(JSON.stringify({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId }))
     updateAuthenticationTokenCookie(JSON.stringify({ value: successResponse.tokenId }))
+    history.push("/question")
     if(props.onAuthenticated){
       props.onAuthenticated({ email: successResponse.profileObj.email });
     }
