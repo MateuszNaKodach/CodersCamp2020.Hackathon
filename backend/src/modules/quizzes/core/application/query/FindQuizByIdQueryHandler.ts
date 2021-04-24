@@ -1,7 +1,7 @@
 import { QueryHandler } from '../../../../../shared/core/application/query/QueryHandler';
 import { GroupQuizRepository } from '../GroupQuizRepository';
 import { GroupQuiz } from '../../domain/GroupQuiz';
-import {FindQuizById} from "./FindQuizById";
+import { FindQuizById } from './FindQuizById';
 
 export class FindQuizByIdQueryHandler implements QueryHandler<FindQuizById> {
   private readonly repository: GroupQuizRepository;
