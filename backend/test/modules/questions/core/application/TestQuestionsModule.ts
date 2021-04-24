@@ -6,5 +6,7 @@ import { InMemoryGroupQuestionsRepository } from '../../../../../src/modules/que
 export function testQuestionsModule(currentTime: Date): TestModuleCore {
   const questionsRepository = new InMemoryQuestionsRepository();
   const groupQuestionsRepository = new InMemoryGroupQuestionsRepository();
-  return testModuleCore((commandBus, eventBus, queryBus) => QuestionsModuleCore(eventBus,commandBus, () => currentTime, groupQuestionsRepository, questionsRepository));
+  return testModuleCore((commandBus, eventBus, queryBus) =>
+    QuestionsModuleCore(eventBus, commandBus, () => currentTime, groupQuestionsRepository, questionsRepository),
+  );
 }
