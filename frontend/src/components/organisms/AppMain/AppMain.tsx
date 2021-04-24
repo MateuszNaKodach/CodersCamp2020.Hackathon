@@ -15,7 +15,6 @@ export function AppMain() {
 
   return (
     <main className={classes.content}>
-      <Router>
         <Switch>
           <Route path={PATH_FOR_MAIN_VIEW} exact>
             <Title text="Here goes question???" />
@@ -30,7 +29,6 @@ export function AppMain() {
           </Route>
           
         </Switch>
-      </Router>
     </main>
   );
 }
