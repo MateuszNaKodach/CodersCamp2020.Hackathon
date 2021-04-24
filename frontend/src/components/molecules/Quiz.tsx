@@ -74,7 +74,6 @@ export const Quiz: FC = memo(function Quiz() {
   )
 
   return (
-    <div>
     <div style={{marginTop:'5%', marginBottom:'5%', display: 'flex', flexDirection:'row', width:'90%', marginLeft:'5%', justifyContent: 'center' }}>
       <div style={{ overflow: 'hidden', clear: 'both' , display:'flex', flexDirection:'column', justifyContent: 'center'}}>
         {dustbins.map(({ accepts, lastDroppedItem }, index) => (
@@ -98,10 +97,7 @@ export const Quiz: FC = memo(function Quiz() {
           />
         ))}
       </div>
-      </div>
-      <div style={{display:'flex', justifyContent:'center'}}>
-        <ClickButton text="Zatwierdź odpowiedzi" onClick={()=>{alert("test")} } ></ClickButton>
-      </div>
+  
     </div>
     
   )
