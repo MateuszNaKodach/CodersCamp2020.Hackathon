@@ -3,6 +3,7 @@ import { THEME } from '../constants/ThemeMUI';
 
 type TextButtonProps = {
   readonly text: string;
+  readonly disabled: boolean;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -18,13 +19,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FormButton = ({ text }: TextButtonProps) => {
+const FormButton = ({ text, disabled }: TextButtonProps) => {
   const classes = useStyles();
   return (
     <Button
       size='large'
       type='submit'
       className={classes.button}
+      disabled={disabled}
     >
       {text}
     </Button>
