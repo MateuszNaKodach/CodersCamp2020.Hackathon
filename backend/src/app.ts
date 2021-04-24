@@ -36,6 +36,8 @@ import { QuestionsRestApiModule } from './modules/questions/presentation/rest-ap
 import { AskingGroupQuestionRestApiModule } from './modules/asking-question/presentation/rest-api/AskingGroupQuestionRestApiModule';
 import { AskingGroupQuestionModuleCore } from './modules/asking-question/core/AskingGroupQuestionModuleCore';
 import { InMemoryAskingGroupQuestionRepository } from './modules/asking-question/infrastructure/repository/inmemory/InMemoryAskingGroupQuestionRepository';
+import { InMemoryGroupQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryGroupQuestionsRepository';
+import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-answer/infrastructure/repository/inmemory/InMemoryAnswerGroupQuestionRepository';
 
 config();
 
@@ -52,8 +54,9 @@ export async function IntegramicApplication(
     await connectToMongoDb();
   }
 
+  const answerGroupQuestionRepository = AnswerGroupQuestionRepository();
   const groupQuestionAnswerModule: Module = {
-    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider),
+    core: AnswerGroupQuestionModuleCore(eventBus, currentTimeProvider, answerGroupQuestionRepository),
     restApi: GroupQuestionAnswerRestApiModule(commandBus, eventBus, queryBus),
   };
 
@@ -63,8 +66,9 @@ export async function IntegramicApplication(
   };
 
   const questionsRepository = QuestionsRepository();
+  const groupQuestionsRepository = GroupQuestionsRepository();
   const questionsModule: Module = {
-    core: QuestionsModuleCore(eventBus, currentTimeProvider, questionsRepository),
+    core: QuestionsModuleCore(eventBus, commandBus, currentTimeProvider, groupQuestionsRepository, questionsRepository),
     restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus),
   };
 
@@ -109,18 +113,18 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
     quizId: 'Quiz1',
     groupId: classFirstA,
     question: {
-      questionId: entityIdGenerator.generate(),
+      questionId: 'Quiz1_Question',
       text: 'W jakim szkoleniu chciałbyś wziąć udział?',
     },
     answers: [
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: 'Quiz1_Answer1',
+        userId: 'User1',
         text: 'W szkoleniu z Event Modelingu.',
       },
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: 'Quiz1_Answer2',
+        userId: 'User2',
         text: 'Dawajcie DDD.',
       },
     ],
@@ -129,18 +133,18 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
     quizId: 'Quiz2',
     groupId: classFirstA,
     question: {
-      questionId: entityIdGenerator.generate(),
+      questionId: 'Quiz2_Question',
       text: 'W jakim szkoleniu chciałbyś wziąć udział?',
     },
     answers: [
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: 'Quiz2_Answer1',
+        userId: 'User1',
         text: 'W szkoleniu z Event Modelingu.',
       },
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: 'Quiz2_Answer2',
+        userId: 'User2',
         text: 'Dawajcie DDD.',
       },
     ],
@@ -154,4 +158,12 @@ function QuestionsRepository() {
     return new MongoQuestionsRepository();
   }
   return new InMemoryQuestionsRepository();
+}
+
+function GroupQuestionsRepository() {
+  return new InMemoryGroupQuestionsRepository();
+}
+
+function AnswerGroupQuestionRepository() {
+  return new InMemoryAnswerGroupQuestionRepository();
 }
