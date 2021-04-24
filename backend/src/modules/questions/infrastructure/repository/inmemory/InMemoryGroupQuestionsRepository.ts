@@ -11,4 +11,8 @@ export class InMemoryGroupQuestionsRepository implements GroupQuestionsRepositor
   async save(groupQuestions: GroupQuestions): Promise<void> {
     this.entities[groupQuestions.groupId] = groupQuestions;
   }
+
+  findAll(): Promise<GroupQuestions[]> {
+    return Promise.resolve(Object.keys(this.entities).map((groupId) => this.entities[groupId]));
+  }
 }

@@ -4,8 +4,7 @@ import { Question } from '../../domain/Question';
 import { GroupQuestions } from '../../domain/GroupQuestions';
 
 export class QuestionWasDefinedEventHandler implements EventHandler<QuestionWasDefined> {
-  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {
-  }
+  constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository) {}
 
   async handle(event: QuestionWasDefined): Promise<void> {
     const questionId = event.questionId;
@@ -23,17 +22,15 @@ export class QuestionWasDefinedEventHandler implements EventHandler<QuestionWasD
       const groupQuestions = new GroupQuestions({
         groupId: groupId,
         questionAskedLastly: undefined,
-        questionAskedLastlyDate: undefined,
+        questionAskedLastlyDate: new Date(),
         questionList: questionList,
       });
       await this.groupQuestionsRepository.save(groupQuestions);
     } else {
-      const existingQuestions = groupQuestions.questionList.filter((elem) =>
-        elem.authorId !== event.authorId);
+      const existingQuestions = groupQuestions.questionList.filter((elem) => elem.authorId !== event.authorId);
 
       existingQuestions.push(question);
-      const newGroupQuestions = new GroupQuestions({ ...groupQuestions, questionList: existingQuestions },
-      );
+      const newGroupQuestions = new GroupQuestions({ ...groupQuestions, questionList: existingQuestions });
       await this.groupQuestionsRepository.save(newGroupQuestions);
     }
   }
