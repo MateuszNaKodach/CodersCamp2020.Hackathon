@@ -9,7 +9,7 @@ export default function UserNameAndOrganization() {
 
   return (
       <div>
-        <Typography style={{fontWeight: 700, fontSize: '16px', color: `${THEME.palette.primary.main}`}}>{user?.email}</Typography>
+        <Typography style={{fontWeight: 700, fontSize: '16px', color: `${THEME.palette.primary.main}`}}>{user?.displayName ?? 'Zalogowany'}</Typography>
         <Typography style={{
           fontWeight: 400,
           fontSize: '11px',

@@ -7,8 +7,11 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import { DRAWER_WIDTH } from '../../atoms/constants/sizes';
 import Logo from '../../atoms/alignedImages/Logo';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
+import {GoogleLogout} from "react-google-login";
+import {useHistory} from "react-router-dom";
+import {useCookie} from "react-use";
 
-export function AppSidebar() {
+export function AppSidebar(props: {onLoggedOut: () => void}) {
   const classes = useStyles();
   const { handleDrawerClose } = useContext(AppContext);
   const { isOpenDrawer } = useContext(AppContext);
@@ -29,6 +32,13 @@ export function AppSidebar() {
       </div>
       <div style={{ position: 'absolute', bottom: '50px' }}>
         <UserAvatarAndName />
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '1rem', justifyContent: 'center' }}>
+          <GoogleLogout
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}
+              buttonText="Logout"
+              onLogoutSuccess={props.onLoggedOut}
+          />
+        </div>
       </div>
     </Drawer>
   );

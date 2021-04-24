@@ -52,11 +52,6 @@ export const Quiz: FC = memo(function Quiz() {
     return droppedBoxNames.indexOf(boxName) > -1;
   }
 
-  const data = useAsyncRetry(async () => {
-    return await QuestionsRestApi()
-        .getQuiz({groupId: GROUP_ID})
-  })
-
   const handleDrop = useCallback(
     (index: number, item: { name: string }) => {
       const { name } = item;
@@ -75,24 +70,35 @@ export const Quiz: FC = memo(function Quiz() {
     [droppedBoxNames, dustbins],
   );
 
+  const quizData = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getQuiz({groupId: GROUP_ID})
+  })
+
+  const questionData = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getCurrentGroupQuestion({groupId: GROUP_ID})
+  })
+
   useEffect(() => {
+    
     let dustbins: DustbinState[] = []
-    data.value?.answers.forEach((element) => {
+    quizData.value?.answers.forEach((element) => {
       dustbins.push( { accepts: [ItemTypes.ANSWER], lastDroppedItem: null , text: element.text},)
     })
     setDustbins(dustbins)
-
+    console.log(dustbins)
     let boxes: BoxState[] = []
-    data.value?.users.forEach((element) => {
-      boxes.push( { name: element.userID , type: ItemTypes.ANSWER},)
+    quizData.value?.users.forEach((element) => {
+      boxes.push( { name: element.userId , type: ItemTypes.ANSWER})
     })
     setBoxes(boxes)
-
-  },[])
+    console.log(boxes)
+  },[quizData.value])
 
   return (
     <div>
-      <Title text="Treść pytania" />
+      <Title text={questionData.value?.text as string} />
       <DndProvider backend={HTML5Backend}>
         <div
           style={{
