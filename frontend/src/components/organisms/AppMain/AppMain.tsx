@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
+import { PATH_FOR_MAIN_VIEW, PATH_FOR_QUIZ, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 import React from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -10,6 +10,7 @@ import Example from '../../molecules/example'
 import Title from '../../atoms/Title/Title';
 
 import { GroupQuestionContainer } from '../GroupQuestionContainer/GroupQuestionContainer';
+import Quiz from '../../molecules/example';
 
 export function AppMain() {
   const classes = useStyles();
@@ -25,6 +26,11 @@ export function AppMain() {
           <Route path={PATH_FOR_USER_QUESTION} exact>
             <GroupQuestionContainer />
           </Route>
+
+          <Route path={PATH_FOR_QUIZ} exact>
+            <Quiz  />
+          </Route>
+          
         </Switch>
       </Router>
     </main>
