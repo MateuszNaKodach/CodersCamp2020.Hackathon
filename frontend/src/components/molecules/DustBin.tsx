@@ -6,8 +6,7 @@ import { THEME } from '../atoms/constants/ThemeMUI';
 
 const style: CSSProperties = {
   minHeight: '2rem',
-  minWidth: '100%',
-  width: '40vh',
+  width: '60vh',
   color: 'white',
   textAlign: 'center',
   fontSize: '1.25rem',
@@ -32,18 +31,12 @@ export interface DustbinProps {
 }
 
 export const Dustbin: FC<DustbinProps> = memo(function Dustbin({ accepts, isOver, connectDropTarget, lastDroppedItem, answer }) {
-  const isActive = isOver;
-
-  let backgroundColor = '#222';
-  if (isActive) {
-    backgroundColor = 'darkgreen';
-  }
 
   return connectDropTarget(
     <div ref={connectDropTarget} style={{ ...style }}>
       <Card style={{ padding: '5%', marginBottom: '5%'}}>
-        <div style={{marginBottom: '5%'}}>{answer}</div>
-        { <Card style={{backgroundColor: THEME.palette.primary.main, color: THEME.palette.primary.contrastText}}>{lastDroppedItem? lastDroppedItem.name: ""}</Card>}
+        <div style={{marginBottom: '%'}}>{answer}</div>
+        { <Card style={{backgroundColor: THEME.palette.primary.main, color: THEME.palette.primary.contrastText, width:'40vh'}}>{lastDroppedItem? lastDroppedItem.name: ""}</Card>}
       </Card>
     </div>,
   );

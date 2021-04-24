@@ -24,6 +24,7 @@ import { Button, makeStyles } from '@material-ui/core';
    const classes = useStyles()
    return (
      <Button
+     style={{color: disabled? 'grey' : 'white'}}
        onClick={onClick}
        color="primary"
        size="large"

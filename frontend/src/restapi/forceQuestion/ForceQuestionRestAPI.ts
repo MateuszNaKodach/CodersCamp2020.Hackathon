@@ -20,5 +20,8 @@ export const ForceQuestionRestAPI = (config?: Partial<ForceQuestionRestApiConfig
     async forceQuestion(): Promise<void> {
       await axios.post(`${currentConfig.baseUrl}/questions/force/${GROUP_ID}`, {}, {});
     },
+    async forceQuiz(): Promise<void> {
+      await axios.post(`${currentConfig.baseUrl}/current-question/${GROUP_ID}/forceStartQuiz`, {}, {});
+    },
   };
 };
