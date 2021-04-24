@@ -13,6 +13,8 @@ tags:
     description: Save and get players profiles
   - name: Group Quizzes
     description: Quizzes for groups
+  - name: Groups
+    description: Available groups
   - name: Ask Group Question
 paths:
   /current-question/{groupid}:
@@ -220,6 +222,14 @@ paths:
       responses:
         200:
           description: Solution successfully saved
+  /groups:
+    get:
+      tags:
+        - Groups
+      description: Get all available groups
+      responses:
+        200:
+          description: All available groups
 components:
   schemas:
     CurrentGroupQuestionDto:
