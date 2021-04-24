@@ -12,6 +12,7 @@ import { QuestionsRestApi } from '../../restapi/questions/QuestionsRestAPI';
 import  {useAsyncRetry} from "react-use";
 import { ItemTypes } from './ItemTypes';
 import {GROUP_ID} from "../atoms/constants/ids";
+import {UserAccountsRestApi} from "../../restapi/user-accounts/UserAccountsRestApi";
 
 interface DustbinState {
   accepts: string[];
@@ -80,20 +81,22 @@ export const Quiz: FC = memo(function Quiz() {
         .getCurrentGroupQuestion({groupId: GROUP_ID})
   })
 
-  useEffect(() => {
+  async function getBoxes() {
+    const promises = quizData.value?.users
+        ?.map(async (element) => ({name: ((await (UserAccountsRestApi().getDisplayNameByUserId(element.userId)))?.displayName ?? element.userId), type: ItemTypes.ANSWER})) ?? [];
+    const boxes: BoxState[] = await Promise.all(promises);
+    return boxes;
+  }
 
+  useEffect(() => {
     let dustbins: DustbinState[] = []
     quizData.value?.answers.forEach((element) => {
       dustbins.push( { accepts: [ItemTypes.ANSWER], lastDroppedItem: null , text: element.text},)
     })
     setDustbins(dustbins)
     console.log(dustbins)
-    let boxes: BoxState[] = []
-    quizData.value?.users.forEach((element) => {
-      boxes.push( { name: element.userId , type: ItemTypes.ANSWER})
-    })
-    setBoxes(boxes)
-    console.log(boxes)
+    getBoxes()
+        .then(fetchedBoxes => setBoxes(fetchedBoxes))
   },[quizData.value])
 
   return (
