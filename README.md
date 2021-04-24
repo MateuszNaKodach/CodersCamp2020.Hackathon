@@ -12,7 +12,7 @@ URL: https://wkps.netlify.app/
 
 ### Backend
 
-[Swagger REST API Docs](https://coderscamp2020-tablesoccer.herokuapp.com/rest-api-docs/)
+[Swagger REST API Docs](https://coderscamp2020-hackathon.herokuapp.com/rest-api-docs/)
 
 ## Overview
 
