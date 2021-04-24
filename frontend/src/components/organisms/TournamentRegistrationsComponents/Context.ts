@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export const tournamentRegistrationsContext = {
   openCreatePlayerProfileForm: false,
@@ -7,6 +7,4 @@ export const tournamentRegistrationsContext = {
   registerPlayer: async (playerId: string) => {},
 };
 
-export const TournamentRegistrationsContext = createContext(
-  tournamentRegistrationsContext
-);
+export const TournamentRegistrationsContext = createContext(tournamentRegistrationsContext);

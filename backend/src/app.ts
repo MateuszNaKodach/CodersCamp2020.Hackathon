@@ -43,6 +43,7 @@ import { GroupQuizModuleCore } from './modules/quizzes/core/GroupQuizModuleCore'
 import { InMemoryGroupQuizRepository } from './modules/quizzes/infrastructure/InMemoryGroupQuizRepository';
 import { GroupQuizRestApiModule } from './modules/quizzes/presentation/rest-api/GroupQuizRestApiModule';
 import { StartQuiz } from './modules/quizzes/core/application/command/StartQuiz';
+import { InMemoryQuizSolutionsRepository } from './modules/quizzes/infrastructure/InMemoryQuizSolutionsRepository';
 
 config();
 
@@ -84,7 +85,13 @@ export async function TableSoccerTournamentsApplication(
   };
 
   const quizModule: Module = {
-    core: GroupQuizModuleCore(eventBus, commandBus, currentTimeProvider, new InMemoryGroupQuizRepository()),
+    core: GroupQuizModuleCore(
+      eventBus,
+      commandBus,
+      currentTimeProvider,
+      new InMemoryGroupQuizRepository(),
+      new InMemoryQuizSolutionsRepository(),
+    ),
     restApi: GroupQuizRestApiModule(commandBus, eventBus, queryBus),
   };
 

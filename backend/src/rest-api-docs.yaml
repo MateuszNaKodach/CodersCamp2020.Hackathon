@@ -184,6 +184,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CurrentGroupQuizDto'
+  /quizzes/{quizId}/solutions:
+    get:
+      tags:
+        - Group Quizzes
+      description: Get all solutions for given quiz
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: Solutions
+    post:
+      tags:
+        - Group Quizzes
+      description: Post quiz solution
+      parameters:
+        - name: quizId
+          in: path
+          description: QuizId
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostQuizSolutionRequestBody'
+      responses:
+        200:
+          description: Solution successfully saved
 components:
   schemas:
     CurrentGroupQuestionDto:
@@ -367,7 +403,29 @@ components:
           description: Body of the answer
           type: string
           example: Moja odpowiedz na zadane pytanie
-
+    QuizSolutionAnswerDto:
+      type: object
+      properties:
+        answerId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        userId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+    PostQuizSolutionRequestBody:
+      type: object
+      properties:
+        solutionAuthorId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+        solution:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizSolutionAnswerDto'
+          uniqueItems: true
     PostAnswerGroupQuestionRequestBody:
       type: object
       properties:
