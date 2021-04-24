@@ -31,12 +31,13 @@ const useStyles = makeStyles((theme) => ({
 export function LoginPage(props: { onAuthenticated: (user: { email: string }) => void }) {
   const styles = useStyles();
   const onSuccess = (loginResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+    console.log("GOOGLE RESPONSE", loginResponse)
     if (loginResponse.code) {
       unauthenticated();
       return;
     }
     const successResponse = loginResponse as GoogleLoginResponse;
-    authenticated({ token: successResponse.tokenId, email: successResponse.profileObj.email });
+    authenticated({ token: successResponse.tokenId, email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId });
     props.onAuthenticated({ email: successResponse.profileObj.email });
   };
   const onFailure = (error: any) => {
