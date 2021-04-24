@@ -36,7 +36,7 @@ export const TournamentRegistrationsRestApi = (config?: Partial<TournamentRegist
       const cookies = new Cookies();
       await axios.post(`${currentConfig.baseUrl}/tournament-registrations`, body, {
         headers: {
-          Authorization: `${cookies.get('googleTokenId')}`,
+          Authorization: `${JSON.parse(cookies.get('authenticationToken')).value}`,
         },
       });
     },
