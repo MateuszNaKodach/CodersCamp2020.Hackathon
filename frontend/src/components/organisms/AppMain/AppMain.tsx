@@ -1,11 +1,9 @@
 import { makeStyles, Typography } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
-import ClickButton from '../../atoms/Button/ClickButton';
+import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
+import { GroupQuestionContainer } from '../GroupQuestionContainer/GroupQuestionContainer';
 
-const onClick = () => {
-};
 
 export function AppMain() {
   const classes = useStyles();
@@ -20,7 +18,11 @@ export function AppMain() {
 
             <Typography variant='h2'>Responsive h3</Typography>
 
-            <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
+          </Route>
+
+          <Route path={PATH_FOR_USER_QUESTION} exact>
+
+            <GroupQuestionContainer />
 
           </Route>
 
@@ -38,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
     minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
-    flexGrow: 1, 
+    flexGrow: 1,
+    backgroundColor: "#E8EBEE"
   },
 }));

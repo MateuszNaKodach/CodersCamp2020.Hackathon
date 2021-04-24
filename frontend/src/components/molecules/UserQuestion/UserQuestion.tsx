@@ -1,11 +1,10 @@
 import React from 'react';
-import ClickButton from '../atoms/Button/ClickButton';
+import ClickButton from '../../atoms/Button/ClickButton';
 import { Grid, TextField } from '@material-ui/core';
 import * as yup from "yup";
 import { useFormik } from "formik";
 import EditIcon from '@material-ui/icons/Edit';
 
-const onClick = () => {};
 const validationSchema = yup.object({
   question: yup
     .string()
@@ -39,7 +38,7 @@ export function UserQuestion() {
         >
       <TextField
         id="question"
-        style={{ padding: "10px", marginBottom: "40px", backgroundColor: '#FFFFFF', width: "60%"}}
+        style={{ padding: "10px", marginBottom: "40px", backgroundColor: '#FFFFFF', width: "70%"}}
         name='question'
         placeholder="Twoje pytanie?"
         value={formik.values.question}
@@ -57,7 +56,7 @@ export function UserQuestion() {
         }}
       />
 
-      <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
+      <ClickButton text='ZADAJ PYTANIE' />
 
         </Grid>
       </form>

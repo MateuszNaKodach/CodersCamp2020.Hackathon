@@ -3,14 +3,14 @@ import { THEME } from '../constants/ThemeMUI';
 
 type TextButtonProps = {
   readonly text: string;
-  readonly onClick: undefined | (() => void);
+  // readonly onClick: undefined | (() => void);
   //   readonly onLink: string;
 };
 
-const ClickButton = ({ text, onClick }: TextButtonProps) => {
+const ClickButton = ({ text }: TextButtonProps) => {
   return (
     <Button
-      onClick={onClick}
+      // onClick={onClick}
       color="primary"
       size="large"
       type="submit"
