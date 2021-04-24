@@ -1,21 +1,21 @@
-import { CSSProperties, FC, memo } from "react";
+import { Card } from "@material-ui/core";
+import React, { CSSProperties, FC, memo } from "react";
 import { ConnectDragSource, DragSourceMonitor } from "react-dnd";
 import { DragSource, DragSourceConnector } from "react-dnd";
+import { THEME } from "../atoms/constants/ThemeMUI";
+
 
 const style: CSSProperties = {
-  height: '2vh',
-  width: '6rem',
-  marginRight: '1.5rem',
-  marginBottom: '1.5rem',
-  color: 'black',
-  padding: '1rem',
+  minHeight: '2rem',
+  minWidth: '100%',
+  width: '40vh',
+  color: THEME.palette.primary.main,
+  marginBottom: '4vh',
   textAlign: 'center',
-  fontSize: '1rem',
-  lineHeight: 'normal',
-  float: 'left',
-  border: `solid 1px black`,
-  background: `white`
-
+  fontSize: '1.25rem',
+  lineHeight: '2rem',
+  flexDirection: 'row',
+  wordWrap: 'break-word',
 };
 
 export interface BoxProps {
@@ -36,8 +36,10 @@ export const Box: FC<BoxProps> = memo(function Box({
 }) {
   const opacity = isDropped ? 0.4 : 1;
   return connectDragSource(
-    <div style={{ ...style, opacity}}>
+    <div>
+      <Card  style={{...style}}>
       {name}
+      </Card>
     </div>
   );
 });
