@@ -4,6 +4,8 @@ import { Grid, makeStyles, TextField } from '@material-ui/core';
 import * as yup from "yup";
 import { useFormik } from "formik";
 import EditIcon from '@material-ui/icons/Edit';
+import {QuestionsRestApi} from "../../../restapi/questions/QuestionsRestAPI";
+import {useAsyncFn} from "react-use";
 
 const validationSchema = yup.object({
   question: yup
@@ -18,16 +20,23 @@ const useStyles = makeStyles((theme) => ({
 
 export function UserQuestion() {
 
+  const [postQuestionState, postQuestion] = useAsyncFn(async (props: {groupId: string , text: string }) => {
+    await QuestionsRestApi()
+        .postQuestion({groupId: props.groupId, text: props.text})
+  })
+
   const formik = useFormik({
     initialValues: {
       question: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, formikHelpers) => {
       try {
         console.log(`${values.question}`);
+        await postQuestion({groupId: "group1", text: values.question})
+        formikHelpers.resetForm()
       } catch (error) {
-        alert(error.response.data.message);
+        alert(error);
       }
     },
   });
