@@ -12,13 +12,15 @@ import Box from '@material-ui/core/Box';
 import { Centered } from '../../atoms/Centered';
 import ClickButton from '../../atoms/Button/ClickButton';
 import { ForceQuestionRestAPI } from '../../../restapi/forceQuestion/ForceQuestionRestAPI';
+import {useAsyncFn} from "react-use";
 
 export function AppSidebar(props: { onLoggedOut: () => void }) {
   const classes = useStyles();
   const { handleDrawerClose } = useContext(AppContext);
   const { isOpenDrawer } = useContext(AppContext);
 
-  const forceNextQuestion = () => ForceQuestionRestAPI().forceQuestion();
+  const [forceQuestionState, postForceQuestion] = useAsyncFn(() => ForceQuestionRestAPI().forceQuestion())
+  const [forceQuizState, postQuizQuestion] = useAsyncFn(() => ForceQuestionRestAPI().forceQuiz())
 
   return (
     <Drawer
@@ -39,7 +41,8 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
           </div>
         </Centered>
         <Centered>
-          <ClickButton onClick={() => forceNextQuestion()} disabled={false} text='wymuś pytanie' />
+          <ClickButton onClick={() => postForceQuestion()} disabled={forceQuestionState.loading} text='wylosuj pytanie' />
+          <ClickButton onClick={() => postQuizQuestion()} disabled={forceQuizState.loading} text='rozpocznij quiz' />
         </Centered>
         <div>
           <Centered>
