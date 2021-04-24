@@ -7,18 +7,26 @@ import { StartQuiz } from './application/command/StartQuiz';
 import { StartQuizCommandHandler } from './application/command/StartQuizCommandHandler';
 import { FindCurrentQuizByGroupId } from './application/query/FindCurrentQuizByGroupId';
 import { FindCurrentQuizByGroupIdQueryHandler } from './application/query/FindCurrentQuizByGroupIdQueryHandler';
+import { ResolveQuiz } from './application/command/ResolveQuiz';
+import { ResolveQuizCommandHandler } from './application/command/ResolveQuizCommandHandler';
+import { QuizSolutionsRepository } from './application/QuizSolutionsRepository';
 
 export function GroupQuizModuleCore(
   eventPublisher: DomainEventPublisher,
   commandPublisher: CommandPublisher,
   currentTimeProvider: CurrentTimeProvider,
   groupQuizRepository: GroupQuizRepository,
+  quizSolutionsRepository: QuizSolutionsRepository,
 ): ModuleCore {
   return {
     commandHandlers: [
       {
         commandType: StartQuiz,
         handler: new StartQuizCommandHandler(eventPublisher, currentTimeProvider, groupQuizRepository),
+      },
+      {
+        commandType: ResolveQuiz,
+        handler: new ResolveQuizCommandHandler(eventPublisher, currentTimeProvider, quizSolutionsRepository),
       },
     ],
     eventHandlers: [],
