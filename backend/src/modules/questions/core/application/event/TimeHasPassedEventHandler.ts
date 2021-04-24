@@ -24,19 +24,16 @@ export class TimeHasPassedEventHandler implements EventHandler<TimeHasPassed> {
   }
 }
 
-async function getQuestionsToAsk(groupsQuestions: GroupQuestions[], commandPublisher: CommandPublisher) {
-  groupsQuestions.forEach(groupQuestions => {
+function getQuestionsToAsk(groupsQuestions: GroupQuestions[], commandPublisher: CommandPublisher) {
+  groupsQuestions.forEach(async groupQuestions => {
     const randomQuestion = groupQuestions.questionList[Math.floor(Math.random() * groupQuestions.questionList.length)];
-    await commandPublisher.execute(new AskGroupQuestion
-    {
-      questionId: randomQuestion.questionId, groupId;
-    :
-      randomQuestion.groupId, authorId;
-    :
-      randomQuestion.authorId, text;
-    :
-      randomQuestion.text;
-    }
-  )
+    await commandPublisher.execute(new AskGroupQuestion(
+      {
+        questionId: randomQuestion.questionId,
+        groupId: randomQuestion.groupId,
+        authorId: randomQuestion.authorId,
+        text: randomQuestion.text,
+      },
+    ));
   });
 }
