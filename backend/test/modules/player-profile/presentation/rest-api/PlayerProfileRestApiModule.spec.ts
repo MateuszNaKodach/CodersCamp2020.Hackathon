@@ -14,7 +14,9 @@ describe('Player Profile REST API', () => {
   it('POST /rest-api/players-profiles | when command success', async () => {
     //Given
     const commandPublisher = CommandPublisherMock(CommandResult.success());
-    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, { commandPublisher });
+    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, {
+      commandPublisher,
+    });
 
     //When
     const { body, status } = await agent.post('/rest-api/players-profiles').send({
@@ -48,7 +50,9 @@ describe('Player Profile REST API', () => {
   it('POST /rest-api/players-profiles | when command failure', async () => {
     //Given
     const commandPublisher = CommandPublisherMock(CommandResult.failureDueTo(new Error('Such player already exists!')));
-    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, { commandPublisher });
+    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, {
+      commandPublisher,
+    });
 
     //When
     const { body, status } = await agent.post('/rest-api/players-profiles').send({
@@ -92,7 +96,9 @@ describe('Player Profile REST API', () => {
       }),
     ]);
 
-    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, { queryPublisher });
+    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, {
+      queryPublisher,
+    });
 
     //When
     const { body, status } = await agent.get('/rest-api/players-profiles').send();
@@ -131,7 +137,9 @@ describe('Player Profile REST API', () => {
         emailAddress: 'Sample email address',
       }),
     );
-    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, { queryPublisher });
+    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, {
+      queryPublisher,
+    });
 
     //When
     const { body, status } = await agent.get('/rest-api/players-profiles/samplePlayerId1').send();
@@ -151,7 +159,9 @@ describe('Player Profile REST API', () => {
   it('GET /rest-api/players-profiles/:playerId | when player profile with given ID is not found', async () => {
     //Given
     const queryPublisher = QueryPublisherMock(undefined);
-    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, { queryPublisher });
+    const { agent } = testModuleRestApi(PlayerProfileRestApiModule, {
+      queryPublisher,
+    });
 
     //When
     const { body, status } = await agent.get('/rest-api/players-profiles/samplePlayerId1').send();
@@ -159,6 +169,8 @@ describe('Player Profile REST API', () => {
     //Then
     expect(queryPublisher.executeCalls).toBeCalledWith(new FindPlayerProfileById({ playerId: 'samplePlayerId1' }));
     expect(status).toBe(StatusCodes.NOT_FOUND);
-    expect(body).toStrictEqual({ message: 'Player profile with id = samplePlayerId1 not found!' });
+    expect(body).toStrictEqual({
+      message: 'Player profile with id = samplePlayerId1 not found!',
+    });
   });
 });
