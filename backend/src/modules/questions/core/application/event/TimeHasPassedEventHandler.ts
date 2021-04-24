@@ -4,7 +4,6 @@ import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
 import { GroupQuestions } from '../../domain/GroupQuestions';
 import { CommandPublisher } from '../../../../../shared/core/application/command/CommandBus';
 import { AskGroupQuestion } from '../../../../asking-question/core/application/command/AskGroupQuestion';
-
 export class TimeHasPassedEventHandler implements EventHandler<TimeHasPassed> {
   constructor(private readonly groupQuestionsRepository: GroupQuestionsRepository, private readonly commandPublisher: CommandPublisher) {}
 
@@ -19,21 +18,19 @@ export class TimeHasPassedEventHandler implements EventHandler<TimeHasPassed> {
       return;
     }
     if (actualDay !== groupQuestions[0].questionAskedLastlyDate!.getDay()) {
-      getQuestionsToAsk(groupQuestions, this.commandPublisher);
+      await Promise.all(groupQuestions.map((groupsQuestions) => getQuestionsToAsk(groupsQuestions, this.commandPublisher)));
     }
   }
 }
 
-function getQuestionsToAsk(groupsQuestions: GroupQuestions[], commandPublisher: CommandPublisher) {
-  groupsQuestions.forEach(async (groupQuestions) => {
-    const randomQuestion = groupQuestions.questionList[Math.floor(Math.random() * groupQuestions.questionList.length)];
-    await commandPublisher.execute(
-      new AskGroupQuestion({
-        questionId: randomQuestion.questionId,
-        groupId: randomQuestion.groupId,
-        authorId: randomQuestion.authorId,
-        text: randomQuestion.text,
-      }),
-    );
-  });
+export async function getQuestionsToAsk(groupsQuestions: GroupQuestions, commandPublisher: CommandPublisher): Promise<void> {
+  const randomQuestion = groupsQuestions.questionList[Math.floor(Math.random() * groupsQuestions.questionList.length)];
+  await commandPublisher.execute(
+    new AskGroupQuestion({
+      questionId: randomQuestion.questionId,
+      groupId: randomQuestion.groupId,
+      authorId: randomQuestion.authorId,
+      text: randomQuestion.text,
+    }),
+  );
 }
