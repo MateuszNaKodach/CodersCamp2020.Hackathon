@@ -42,6 +42,7 @@ export function AppSidebar(props: { onLoggedOut: () => void }) {
         </Centered>
         <Centered>
           <ClickButton onClick={() => postForceQuestion()} disabled={forceQuestionState.loading} text='wylosuj pytanie' />
+          <div style={{marginTop: "2rem"}}/>
           <ClickButton onClick={() => postQuizQuestion()} disabled={forceQuizState.loading} text='rozpocznij quiz' />
         </Centered>
         <div>

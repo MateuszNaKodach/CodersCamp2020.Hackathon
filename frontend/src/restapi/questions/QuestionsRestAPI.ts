@@ -86,7 +86,7 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
       text: string;
     }): Promise<void> {
       await axios.post(
-        `${currentConfig.baseUrl}/current-question/${body.groupId}`,
+        `${currentConfig.baseUrl}/current-question/${body.groupId}/answers`,
         {
           questionId: body.questionId,
           answerAuthorId: body.answerAuthorId,
