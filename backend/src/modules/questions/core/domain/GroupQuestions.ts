@@ -6,7 +6,12 @@ export class GroupQuestions {
   readonly questionAskedLastlyDate: Date | undefined;
   readonly questionList: Question[];
 
-  constructor(props: { groupId: string, questionAskedLastly: Question | undefined, questionAskedLastlyDate: Date | undefined, questionList: Question[] }) {
+  constructor(props: {
+    groupId: string;
+    questionAskedLastly: Question | undefined;
+    questionAskedLastlyDate: Date | undefined;
+    questionList: Question[];
+  }) {
     this.groupId = props.groupId;
     this.questionAskedLastly = props.questionAskedLastly;
     this.questionAskedLastlyDate = props.questionAskedLastlyDate;
