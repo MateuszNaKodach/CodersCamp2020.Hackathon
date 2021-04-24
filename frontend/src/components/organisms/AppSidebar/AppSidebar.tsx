@@ -3,10 +3,10 @@ import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import React, { useContext } from 'react';
-import { AppContext } from '../atoms/hooks/AppContext';
-import { DRAWER_WIDTH } from '../atoms/constants/sizes';
+import { AppContext } from '../../atoms/hooks/AppContext';
+import { DRAWER_WIDTH } from '../../atoms/constants/sizes';
 
-export function Sidebar() {
+export function AppSidebar() {
   const classes = useStyles();
   const { handleDrawerClose } = useContext(AppContext);
   const { isOpenDrawer } = useContext(AppContext);

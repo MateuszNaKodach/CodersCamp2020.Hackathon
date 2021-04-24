@@ -1,6 +1,6 @@
 import React, {useState}from 'react';
 import {
-  AppBar, Badge,
+   Badge,
   CssBaseline, Divider, Drawer, List,
   makeStyles,
   MuiThemeProvider,
@@ -17,9 +17,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { Sidebar } from '../../organisms/Sidebar';
+import { AppSidebar } from '../../organisms/AppSidebar/AppSidebar';
 import { AppContext } from '../../atoms/hooks/AppContext';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
+import { AppBar } from '../../organisms/AppBar/AppBar';
 
 const onClick = () => {};
 
@@ -39,31 +40,12 @@ export function Integramic() {
   return (
     <MuiThemeProvider theme={THEME}>
       <div className={classes.root}>
-        <AppContext.Provider value={{ isOpenDrawer, handleDrawerClose }}>
+        <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
         <CssBaseline />
-        <AppBar position='absolute' className={clsx(classes.appBar, isOpenDrawer && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, isOpenDrawer && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-              Dashboard
-            </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
 
-       <Sidebar/>
+        <AppBar/>
+
+       <AppSidebar/>
 
         <main className={classes.content}>
         <Router>
