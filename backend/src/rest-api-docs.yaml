@@ -391,3 +391,30 @@ components:
           items:
             $ref: '#/components/schemas/QuizSolutionAnswerDto'
           uniqueItems: true
+    PostAnswerGroupQuestionRequestBody:
+      type: object
+      properties:
+        questionId:
+          description: Identifier of the question for which answer is given
+          type: string
+          format: uuid
+          example: 040ac7f2-96cd-472e-a6a8-b6094d3e4e94
+        groupId:
+          description: Identifier of the group for which answer is given
+          type: string
+          format: uuid
+          example: 653e8ff0-1de8-43f1-b5e3-f83a635cbf0e
+        answerAuthorId:
+          description: Identifier of the answer author for which answer is given
+          type: string
+          format: uuid
+          example: 44b2b9d9-1740-42f9-89e5-c8f652ec4e11
+        text:
+          description: Text of the author for which answer is given
+          type: string
+          example: "Where were you last vacation"
+      required:
+        - questionId
+        - groupId
+        - answerAuthorId
+        - text
