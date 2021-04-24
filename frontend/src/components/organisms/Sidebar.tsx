@@ -8,13 +8,12 @@ import { DRAWER_WIDTH } from '../atoms/constants/sizes';
 
 export function Sidebar() {
   const classes = useStyles();
-  const {handleDrawerClose} = useContext(AppContext);
-const {isOpenDrawer} = useContext(AppContext);
+  const { handleDrawerClose } = useContext(AppContext);
+  const { isOpenDrawer } = useContext(AppContext);
 
   return (
-
     <Drawer
-      variant="permanent"
+      variant='permanent'
       classes={{
         paper: clsx(classes.drawerPaper, !isOpenDrawer && classes.drawerPaperClose),
       }}
@@ -26,12 +25,9 @@ const {isOpenDrawer} = useContext(AppContext);
         </IconButton>
       </div>
       <Divider />
-      {/*<List>{mainListItems}</List>*/}
       <Divider />
-      {/*<List>{secondaryListItems}</List>*/}
     </Drawer>
-    )
-
+  );
 }
 
 const useStyles = makeStyles((theme) => ({
