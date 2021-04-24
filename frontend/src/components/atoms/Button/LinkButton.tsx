@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { THEME } from '../constants/ThemeMUI';
 
@@ -7,13 +7,24 @@ type TextButtonProps = {
   readonly onLink: string;
 };
 
+const useStyles = makeStyles((theme) => ({
+  button: {
+    fontWeight: 500,
+    backgroundColor: `${THEME.palette.primary.main}`,
+    color: `${THEME.palette.primary.contrastText}`,
+    padding: '8px 25px',
+    zIndex: 1,
+  },
+}));
+
 const LinkButton = ({ text, onLink }: TextButtonProps) => {
+  const classes = useStyles();
   return (
     <Link to={onLink} style={{ textDecoration: 'none' }}>
       <Button
         color="primary"
         size="large"
-        style={{ fontWeight: 500, backgroundColor: `${THEME.palette.primary.contrastText}`, padding: '8px 25px' }}
+        className={classes.button}
       >
         {text}
       </Button>
