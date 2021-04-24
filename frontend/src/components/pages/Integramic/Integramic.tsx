@@ -37,6 +37,7 @@ export function Integramic() {
           <AppBar />
 
           <AppSidebar />
+
           <AppMain />
 
         </AppContext.Provider>
