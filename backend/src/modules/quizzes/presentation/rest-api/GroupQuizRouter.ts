@@ -33,7 +33,7 @@ export function groupQuizRouter(
   const postQuizSolution = async (request: Request, response: Response) => {
     const quizId = request.params.quizId as string;
     const requestBody: PostQuizSolutionRequestBody = request.body
-    const solutionAuthorId = "LoggedUserId"
+    const solutionAuthorId = requestBody.solutionAuthorId ?? "LoggedUserId"
     const commandResult = await commandPublisher.execute(ResolveQuiz.command({...requestBody, quizId: quizId, solutionAuthorId}));
     return commandResult.process(
         () => response.status(StatusCodes.OK).send(),

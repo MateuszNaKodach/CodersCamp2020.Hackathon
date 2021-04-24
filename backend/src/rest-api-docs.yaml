@@ -363,6 +363,10 @@ components:
     PostQuizSolutionRequestBody:
       type: object
       properties:
+        solutionAuthorId:
+          description: Identifier of the user
+          type: string
+          example: 2480fc2c-bbd7-427c-9439-02f76583aef5
         solution:
           type: array
           items:
