@@ -1,16 +1,14 @@
 import { DomainCommandResult } from '../../../../shared/core/domain/DomainCommandResult';
 import { CurrentTimeProvider } from '../../../../shared/core/CurrentTimeProvider';
-import { PlayerProfileWasCreated } from './event/PlayerProfileWasCreated';
-import { PlayerId } from '../../../../shared/core/domain/PlayerId';
 
 export class PlayerProfile {
-  readonly playerId: PlayerId;
+  readonly playerId: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly phoneNumber: string;
   readonly emailAddress: string;
 
-  constructor(props: { playerId: PlayerId; firstName: string; lastName: string; emailAddress: string; phoneNumber: string }) {
+  constructor(props: { playerId: string; firstName: string; lastName: string; emailAddress: string; phoneNumber: string }) {
     this.playerId = props.playerId;
     this.firstName = props.firstName;
     this.lastName = props.lastName;
@@ -22,7 +20,7 @@ export class PlayerProfile {
 export function createPlayerProfile(
   state: PlayerProfile | undefined,
   command: {
-    playerId: PlayerId;
+    playerId: string;
     firstName: string;
     lastName: string;
     emailAddress: string;
@@ -34,31 +32,18 @@ export function createPlayerProfile(
     throw new Error('Such player already exists!');
   }
 
-  const playerProfileWasCreated = new PlayerProfileWasCreated({
-    occurredAt: currentTimeProvider(),
-    playerId: command.playerId.raw,
+  const newPlayerProfile = new PlayerProfile({
+    playerId: command.playerId,
     firstName: command.firstName,
     lastName: command.lastName,
+    //TODO write new type for emailAddress (perfectly if it will be unique, but it will be hard to code)
     emailAddress: command.emailAddress,
+    //TODO write type for phoneNumber (perfectly if unique, but what if there will be abroad numbers?)
     phoneNumber: command.phoneNumber,
   });
 
-  const newPlayerProfile = onPlayerProfileWasCreated(playerProfileWasCreated);
-
   return {
     state: newPlayerProfile,
-    events: [playerProfileWasCreated],
+    events: [],
   };
-}
-
-function onPlayerProfileWasCreated(event: PlayerProfileWasCreated): PlayerProfile {
-  return new PlayerProfile({
-    playerId: PlayerId.from(event.playerId),
-    firstName: event.firstName,
-    lastName: event.lastName,
-    //TODO write new type for emailAddress (perfectly if it will be unique, but it will be hard to code)
-    emailAddress: event.emailAddress,
-    //TODO write type for phoneNumber (perfectly if unique, but what if there will be abroad numbers?)
-    phoneNumber: event.phoneNumber,
-  });
 }
