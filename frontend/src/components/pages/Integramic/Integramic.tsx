@@ -23,6 +23,7 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
+import { LoginPage } from '../LoginPage/LoginPage';
 
 
 export function Integramic() {
@@ -37,6 +38,11 @@ export function Integramic() {
   };
 
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const [state, setState] = useState<AuthState>({authenticatedUser: undefined, isLoading: false});
+  if (state.authenticatedUser === undefined) {
+    return <LoginPage onAuthenticated={user => setState({authenticatedUser: user, isLoading: false})} />
+  }
 
   return (
     <MuiThemeProvider theme={THEME}>
@@ -60,3 +66,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
 }));
+
+export type AuthState = {
+  readonly authenticatedUser: { email: string } | undefined;
+  readonly isLoading: boolean
+}
+
