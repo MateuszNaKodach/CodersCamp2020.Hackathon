@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export function LoginPage(props: { onAuthenticated?: (user: { email: string }) => void }) {
-  const history = useHistory();
+export function LoginPage(props: { onAuthenticated?: (user: { email: string, userId: string, displayName: string }) => void }) {
   const styles = useStyles();
   const [currentUserCookie, updateCurrentUserCookie, deleteCurrentUserCookie] = useCookie("currentUser");
   const [currentAuthenticationToken, updateAuthenticationTokenCookie, deleteAuthenticationTokenCookie] = useCookie("authenticationToken");
@@ -45,11 +44,9 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string }) =
       return;
     }
     const successResponse = loginResponse as GoogleLoginResponse;
-    updateCurrentUserCookie(JSON.stringify({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId }))
     updateAuthenticationTokenCookie(JSON.stringify({ value: successResponse.tokenId }))
-    history.push("/question")
     if(props.onAuthenticated){
-      props.onAuthenticated({ email: successResponse.profileObj.email });
+      props.onAuthenticated({ email: successResponse.profileObj.email, userId: successResponse.profileObj.googleId, displayName: `${successResponse.profileObj.givenName} ${successResponse.profileObj.familyName}` });
     }
   };
   const onFailure = (error: any) => {
