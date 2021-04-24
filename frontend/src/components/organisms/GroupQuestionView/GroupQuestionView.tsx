@@ -3,6 +3,7 @@ import { UserQuestion } from '../../molecules/UserQuestion/UserQuestion';
 import { Container, makeStyles } from '@material-ui/core';
 import LeftSplash from '../../atoms/alignedImages/LeftSplash';
 import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
+import QuestionIlu from '../../atoms/alignedImages/QuestionIlu';
 
 const useStyles = makeStyles((theme) => ({
   container: {height: "100%", width: "100%", textAlign: "center"}
@@ -14,7 +15,7 @@ export function GroupQuestionView() {
   return (
     <Container className={classes.container}>
       <UserQuestion />
-      <AnswerIlu />
+      <QuestionIlu />
       <LeftSplash />
 
     </Container>
