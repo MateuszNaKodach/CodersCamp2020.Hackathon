@@ -215,6 +215,30 @@ paths:
       responses:
         200:
           description: All available groups
+  /scores:
+    get:
+      tags:
+        - Scores
+      description: Get all scores
+      responses:
+        200:
+          description: All available scores
+  /scores/{userId}:
+    get:
+      tags:
+        - User scores
+      description: Get user score
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            example: 2480fc2c-bbd7-427c-9439-02f76583aef5
+      responses:
+        200:
+          description: User score
 components:
   schemas:
     CurrentGroupQuestionDto:
