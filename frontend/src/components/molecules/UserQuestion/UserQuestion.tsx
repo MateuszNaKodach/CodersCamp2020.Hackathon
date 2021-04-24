@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   grid: { marginTop: '150px' },
 }));
 
-const GROUP_ID = "group1"
+export const GROUP_ID = "group1"
 
 export function UserQuestion() {
 

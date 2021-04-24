@@ -1,16 +1,22 @@
-import React, { FC, memo, useState, useCallback } from 'react';
+import React, { FC, memo, useState, useCallback, useEffect,  } from 'react';
 import { HTML5Backend, NativeTypes } from 'react-dnd-html5-backend';
 import Dustbin from './DustBin';
 import Box from './Box';
-import { ItemTypes } from './ItemTypes';
 import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import ClickButton from '../atoms/Button/ClickButton';
 import Title from '../atoms/Title/Title';
+import QuizSplashR from '../atoms/alignedImages/QuizSplashR';
+import QuizSplashL from '../atoms/alignedImages/QuizSplashL';
+import { QuestionsRestApi } from '../../restapi/questions/QuestionsRestAPI';
+import { GROUP_ID } from './UserQuestion/UserQuestion';
+import  {useAsyncRetry} from "react-use";
+import { ItemTypes } from './ItemTypes';
 
 interface DustbinState {
   accepts: string[];
   lastDroppedItem: any;
+  text: string
 }
 
 interface BoxState {
@@ -34,19 +40,9 @@ export interface QuizState {
 }
 
 export const Quiz: FC = memo(function Quiz() {
-  const [dustbins, setDustbins] = useState<DustbinState[]>([
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER, NativeTypes.FILE], lastDroppedItem: null },
-  ]);
+  const [dustbins, setDustbins] = useState<DustbinState[]>([])
 
-  const [boxes] = useState<BoxState[]>([
-    { name: 'Jan Nowak', type: ItemTypes.ANSWER },
-    { name: 'Beata Szydło', type: ItemTypes.ANSWER },
-    { name: 'Magazine', type: ItemTypes.ANSWER },
-    { name: 'Dupa', type: ItemTypes.ANSWER },
-  ]);
+  const [boxes, setBoxes] = useState<BoxState[]>([]);
 
   const [droppedBoxNames, setDroppedBoxNames] = useState<string[]>([]);
 
@@ -55,6 +51,11 @@ export const Quiz: FC = memo(function Quiz() {
   function isDropped(boxName: string) {
     return droppedBoxNames.indexOf(boxName) > -1;
   }
+
+  const data = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getQuiz({groupId: GROUP_ID})
+  })
 
   const handleDrop = useCallback(
     (index: number, item: { name: string }) => {
@@ -74,6 +75,21 @@ export const Quiz: FC = memo(function Quiz() {
     [droppedBoxNames, dustbins],
   );
 
+  useEffect(() => {
+    let dustbins: DustbinState[] = []
+    data.value?.answers.forEach((element) => {
+      dustbins.push( { accepts: [ItemTypes.ANSWER], lastDroppedItem: null , text: element.text},)
+    })
+    setDustbins(dustbins)
+
+    let boxes: BoxState[] = []
+    data.value?.users.forEach((element) => {
+      boxes.push( { name: element.userID , type: ItemTypes.ANSWER},)
+    })
+    setBoxes(boxes)
+
+  },[])
+
   return (
     <div>
       <Title text="Treść pytania" />
@@ -89,13 +105,13 @@ export const Quiz: FC = memo(function Quiz() {
           }}
         >
           <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            {dustbins.map(({ accepts, lastDroppedItem }, index) => (
+            {dustbins.map(({ accepts, lastDroppedItem, text }, index) => (
               <Dustbin
                 accepts={accepts}
                 lastDroppedItem={lastDroppedItem}
                 onDrop={(item) => handleDrop(index, item)}
                 key={index}
-                answer={'Ulubiony kolor?'}
+                answer={text}
               />
             ))}
           </div>
@@ -110,6 +126,10 @@ export const Quiz: FC = memo(function Quiz() {
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%'}}>
         <ClickButton text="Sprawdź wynik" onClick={() => {alert("test")}} disabled={!allAnserwsMoved} />
       </div>
+      <QuizSplashL/>
+      <QuizSplashR/>
     </div>
   );
 });
+
+
