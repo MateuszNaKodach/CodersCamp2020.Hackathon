@@ -13,7 +13,7 @@ export function groupQuizRouter(
   queryPublisher: QueryPublisher,
 ): express.Router {
   const getGroupQuiz = async (request: Request, response: Response) => {
-    const { groupId } = request.params;
+    const groupId = request.query.groupId as string;
     const queryResult = await queryPublisher.execute<GroupQuiz | undefined>(new FindCurrentQuizByGroupId({ groupId }));
     if (!queryResult) {
       return response.status(StatusCodes.NOT_FOUND).json({ message: `Quiz for group = ${groupId} not found!` });
@@ -29,6 +29,6 @@ export function groupQuizRouter(
   };
 
   const router = express.Router();
-  router.get('/:groupId', getGroupQuiz);
+  router.get('/', getGroupQuiz);
   return router;
 }

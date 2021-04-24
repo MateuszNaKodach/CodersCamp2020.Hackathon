@@ -151,14 +151,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlayerProfileDto'
-  /quizzes/{groupId}:
+  /quizzes:
     get:
       tags:
         - Group Quizzes
       description: Get current quiz for group
       parameters:
         - name: groupId
-          in: path
+          in: query
           description: Group Id
           required: true
           schema:
