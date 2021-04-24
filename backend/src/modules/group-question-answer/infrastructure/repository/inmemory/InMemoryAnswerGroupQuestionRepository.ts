@@ -4,8 +4,12 @@ import { QuestionAnswer } from '../../../core/application/domain/QuestionAnswer'
 export class InMemoryAnswerGroupQuestionRepository implements AnswerGroupQuestionRepository {
   private readonly entities: { [id: string]: QuestionAnswer } = {};
 
-  findByGroupId(groupId: string): Promise<QuestionAnswer | undefined> {
-    return Promise.resolve(this.entities[groupId]);
+  findAllByGroupId(groupId: string): Promise<QuestionAnswer[] | undefined> {
+    return Promise.resolve(
+        Object.keys(this.entities)
+            .filter((id) => this.entities[id].groupId === groupId)
+            .map((id) => this.entities[id]),
+    );
   }
 
   async save(question: QuestionAnswer): Promise<void> {
@@ -18,5 +22,9 @@ export class InMemoryAnswerGroupQuestionRepository implements AnswerGroupQuestio
         .filter((id) => this.entities[id].groupId === questionId)
         .map((id) => this.entities[id]),
     );
+  }
+
+  findAll(): Promise<QuestionAnswer[]> {
+    return Promise.resolve(Object.keys(this.entities).map((id) => this.entities[id]));
   }
 }
