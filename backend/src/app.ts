@@ -125,18 +125,18 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
     quizId: 'Quiz1',
     groupId: classFirstA,
     question: {
-      questionId: entityIdGenerator.generate(),
+      questionId: "Quiz1_Question",
       text: 'W jakim szkoleniu chciałbyś wziąć udział?',
     },
     answers: [
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: "Quiz1_Answer1",
+        userId: "User1",
         text: 'W szkoleniu z Event Modelingu.',
       },
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: "Quiz1_Answer2",
+        userId: "User2",
         text: 'Dawajcie DDD.',
       },
     ],
@@ -145,18 +145,18 @@ async function initializeDummyQuizzes(commandBus: CommandBus, entityIdGenerator:
     quizId: 'Quiz2',
     groupId: classFirstA,
     question: {
-      questionId: entityIdGenerator.generate(),
+      questionId: "Quiz2_Question",
       text: 'W jakim szkoleniu chciałbyś wziąć udział?',
     },
     answers: [
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: "Quiz2_Answer1",
+        userId: "User1",
         text: 'W szkoleniu z Event Modelingu.',
       },
       {
-        answerId: entityIdGenerator.generate(),
-        userId: entityIdGenerator.generate(),
+        answerId: "Quiz2_Answer2",
+        userId: "User2",
         text: 'Dawajcie DDD.',
       },
     ],
