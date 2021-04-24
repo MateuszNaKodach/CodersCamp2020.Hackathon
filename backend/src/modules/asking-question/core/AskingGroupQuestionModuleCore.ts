@@ -4,7 +4,7 @@ import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { ModuleCore } from '../../../shared/core/ModuleCore';
 import { AskGroupQuestionCommandHandler } from './application/command/AskGroupQuestionCommandHandler';
 import { AskGroupQuestion } from './application/command/AskGroupQuestion';
-import { AskingGroupQuestionRepository } from './application/AskingGroupQuestionRepository';
+import { GroupQuestionsRepository } from './application/GroupQuestionsRepository';
 import { FindCurrentGroupQuestionByGroupId } from './application/query/FindCurrentGroupQuestionByGroupId';
 import { FindCurrentGroupQuestionByGroupIdQueryHandler } from './application/query/FindCurrentGroupQuestionByGroupIdQueryHandler';
 
@@ -12,7 +12,7 @@ export function AskingGroupQuestionModuleCore(
   eventPublisher: DomainEventPublisher,
   commandPublisher: CommandPublisher,
   currentTimeProvider: CurrentTimeProvider,
-  groupQuestionRepository: AskingGroupQuestionRepository,
+  groupQuestionRepository: GroupQuestionsRepository,
 ): ModuleCore {
   return {
     commandHandlers: [

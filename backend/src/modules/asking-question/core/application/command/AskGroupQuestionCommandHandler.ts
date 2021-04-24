@@ -3,14 +3,14 @@ import { DomainEventPublisher } from '../../../../../shared/core/application/eve
 import { CurrentTimeProvider } from '../../../../../shared/core/CurrentTimeProvider';
 import { CommandResult } from '../../../../../shared/core/application/command/CommandResult';
 import { AskGroupQuestion } from './AskGroupQuestion';
-import { AskingGroupQuestionRepository } from '../AskingGroupQuestionRepository';
+import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
 import { askGroupQuestion } from '../../domain/GroupQuestion';
 
 export class AskGroupQuestionCommandHandler implements CommandHandler<AskGroupQuestion> {
   constructor(
     private readonly eventPublisher: DomainEventPublisher,
     private readonly currentTimeProvider: CurrentTimeProvider,
-    private readonly repository: AskingGroupQuestionRepository,
+    private readonly repository: GroupQuestionsRepository,
   ) {}
 
   async execute(command: AskGroupQuestion): Promise<CommandResult> {

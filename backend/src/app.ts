@@ -35,15 +35,14 @@ import { InMemoryQuestionsRepository } from './modules/questions/infrastructure/
 import { QuestionsRestApiModule } from './modules/questions/presentation/rest-api/QuestionsRestApiModule';
 import { AskingGroupQuestionRestApiModule } from './modules/asking-question/presentation/rest-api/AskingGroupQuestionRestApiModule';
 import { AskingGroupQuestionModuleCore } from './modules/asking-question/core/AskingGroupQuestionModuleCore';
-import { InMemoryAskingGroupQuestionRepository } from './modules/asking-question/infrastructure/repository/inmemory/InMemoryAskingGroupQuestionRepository';
 import { InMemoryGroupQuestionsRepository } from './modules/questions/infrastructure/repository/inmemory/InMemoryGroupQuestionsRepository';
-import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-answer/infrastructure/repository/inmemory/InMemoryAnswerGroupQuestionRepository';
 import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/ScoresRestApiModule';
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
 import { PlayerProfilesModuleCore } from './modules/player-profiles/core/PlayerProfilesModuleCore';
 import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
 import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
+import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-answer/infrastructure/repository/inmemory/InMemoryAnswerGroupQuestionRepository';
 
 config();
 
@@ -60,9 +59,9 @@ export async function IntegramicApplication(
     await connectToMongoDb();
   }
 
-  const askingGroupQuestionRepository = AskingGroupQuestionRepository();
+  const groupQuestionsRepository = GroupQuestionsRepository();
   const askingGroupQuestionModule: Module = {
-    core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, askingGroupQuestionRepository),
+    core: AskingGroupQuestionModuleCore(eventBus, commandBus, currentTimeProvider, groupQuestionsRepository),
     restApi: AskingGroupQuestionRestApiModule(commandBus, eventBus, queryBus),
   };
 
@@ -74,7 +73,7 @@ export async function IntegramicApplication(
       eventBus,
       queryBus,
       answerGroupQuestionRepository,
-      askingGroupQuestionRepository,
+      groupQuestionsRepository,
       entityIdGenerator,
     ),
   };
@@ -86,7 +85,6 @@ export async function IntegramicApplication(
   };
 
   const questionsRepository = QuestionsRepository();
-  const groupQuestionsRepository = GroupQuestionsRepository();
   const questionsModule: Module = {
     core: QuestionsModuleCore(eventBus, commandBus, currentTimeProvider, groupQuestionsRepository, questionsRepository),
     restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus, groupQuestionsRepository),
@@ -194,10 +192,6 @@ function GroupQuestionsRepository() {
 
 function AnswerGroupQuestionRepository() {
   return new InMemoryAnswerGroupQuestionRepository();
-}
-
-function AskingGroupQuestionRepository() {
-  return new InMemoryAskingGroupQuestionRepository();
 }
 
 function ScoresRepository() {

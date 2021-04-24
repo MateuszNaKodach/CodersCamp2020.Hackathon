@@ -1,7 +1,7 @@
-import { AskingGroupQuestionRepository } from '../../../core/application/AskingGroupQuestionRepository';
+import { GroupQuestionsRepository } from '../../../core/application/GroupQuestionsRepository';
 import { GroupQuestion } from '../../../core/domain/GroupQuestion';
 
-export class InMemoryAskingGroupQuestionRepository implements AskingGroupQuestionRepository {
+export class InMemoryGroupQuestionsRepository implements GroupQuestionsRepository {
   private readonly entities: { [id: string]: GroupQuestion } = {};
 
   findByGroupId(groupId: string): Promise<GroupQuestion | undefined> {

@@ -4,7 +4,7 @@ import { QueryPublisher } from '../../../../shared/core/application/query/QueryB
 import { ModuleRestApi } from '../../../../shared/presentation/rest-api/ModuleRestApi';
 import { groupQuestionAnswerRouter } from './GroupQuestionAnswerRouter';
 import { AnswerGroupQuestionRepository } from '../../core/application/AnswerGroupQuestionRepository';
-import { AskingGroupQuestionRepository } from '../../../asking-question/core/application/AskingGroupQuestionRepository';
+import { GroupQuestionsRepository } from '../../../asking-question/core/application/GroupQuestionsRepository';
 import { EntityIdGenerator } from '../../../../shared/core/application/EntityIdGenerator';
 
 export function GroupQuestionAnswerRestApiModule(
@@ -12,7 +12,7 @@ export function GroupQuestionAnswerRestApiModule(
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,
   groupQuestionAnsweredRepository: AnswerGroupQuestionRepository,
-  askingGroupQuestionRepository: AskingGroupQuestionRepository,
+  GroupQuestionsRepository: GroupQuestionsRepository,
   entityIdGenerator: EntityIdGenerator,
 ): ModuleRestApi {
   return {
@@ -21,7 +21,7 @@ export function GroupQuestionAnswerRestApiModule(
       eventPublisher,
       queryPublisher,
       groupQuestionAnsweredRepository,
-      askingGroupQuestionRepository,
+      GroupQuestionsRepository,
       entityIdGenerator,
     ),
     path: '/current-question',

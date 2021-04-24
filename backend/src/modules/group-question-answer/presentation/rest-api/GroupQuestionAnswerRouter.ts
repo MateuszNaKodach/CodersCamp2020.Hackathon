@@ -6,16 +6,16 @@ import { AnswerGroupQuestion } from '../../core/application/command/AnswerGroupQ
 import { StatusCodes } from 'http-status-codes';
 import { PostAnswerGroupQuestionRequestBody } from './request/PostAnswerGroupQuestionRequestBody';
 import { AnswerGroupQuestionRepository } from '../../core/application/AnswerGroupQuestionRepository';
-import { AskingGroupQuestionRepository } from '../../../asking-question/core/application/AskingGroupQuestionRepository';
 import { StartQuiz } from '../../../quizzes/core/application/command/StartQuiz';
 import { EntityIdGenerator } from '../../../../shared/core/application/EntityIdGenerator';
+import { GroupQuestionsRepository } from '../../../questions/core/application/GroupQuestionsRepository';
 
 export function groupQuestionAnswerRouter(
   commandPublisher: CommandPublisher,
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,
   groupQuestionAnsweredRepository: AnswerGroupQuestionRepository,
-  askingGroupQuestionRepository: AskingGroupQuestionRepository,
+  GroupQuestionsRepository: GroupQuestionsRepository,
   entityIdGenerator: EntityIdGenerator,
 ): express.Router {
   const postAnswerGroupQuestion = async (request: Request, response: Response) => {
@@ -42,14 +42,14 @@ export function groupQuestionAnswerRouter(
     const { groupId } = request.params;
     const questionAnswers = await groupQuestionAnsweredRepository.findAllByGroupId(groupId);
     console.log(questionAnswers);
-    const currentQuestion = await askingGroupQuestionRepository.findByGroupId(groupId);
+    const currentQuestion = await GroupQuestionsRepository.findByGroupId(groupId);
     console.log(currentQuestion);
 
     const commandResult = await commandPublisher.execute(
       StartQuiz.command({
         quizId: entityIdGenerator.generate(),
         groupId: groupId,
-        question: { questionId: currentQuestion!.questionId, text: currentQuestion!.text },
+        question: { questionId: currentQuestion!.questionAskedLastly!.questionId, text: currentQuestion!.questionAskedLastly!.text },
         answers: questionAnswers!.map((question) => {
           return { answerId: question.answerAuthorId, userId: question.answerAuthorId, text: question.text };
         }),
