@@ -16,7 +16,6 @@
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.1",
     "formik": "^2.2.6",
-    "fsevents": "*",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-google-login": "^5.2.2",
@@ -34,7 +33,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "format:ci": "prettier -c \"src/**/*.ts\"",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test --passWithNoTests"
   },
   "eslintConfig": {
     "extends": [
