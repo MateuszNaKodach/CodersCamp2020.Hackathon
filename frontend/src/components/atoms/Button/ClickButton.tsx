@@ -13,6 +13,7 @@ const ClickButton = ({ text, onClick }: TextButtonProps) => {
       onClick={onClick}
       color="primary"
       size="large"
+      type="submit"
       style={{ fontWeight: 500, backgroundColor: `${THEME.palette.primary.contrastText}`, padding: '8px 25px' }}
     >
       {text}
