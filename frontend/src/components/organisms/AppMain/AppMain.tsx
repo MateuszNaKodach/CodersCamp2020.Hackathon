@@ -38,6 +38,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
     minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
-    flexGrow: 1,
+    flexGrow: 1, 
   },
 }));
