@@ -14,13 +14,11 @@ export function AppMain() {
       <Router>
         <Switch>
           <Route path={PATH_FOR_MAIN_VIEW} exact>
-            <Title text='Here goes question???' />
+            <Title text="Here goes question???" />
           </Route>
 
           <Route path={PATH_FOR_USER_QUESTION} exact>
-
             <GroupQuestionView />
-
           </Route>
         </Switch>
       </Router>

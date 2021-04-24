@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 import LogInIlu from '../../atoms/alignedImages/LogInIlu';
 import AnswerIlu from '../../atoms/alignedImages/AnswerIlu';
 import LeftSplash from '../../atoms/alignedImages/LeftSplash';
+import LogInSplash from '../../atoms/alignedImages/LogInSplash';
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -68,6 +69,7 @@ export function LoginPage(props: { onAuthenticated: (user: { email: string }) =>
           />
         </Grid>
         <LogInIlu />
+        <LogInSplash />
       </Grid>
       <div className={styles.bottomBar}>
         <Typography variant="body1" style={{ color: 'white' }}>
