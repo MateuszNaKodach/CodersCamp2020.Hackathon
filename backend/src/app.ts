@@ -42,8 +42,8 @@ import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/Scor
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
 import { UserProfilesModuleCore } from './modules/player-profiles/core/UserProfilesModuleCore';
-import { PlayerProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/PlayerProfileRestApiModule';
-import { InMemoryPlayerProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryPlayerProfileRepository';
+import { UserProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/UserProfileRestApiModule';
+import { InMemoryUserProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryUserProfileRepository';
 
 config();
 
@@ -95,7 +95,7 @@ export async function IntegramicApplication(
   const playerProfileRepository = PlayerProfilesRepository();
   const playerProfilesModule: Module = {
     core: UserProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
-    restApi: PlayerProfileRestApiModule(commandBus, eventBus, queryBus),
+    restApi: UserProfileRestApiModule(commandBus, eventBus, queryBus),
   };
 
   const timeModule: Module = {
@@ -205,5 +205,5 @@ function ScoresRepository() {
 }
 
 function PlayerProfilesRepository() {
-  return new InMemoryPlayerProfileRepository();
+  return new InMemoryUserProfileRepository();
 }

@@ -5,9 +5,9 @@ import {CommandPublisher} from '../../../../shared/core/application/command/Comm
 import {DomainEventPublisher} from '../../../../shared/core/application/event/DomainEventBus';
 import {FindUserProfileById, FindUserProfileByIdResult} from '../../core/application/query/FindUserProfileById';
 import {CreateUserProfile} from '../../core/application/command/CreateUserProfile';
-import {PostUserProfileRequestBody} from "./request/PostPlayerProfileRequestBody";
+import {PostUserProfileRequestBody} from "./request/PostUserProfileRequestBody";
 
-export function playerProfileRouter(
+export function userProfileRouter(
   commandPublisher: CommandPublisher,
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,

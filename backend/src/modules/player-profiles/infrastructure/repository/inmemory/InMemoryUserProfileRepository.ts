@@ -1,7 +1,7 @@
-import { PlayerProfilesRepository } from '../../../core/application/UserProfilesRepository';
-import { UserProfile } from '../../../core/domain/UserProfile';
+import {UserProfilesRepository} from '../../../core/application/UserProfilesRepository';
+import {UserProfile} from '../../../core/domain/UserProfile';
 
-export class InMemoryPlayerProfileRepository implements PlayerProfilesRepository {
+export class InMemoryUserProfileRepository implements UserProfilesRepository {
   private readonly entities: { [id: string]: UserProfile } = {};
 
   findByPlayerId(userId: string): Promise<UserProfile | undefined> {
