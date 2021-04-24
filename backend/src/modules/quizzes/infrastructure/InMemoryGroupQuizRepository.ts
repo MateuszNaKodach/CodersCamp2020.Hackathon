@@ -9,6 +9,11 @@ export class InMemoryGroupQuizRepository implements GroupQuizRepository {
     return Promise.resolve(result);
   }
 
+  findByQuizId(quizId: string): Promise<GroupQuiz | undefined> {
+    const result = Object.values(this.entities).find((quiz) => quiz.quizId === quizId);
+    return Promise.resolve(result);
+  }
+
   save(quiz: GroupQuiz): Promise<void> {
     this.entities[quiz.quizId] = quiz;
     return Promise.resolve();

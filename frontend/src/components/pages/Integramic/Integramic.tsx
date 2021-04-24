@@ -6,8 +6,7 @@ import {
   MuiThemeProvider,
   Typography,
   unstable_createMuiStrictModeTheme as createMuiTheme,
-} from '@material-ui/core';
-import { THEME } from '../../atoms/constants/ThemeMUI';
+} from '@material-ui/core';import { THEME } from '../../atoms/constants/ThemeMUI';
 import ClickButton from '../../atoms/Button/ClickButton';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
@@ -20,9 +19,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Sidebar } from '../../organisms/Sidebar';
 import { AppContext } from '../../atoms/hooks/AppContext';
+import UserAvatarAndName from '../../molecules/UserAvatarAndName/UserAvatarAndName';
 
-const onClick = () => {
-};
+const onClick = () => {};
 
 export function Integramic() {
   const classes = useStyles();
