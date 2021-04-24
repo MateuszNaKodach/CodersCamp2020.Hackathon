@@ -70,7 +70,7 @@ export async function IntegramicApplication(
   const groupQuestionsRepository = GroupQuestionsRepository();
   const questionsModule: Module = {
     core: QuestionsModuleCore(eventBus, commandBus, currentTimeProvider, groupQuestionsRepository, questionsRepository),
-    restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus),
+    restApi: QuestionsRestApiModule(commandBus, eventBus, queryBus, groupQuestionsRepository),
   };
 
   const timeModule: Module = {
