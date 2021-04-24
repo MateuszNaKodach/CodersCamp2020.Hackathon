@@ -11,6 +11,7 @@ import { ResolveQuiz } from '../../core/application/command/ResolveQuiz';
 import { FindQuizSolutions } from '../../core/application/query/FindQuizSolutions';
 import { QuizSolution } from '../../core/domain/QuizSolution';
 import { FindQuizById } from '../../core/application/query/FindQuizById';
+import { authenticatedUser } from '../../../../shared/GoogleAuthentication';
 
 export function groupQuizRouter(
   commandPublisher: CommandPublisher,
@@ -36,7 +37,7 @@ export function groupQuizRouter(
   const postQuizSolution = async (request: Request, response: Response) => {
     const quizId = request.params.quizId as string;
     const requestBody: PostQuizSolutionRequestBody = request.body;
-    const solutionAuthorId = requestBody.solutionAuthorId ?? 'LoggedUserId';
+    const solutionAuthorId = (await authenticatedUser(request))?.userId ?? requestBody.solutionAuthorId ?? 'LoggedUserId';
     const commandResult = await commandPublisher.execute(ResolveQuiz.command({ ...requestBody, quizId: quizId, solutionAuthorId }));
     return commandResult.process(
       () => response.status(StatusCodes.OK).send(),

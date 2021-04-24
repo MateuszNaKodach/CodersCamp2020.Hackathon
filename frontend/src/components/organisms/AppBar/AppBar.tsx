@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
-    paddingLeft: 72,
+    paddingRight: 36,
+    paddingLeft: 36,
     color: theme.palette.primary.contrastText,
   },
   menuButtonIcon: {

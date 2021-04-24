@@ -1,9 +1,10 @@
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
-
+import React from 'react';
+import Title from '../../atoms/Title/Title';
 
 export function AppMain() {
   const classes = useStyles();
@@ -11,13 +12,9 @@ export function AppMain() {
   return (
     <main className={classes.content}>
       <Router>
-
         <Switch>
-
           <Route path={PATH_FOR_MAIN_VIEW} exact>
-
-            <Typography variant='h2'>Responsive h3</Typography>
-
+            <Title text='Here goes question???' />
           </Route>
 
           <Route path={PATH_FOR_USER_QUESTION} exact>
@@ -25,11 +22,8 @@ export function AppMain() {
             <GroupQuestionView />
 
           </Route>
-
         </Switch>
-
       </Router>
-
     </main>
   );
 }
@@ -39,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     position: 'relative',
     paddingTop: APP_BAR_HEIGHT,
-    minHeight: `calc(100vh - ${APP_BAR_HEIGHT})`,
+    minHeight: `100vh`,
     flexGrow: 1,
-    backgroundColor: "#E8EBEE",
+    backgroundColor: '#E8EBEE',
   },
 }));

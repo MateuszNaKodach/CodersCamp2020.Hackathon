@@ -19,7 +19,6 @@ import {
   FindTournamentRegistrationsByIdResult,
 } from '../../core/application/query/FindTournamentRegistrationsById';
 import { PostTournamentRegistrationsRequestBody } from './request/PostTournamentRegistrationsRequestBody';
-import { googleAuth } from '../../../../shared/GoogleAuthentication';
 
 export function tournamentRegistrationsRouter(
   commandPublisher: CommandPublisher,
