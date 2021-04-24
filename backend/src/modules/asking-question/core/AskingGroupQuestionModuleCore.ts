@@ -4,9 +4,9 @@ import { CurrentTimeProvider } from '../../../shared/core/CurrentTimeProvider';
 import { ModuleCore } from '../../../shared/core/ModuleCore';
 import { AskGroupQuestionCommandHandler } from './application/command/AskGroupQuestionCommandHandler';
 import { AskGroupQuestion } from './application/command/AskGroupQuestion';
-import { GroupQuestionsRepository } from './application/GroupQuestionsRepository';
 import { FindCurrentGroupQuestionByGroupId } from './application/query/FindCurrentGroupQuestionByGroupId';
 import { FindCurrentGroupQuestionByGroupIdQueryHandler } from './application/query/FindCurrentGroupQuestionByGroupIdQueryHandler';
+import { GroupQuestionsRepository } from '../../questions/core/application/GroupQuestionsRepository';
 
 export function AskingGroupQuestionModuleCore(
   eventPublisher: DomainEventPublisher,

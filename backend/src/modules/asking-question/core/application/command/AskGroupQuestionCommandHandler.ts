@@ -3,8 +3,8 @@ import { DomainEventPublisher } from '../../../../../shared/core/application/eve
 import { CurrentTimeProvider } from '../../../../../shared/core/CurrentTimeProvider';
 import { CommandResult } from '../../../../../shared/core/application/command/CommandResult';
 import { AskGroupQuestion } from './AskGroupQuestion';
-import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
-import { askGroupQuestion } from '../../domain/GroupQuestion';
+import { GroupQuestionsRepository } from '../../../../questions/core/application/GroupQuestionsRepository';
+import { askGroupQuestion } from '../../../../questions/core/domain/GroupQuestions';
 
 export class AskGroupQuestionCommandHandler implements CommandHandler<AskGroupQuestion> {
   constructor(
@@ -14,10 +14,14 @@ export class AskGroupQuestionCommandHandler implements CommandHandler<AskGroupQu
   ) {}
 
   async execute(command: AskGroupQuestion): Promise<CommandResult> {
-    const { state, events } = askGroupQuestion(command, this.currentTimeProvider);
+    const groupQuestions = await this.repository.findByGroupId(command.groupId);
 
-    await this.repository.save(state);
-    this.eventPublisher.publishAll(events);
+    if (groupQuestions) {
+      const { state, events } = askGroupQuestion(groupQuestions, command, this.currentTimeProvider);
+
+      await this.repository.save(state);
+      this.eventPublisher.publishAll(events);
+    }
     return CommandResult.success();
   }
 }

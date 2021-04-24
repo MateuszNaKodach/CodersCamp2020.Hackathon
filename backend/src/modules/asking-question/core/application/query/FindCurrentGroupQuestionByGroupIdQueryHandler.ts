@@ -1,6 +1,6 @@
 import { QueryHandler } from '../../../../../shared/core/application/query/QueryHandler';
 import { FindCurrentGroupQuestionByGroupId, FindCurrentGroupQuestionByGroupIdResult } from './FindCurrentGroupQuestionByGroupId';
-import { GroupQuestionsRepository } from '../GroupQuestionsRepository';
+import { GroupQuestionsRepository } from '../../../../questions/core/application/GroupQuestionsRepository';
 
 export class FindCurrentGroupQuestionByGroupIdQueryHandler
   implements QueryHandler<FindCurrentGroupQuestionByGroupId, FindCurrentGroupQuestionByGroupIdResult> {
