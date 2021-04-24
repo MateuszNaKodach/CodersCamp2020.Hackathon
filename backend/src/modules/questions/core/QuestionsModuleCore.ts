@@ -32,7 +32,7 @@ export function QuestionsModuleCore(
     eventHandlers: [
       {
         eventType: GroupQuestionWasAsked,
-        handler: new GroupQuestionAskedEventHandler(groupQuestionsRepository),
+        handler: new GroupQuestionAskedEventHandler(groupQuestionsRepository, questionsRepository),
       },
       {
         eventType: QuestionWasDefined,
