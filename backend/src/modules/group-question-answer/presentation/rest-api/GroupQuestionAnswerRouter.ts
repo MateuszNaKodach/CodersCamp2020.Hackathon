@@ -26,7 +26,7 @@ export function groupQuestionAnswerRouter(
     const commandResult = await commandPublisher.execute(
       new AnswerGroupQuestion({
         questionId,
-        groupId: groupId,
+        groupId,
         answerAuthorId,
         text,
       }),
@@ -41,7 +41,9 @@ export function groupQuestionAnswerRouter(
   const postForceStartQuiz = async (request: Request, response: Response) => {
     const { groupId } = request.params;
     const questionAnswers = await groupQuestionAnsweredRepository.findAllByGroupId(groupId);
+      console.log(questionAnswers)
     const currentQuestion = await askingGroupQuestionRepository.findByGroupId(groupId);
+      console.log(currentQuestion);
 
     const commandResult = await commandPublisher.execute(
       StartQuiz.command({
@@ -61,7 +63,7 @@ export function groupQuestionAnswerRouter(
   };
 
   const router = express.Router();
-  router.post('/answers', postAnswerGroupQuestion);
-  router.post('/forceStartQuiz', postForceStartQuiz);
+  router.post('/:groupId/answers', postAnswerGroupQuestion);
+  router.post('/:groupId/forceStartQuiz', postForceStartQuiz);
   return router;
 }

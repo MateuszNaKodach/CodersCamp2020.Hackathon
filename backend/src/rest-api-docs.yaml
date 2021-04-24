@@ -18,7 +18,7 @@ tags:
   - name: Force Start Quiz
     description: To avoid waiting for time interval, post request to force start quiz
 paths:
-  /current-question/{groupid}/forceStartQuiz:
+  /current-question/{groupId}/forceStartQuiz:
     post:
       tags:
         - Force Start Quiz
@@ -30,12 +30,11 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
             example: 2480fc2c-bbd7-427c-9439-02f76583aef5
       responses:
         200:
           description: Quiz started
-  /current-question/{groupid}/answers:
+  /current-question/{groupId}/answers:
     post:
       tags:
         - Answer Group Question

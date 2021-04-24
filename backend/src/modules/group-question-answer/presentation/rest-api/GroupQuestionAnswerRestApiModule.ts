@@ -24,6 +24,6 @@ export function GroupQuestionAnswerRestApiModule(
       askingGroupQuestionRepository,
       entityIdGenerator,
     ),
-    path: '/current-question/:groupId',
+    path: '/current-question',
   };
 }
