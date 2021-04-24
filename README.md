@@ -1,5 +1,5 @@
-# TourDeFoos - CodersCamp final project
-
+# CodersCamp2020 Hackathon Project
+## Integramic - remote integration
 
 ### Frontend
 
