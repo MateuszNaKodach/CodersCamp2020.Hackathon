@@ -8,7 +8,6 @@ import Title from '../../atoms/Title/Title';
 import { useAsyncFn, useAsyncRetry } from 'react-use';
 import { QuestionsRestApi } from '../../../restapi/questions/QuestionsRestAPI';
 import { GROUP_ID } from '../UserQuestion/UserQuestion';
-import { useHistory } from 'react-router-dom';
 import { getAuthorizedUserId } from '../../../restapi/cookies';
 import { CurrentGroupQuestionUnknown } from '../../organisms/CurrentGroupQuestionUknown/CurrentGroupQuestionUnknown';
 
@@ -23,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   grid: { marginTop: '150px' },
 }));
 
+export function UserAnswer() {
   const [postQuestionAnswerState, postQuestionAnswer] = useAsyncFn(async (props: { groupId: string, questionId: string, answerAuthorId: string, text: string }) => {
     await QuestionsRestApi()
       .postCurrentGroupQuestionAnswer({ groupId: GROUP_ID, questionId: props.questionId, answerAuthorId: props.answerAuthorId, text: props.text });
@@ -85,5 +85,5 @@ const useStyles = makeStyles((theme) => ({
         </Grid>
       </form>
     </>
-  );
+  )
 }
