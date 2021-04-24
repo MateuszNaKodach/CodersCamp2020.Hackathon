@@ -6,7 +6,7 @@ import { AppContext } from '../../atoms/hooks/AppContext';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
-import { NavBar } from '../../organisms/AppNavBar/NavBar';
+import { NavBar } from '../../organisms/NavBar/NavBar';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export function Integramic() {
