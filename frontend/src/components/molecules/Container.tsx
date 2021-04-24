@@ -71,7 +71,7 @@ export const Container: FC = memo(function Container() {
   )
 
   return (
-    <div style={{display: 'flex', flexDirection:'row', width:'60%', marginLeft:'20%', justifyContent: 'space-between' }}>
+    <div style={{ display: 'flex', flexDirection:'row', width:'60%', marginLeft:'20%', justifyContent: 'space-between' }}>
       <div style={{ overflow: 'hidden', clear: 'both' , display:'flex', flexDirection:'column', justifyContent: 'centerx'}}>
         {dustbins.map(({ accepts, lastDroppedItem }, index) => (
           <Dustbin
