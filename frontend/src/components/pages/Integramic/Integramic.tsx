@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { CssBaseline, makeStyles, MuiThemeProvider } from '@material-ui/core';
+import { AppBar as AppBarFromSigma, CssBaseline, makeStyles, MuiThemeProvider } from '@material-ui/core';
 import { THEME } from '../../atoms/constants/ThemeMUI';
 import { AppSidebar } from '../../organisms/AppSidebar/AppSidebar';
 import { AppContext } from '../../atoms/hooks/AppContext';
 import { AppBar } from '../../organisms/AppBar/AppBar';
 import { AppMain } from '../../organisms/AppMain/AppMain';
 import { LoginPage } from '../LoginPage/LoginPage';
+import { NavBar } from '../../organisms/AppNavBar/NavBar';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 export function Integramic() {
   const classes = useStyles();
@@ -27,13 +29,18 @@ export function Integramic() {
     <MuiThemeProvider theme={THEME}>
       <div className={classes.root}>
         <AppContext.Provider value={{ isOpenDrawer, handleDrawerOpen, handleDrawerClose }}>
-          <CssBaseline />
+          <Router>
+            <NavBar />
 
-          <AppBar />
+            <CssBaseline />
 
-          <AppSidebar />
+            <AppBar />
 
-          <AppMain />
+
+            <AppSidebar />
+
+            <AppMain />
+          </Router>
         </AppContext.Provider>
       </div>
     </MuiThemeProvider>

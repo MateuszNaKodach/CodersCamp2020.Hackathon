@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW, PATH_FOR_USER_QUESTION } from '../../atoms/constants/routerPaths';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
 import { GroupQuestionView } from '../GroupQuestionView/GroupQuestionView';
@@ -8,22 +8,20 @@ import Title from '../../atoms/Title/Title';
 
 export function AppMain() {
   const classes = useStyles();
-
   return (
     <main className={classes.content}>
-      <Router>
-        <Switch>
-          <Route path={PATH_FOR_MAIN_VIEW} exact>
-            <Title text='Here goes question???' />
-          </Route>
+      <Switch>
 
-          <Route path={PATH_FOR_USER_QUESTION} exact>
+        <Route path={PATH_FOR_MAIN_VIEW} exact>
+          <Title text='Here goes question???' />
+        </Route>
 
-            <GroupQuestionView />
+        <Route path={PATH_FOR_USER_QUESTION} exact>
 
-          </Route>
-        </Switch>
-      </Router>
+          <GroupQuestionView />
+
+        </Route>
+      </Switch>
     </main>
   );
 }

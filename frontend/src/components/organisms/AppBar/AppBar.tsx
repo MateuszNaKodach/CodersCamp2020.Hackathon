@@ -29,6 +29,10 @@ export function AppBar() {
           Grupa 1
         </Typography>
       </Toolbar>
+      <div style={{ width: '100vw' }}>
+
+      </div>
+
     </AppBarFromSigma>
   );
 }
