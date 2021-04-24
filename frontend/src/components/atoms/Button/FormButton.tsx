@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     color: `${THEME.palette.primary.contrastText}`,
     padding: '8px 25px',
     zIndex: 1,
+    '&:hover': {
+      background: "#3a5f91",
+    },
   },
 }));
 
