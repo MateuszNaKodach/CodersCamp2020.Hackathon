@@ -1,8 +1,9 @@
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
 import ClickButton from '../../atoms/Button/ClickButton';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
+import React from 'react';
 import Title from '../../atoms/Title/Title';
 
 const onClick = () => {};
