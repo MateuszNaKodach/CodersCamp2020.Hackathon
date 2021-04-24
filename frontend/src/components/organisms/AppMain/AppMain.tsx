@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PATH_FOR_MAIN_VIEW } from '../../atoms/constants/routerPaths';
 import ClickButton from '../../atoms/Button/ClickButton';
 import { APP_BAR_HEIGHT } from '../../atoms/constants/sizes';
+import Title from '../../atoms/Title/Title';
 
-const onClick = () => {
-};
+const onClick = () => {};
 
 export function AppMain() {
   const classes = useStyles();
@@ -13,21 +13,14 @@ export function AppMain() {
   return (
     <main className={classes.content}>
       <Router>
-
         <Switch>
-
           <Route path={PATH_FOR_MAIN_VIEW} exact>
-
-            <Typography variant='h2'>Responsive h3</Typography>
+            <Title text="Here goes question???" />
 
             <ClickButton text={'ZADAJ PYTANIE'} onClick={() => onClick()} />
-
           </Route>
-
         </Switch>
-
       </Router>
-
     </main>
   );
 }
