@@ -40,6 +40,7 @@ import { TimeModuleCore } from './modules/time/core/TimeModuleCore';
 import { GroupQuizModuleCore } from './modules/group-quiz/core/GroupQuizModuleCore';
 import { InMemoryGroupQuizRepository } from './modules/group-quiz/infrastructure/InMemoryGroupQuizRepository';
 import { GroupQuizRestApiModule } from './modules/group-quiz/presentation/rest-api/GroupQuizRestApiModule';
+import { StartQuiz } from './modules/group-quiz/core/application/command/StartQuiz';
 
 config();
 
@@ -97,8 +98,33 @@ export async function TableSoccerTournamentsApplication(
   const restApi = restApiExpressServer(modulesRestApis);
 
   await initializeDummyData(commandBus, entityIdGenerator);
+  await initializeDummyQuizes(commandBus, entityIdGenerator);
 
   return { restApi };
+}
+
+async function initializeDummyQuizes(commandBus: CommandBus, entityIdGenerator: EntityIdGenerator) {
+  const classFirstA = 'TeamBackend';
+  StartQuiz.command({
+    quizId: entityIdGenerator.generate(),
+    groupId: classFirstA,
+    question: {
+      questionId: entityIdGenerator.generate(),
+      text: 'W jakim szkoleniu chciałbyś wziąć udział?',
+    },
+    answers: [
+      {
+        answerId: entityIdGenerator.generate(),
+        userId: entityIdGenerator.generate(),
+        text: 'W szkoleniu z Event Modelingu.',
+      },
+      {
+        answerId: entityIdGenerator.generate(),
+        userId: entityIdGenerator.generate(),
+        text: 'Dawajcie DDD.',
+      },
+    ],
+  });
 }
 
 //TODO: Remove for production usage
