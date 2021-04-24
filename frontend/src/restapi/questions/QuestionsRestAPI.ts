@@ -1,6 +1,6 @@
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 import { EntityIdGenerator } from '../../components/atoms/idGenerator/EntityIdGenerator';
+import { getAuthorizationTokenValue, getAuthorizedUserId } from '../cookies';
 
 export type QuestionsRestApiConfig = {
   readonly baseUrl: string;
@@ -9,10 +9,6 @@ export type QuestionsRestApiConfig = {
 const defaultConfig: QuestionsRestApiConfig = {
   baseUrl: 'http://localhost:5000/rest-api',
 };
-const cookies = new Cookies();
-
-const getAuthorizationTokenValue = () => `${cookies.get('authenticationToken').value}`;
-const getAuthorizedUserId = () => `${cookies.get('currentUser').userId}`;
 
 export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
   const currentConfig = {
