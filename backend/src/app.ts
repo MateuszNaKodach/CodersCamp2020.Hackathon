@@ -120,7 +120,7 @@ export async function IntegramicApplication(
     scoresModule,
     timeModule,
     quizModule,
-    playerProfilesModule
+    playerProfilesModule,
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);
