@@ -41,5 +41,15 @@ export const QuestionsRestApi = (config?: Partial<QuestionsRestApiConfig>) => {
         .then((r) => r.data.questions.find((q) => q.groupId === body.groupId))
         .catch((e) => undefined);
     },
+    async getCurrentGroupQuestion(body: { groupId: string }): Promise<{ text: string } | undefined> {
+      return await axios
+        .get<{ text: string }>(`${currentConfig.baseUrl}/current-question/${body.groupId}`, {
+          headers: {
+            Authorization: getAuthorizationTokenValue(),
+          },
+        })
+        .then((res) => res.data)
+        .catch((e) => undefined);
+    },
   };
 };
