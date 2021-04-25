@@ -6,13 +6,12 @@ import { THEME } from "../atoms/constants/ThemeMUI";
 
 
 const style: CSSProperties = {
-  minHeight: '2rem',
-  minWidth: '100%',
+  height: '3rem',
   width: '40vh',
   color: THEME.palette.primary.main,
   textAlign: 'center',
   fontSize: '1.25rem',
-  lineHeight: '2rem',
+  lineHeight: '3rem',
   flexDirection: 'row',
   wordWrap: 'break-word',
 };
@@ -34,7 +33,7 @@ export const Box: FC<BoxProps> = memo(function Box({
 }) {
   const opacity = isDropped ? 0.4 : 1;
   return connectDragSource(
-    <div style={{marginTop:'4vh'}}>
+    <div style={{marginTop:'2vh', marginBottom:'2vh'}}>
       <Card  style={{...style, opacity}}>
       {name}
       </Card>
