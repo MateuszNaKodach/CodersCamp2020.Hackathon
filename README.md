@@ -13,11 +13,15 @@ URL: https://integramic.netlify.app/
 
 [Swagger REST API Docs](https://coderscamp2020-hackathon.herokuapp.com/rest-api-docs/)
 
+###Promo
+
+[Youtube](https://www.youtube.com/watch?v=cMXqoFkhxF0&ab_channel=SabinaRusielik)
+
 ## Overview
 
 **Integramic is an application to help people with their daily integration with others during times where remote work or education became everyday routine.**
 
-Developed app has a bright future in remote work. Many research shows that most of home workers moan about solidarity and lack of human contact. This app meets their expectations. Not only convince you to get some knowledge about your coworkers or classmates, but can give you special offers. Not only socialising features make Integramic strong candidate for your company. Also your HR department might be grateful for opportunity of creating interesting serving. All of that will bring your organization closer together with huge impact on its efficiency.
+Developed app has a bright future in remote work. Many research shows that most of home workers complain about loneliness and lack of human contact. This app meets their expectations. Not only convince you to get some knowledge about your coworkers or classmates, but can give you special offers. Not only socialising features make Integramic strong candidate for your company. Also your HR department might be grateful for opportunity of creating interesting serving. All of that will bring your organization closer together with huge impact on its efficiency.
 
 **It was created as a project for CodersCamp Hackathon 2020 edition.**
 
@@ -74,11 +78,11 @@ We used for it miro web app.
 [Link to Miro Board](https://miro.com/app/board/o9J_lIW4jG4=/).
 
 
-#####From **Event Storming**
+####From **Event Storming**
 ![img.png](img.png)
-#####Through organising
+####Through organising
 ![img_1.png](img_1.png)
-#####Up to **Event Modeling**
+####Up to **Event Modeling**
 ![img_2.png](img_2.png)
 
 
