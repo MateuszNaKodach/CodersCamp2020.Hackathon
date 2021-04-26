@@ -4,15 +4,15 @@ import { QueryPublisher } from '../../../../shared/core/application/query/QueryB
 import { ModuleRestApi } from '../../../../shared/presentation/rest-api/ModuleRestApi';
 import { groupQuestionAnswerRouter } from './GroupQuestionAnswerRouter';
 import { AnswerGroupQuestionRepository } from '../../core/application/AnswerGroupQuestionRepository';
-import { AskingGroupQuestionRepository } from '../../../asking-question/core/application/AskingGroupQuestionRepository';
 import { EntityIdGenerator } from '../../../../shared/core/application/EntityIdGenerator';
+import { GroupQuestionsRepository } from '../../../questions/core/application/GroupQuestionsRepository';
 
 export function GroupQuestionAnswerRestApiModule(
   commandPublisher: CommandPublisher,
   eventPublisher: DomainEventPublisher,
   queryPublisher: QueryPublisher,
   groupQuestionAnsweredRepository: AnswerGroupQuestionRepository,
-  askingGroupQuestionRepository: AskingGroupQuestionRepository,
+  groupQuestionsRepository: GroupQuestionsRepository,
   entityIdGenerator: EntityIdGenerator,
 ): ModuleRestApi {
   return {
@@ -21,7 +21,7 @@ export function GroupQuestionAnswerRestApiModule(
       eventPublisher,
       queryPublisher,
       groupQuestionAnsweredRepository,
-      askingGroupQuestionRepository,
+      groupQuestionsRepository,
       entityIdGenerator,
     ),
     path: '/current-question',
