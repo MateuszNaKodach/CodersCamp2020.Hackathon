@@ -92,6 +92,9 @@ We use Figma to create our views and layouts.
 
 [Link to Figma Board](https://www.figma.com/file/8PzRwPotjb3xVH4uxoIvfd/CodersCampHackathon.MaterialUI?node-id=7270%3A0).
 
-![img_3.png](img_3.png)
+![Logowanie](https://user-images.githubusercontent.com/31566345/116149134-0e706a00-a6e2-11eb-8574-628724b0d124.png)
 
-![img_4.png](img_4.png)
+![Odpowiedź](https://user-images.githubusercontent.com/31566345/116149179-1defb300-a6e2-11eb-905f-6c4b51408fc7.png)
+
+![Nie ma pytania](https://user-images.githubusercontent.com/31566345/116149220-29db7500-a6e2-11eb-8d80-3688f3073e3d.png)
+
