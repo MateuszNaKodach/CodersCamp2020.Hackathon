@@ -1,16 +1,23 @@
-import React, { FC, memo, useState, useCallback } from 'react';
-import { HTML5Backend, NativeTypes } from 'react-dnd-html5-backend';
+import React, { FC, memo, useState, useCallback, useEffect,  } from 'react';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import Dustbin from './DustBin';
 import Box from './Box';
-import { ItemTypes } from './ItemTypes';
 import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import ClickButton from '../atoms/Button/ClickButton';
 import Title from '../atoms/Title/Title';
+import QuizSplashR from '../atoms/alignedImages/QuizSplashR';
+import QuizSplashL from '../atoms/alignedImages/QuizSplashL';
+import { QuestionsRestApi } from '../../restapi/questions/QuestionsRestAPI';
+import  {useAsyncRetry} from "react-use";
+import { ItemTypes } from './ItemTypes';
+import {GROUP_ID} from "../atoms/constants/ids";
+import {UserAccountsRestApi} from "../../restapi/user-accounts/UserAccountsRestApi";
 
 interface DustbinState {
   accepts: string[];
   lastDroppedItem: any;
+  text: string
 }
 
 interface BoxState {
@@ -34,19 +41,9 @@ export interface QuizState {
 }
 
 export const Quiz: FC = memo(function Quiz() {
-  const [dustbins, setDustbins] = useState<DustbinState[]>([
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER], lastDroppedItem: null },
-    { accepts: [ItemTypes.ANSWER, NativeTypes.FILE], lastDroppedItem: null },
-  ]);
+  const [dustbins, setDustbins] = useState<DustbinState[]>([])
 
-  const [boxes] = useState<BoxState[]>([
-    { name: 'Jan Nowak', type: ItemTypes.ANSWER },
-    { name: 'Beata Szydło', type: ItemTypes.ANSWER },
-    { name: 'Magazine', type: ItemTypes.ANSWER },
-    { name: 'Dupa', type: ItemTypes.ANSWER },
-  ]);
+  const [boxes, setBoxes] = useState<BoxState[]>([]);
 
   const [droppedBoxNames, setDroppedBoxNames] = useState<string[]>([]);
 
@@ -74,9 +71,37 @@ export const Quiz: FC = memo(function Quiz() {
     [droppedBoxNames, dustbins],
   );
 
+  const quizData = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getQuiz({groupId: GROUP_ID})
+  })
+
+  const questionData = useAsyncRetry(async () => {
+    return await QuestionsRestApi()
+        .getCurrentGroupQuestion({groupId: GROUP_ID})
+  })
+
+  async function getBoxes() {
+    const promises = quizData.value?.users
+        ?.map(async (element) => ({name: ((await (UserAccountsRestApi().getDisplayNameByUserId(element.userId)))?.displayName ?? element.userId), type: ItemTypes.ANSWER})) ?? [];
+    const boxes: BoxState[] = await Promise.all(promises);
+    return boxes;
+  }
+
+  useEffect(() => {
+    let dustbins: DustbinState[] = []
+    quizData.value?.answers.forEach((element) => {
+      dustbins.push( { accepts: [ItemTypes.ANSWER], lastDroppedItem: null , text: element.text},)
+    })
+    setDustbins(dustbins)
+    console.log(dustbins)
+    getBoxes()
+        .then(fetchedBoxes => setBoxes(fetchedBoxes))
+  },[quizData.value])
+
   return (
     <div>
-      <Title text="Treść pytania" />
+      <Title text={questionData.value?.text as string} />
       <DndProvider backend={HTML5Backend}>
         <div
           style={{
@@ -89,13 +114,13 @@ export const Quiz: FC = memo(function Quiz() {
           }}
         >
           <div style={{ overflow: 'hidden', clear: 'both', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            {dustbins.map(({ accepts, lastDroppedItem }, index) => (
+            {dustbins.map(({ accepts, lastDroppedItem, text }, index) => (
               <Dustbin
                 accepts={accepts}
                 lastDroppedItem={lastDroppedItem}
                 onDrop={(item) => handleDrop(index, item)}
                 key={index}
-                answer={'Ulubiony kolor?'}
+                answer={text}
               />
             ))}
           </div>
@@ -110,6 +135,10 @@ export const Quiz: FC = memo(function Quiz() {
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3%'}}>
         <ClickButton text="Sprawdź wynik" onClick={() => {alert("test")}} disabled={!allAnserwsMoved} />
       </div>
+      <QuizSplashL/>
+      <QuizSplashR/>
     </div>
   );
 });
+
+

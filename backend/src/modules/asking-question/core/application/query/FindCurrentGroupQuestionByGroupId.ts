@@ -1,4 +1,4 @@
-import { GroupQuestion } from '../../domain/GroupQuestion';
+import { GroupQuestions } from '../../../../questions/core/domain/GroupQuestions';
 
 export class FindCurrentGroupQuestionByGroupId {
   readonly groupId: string;
@@ -8,4 +8,4 @@ export class FindCurrentGroupQuestionByGroupId {
   }
 }
 
-export type FindCurrentGroupQuestionByGroupIdResult = GroupQuestion | undefined;
+export type FindCurrentGroupQuestionByGroupIdResult = GroupQuestions | undefined;

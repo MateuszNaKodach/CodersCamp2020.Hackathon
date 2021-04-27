@@ -100,7 +100,7 @@
     "type": "git",
     "url": "git+https://github.com/nowakprojects/CodersCamp2020-CodersCamp2020.Project.FullStack-Node-React.TableSoccerTournaments.git"
   },
-  "author": "CodersCamp 2020 | Tomasz Dworniczak, Anna Lamperska, Piotr Rynio, Paweł Szambelan, Dominika Zwolenik, Mateusz Nowak",
+  "author": "CodersCamp 2020 | Tomasz Dworniczak, Anna Lamperska, Piotr Rynio, Paweł Szambelan, Mateusz Nowak",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/nowakprojects/CodersCamp2020-CodersCamp2020.Project.FullStack-Node-React.TableSoccerTournaments/issues"

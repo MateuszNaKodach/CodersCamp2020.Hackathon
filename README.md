@@ -1,5 +1,5 @@
 # CodersCamp2020 Hackathon Project
-## Integramic - poznaj swój zespół i ulepsz codzienną współpracę!
+## Integramic - get know better people from your team and boost your daily cooperation!
 
 ### Frontend
 
@@ -15,9 +15,11 @@ URL: https://integramic.netlify.app/
 
 ## Overview
 
-**TourDeFoos is an application to organize and manage tournaments - in this case it's dedicated especially for foosball tournaments.**
+**Integramic is an application to help people with their daily integration with others during times where remote work or education became everyday routine.**
 
-**It was created as a final project of CodersCamp course.**
+Developed app has a bright future in remote work. Many research shows that most of home workers moan about solidarity and lack of human contact. This app meets their expectations. Not only convince you to get some knowledge about your coworkers or classmates, but can give you special offers. Not only socialising features make Integramic strong candidate for your company. Also your HR department might be grateful for opportunity of creating interesting serving. All of that will bring your organization closer together with huge impact on its efficiency.
+
+**It was created as a project for CodersCamp Hackathon 2020 edition.**
 
 
 ## Our Crew
@@ -25,21 +27,21 @@ URL: https://integramic.netlify.app/
 Mentor **[Mateusz Nowak](https://github.com/nowakprojects)**
 
 - [Anna Lamperska](https://github.com/lamparina)
+- [Sabina Rusielik](https://github.com/sabinarusielik)  
 - [Piotr Rynio](https://github.com/PiotrWR)
 - [Paweł Szambelan](https://github.com/Szambelan)
 - [Tomasz Dworniczak](https://github.com/tomdworniczak)
+- [Tomasz Marulewski](https://github.com/tomaszmaruvl)
 
 
 ## Main functionalities
 
-1. Tournament organisation
-2. Creating players profiles (regardless of tournaments) and sending them confirmation emails via NodeMailer.
-3. Tournament registration
-4. Tournament tables module responsible for enable/disable tables during tournament
-5. Division into teams and assignment to teams
-6. Division of matches between teams - making tournament tree
-7. Matches module responsible for starting and finishing matches
-
+1. Registrations to group
+2. Log in via Google
+3. Daily question adding and its editing
+4. Answering daily questions
+5. Daily quizzes
+6. Quiz results (in progress)
 
 ## Dependencies
 
@@ -47,67 +49,45 @@ The following technologies were used:
 
 #### Backend:
 - Node.js
-- Express
-- Database: MongoDB / in memory save
 - TypeScript
-- Docker
-- Nodemailer
-- Jest
-- MailHog
-- Stryker
 - Heroku
 - Swagger
-- Docker
 
-Our backend application follows the **TDD approach** and is almost **fully covered** by tests. The architecture has been designed according to the **DDD (Domain-driven design)**.
+The backend architecture has been designed according to the **DDD (Domain-driven design)**.
 
 #### Frontend:
 - React
 - React-DOM
 - Router
-- Hooks (useState, useEffect, useContext,useHistory)
+- React Hooks
 - Material-UI
 - Axios
 
-The architecture has been designed according to the **Atomic Design approach**. Application follows th **Mobile First Design.**
-
-#### Other:
-- Code Review in every Pull Request (and 2 Approve to merge)
-- Event Storming & Event Modeling
-- Domain-Driven Design (DDD)
-- Git
-- GitHub
-- IntelliJ
-- Miro
-- Figma
-- Swagger
-- Docker
-- EasyRetro
-- We used to daily every day and remote-meeting every week!
+The architecture has been designed according to the **Atomic Design approach**.
 
 
 ## Event Modeling
 
-During this project used EventStorming, followed by Event Modeling to model our application flow and for task division.
+During hackathon we used EventStorming, followed by Event Modeling to model our application flow and use it for task division.
 We used for it miro web app.
-[Link to Miro Board](https://miro.com/app/board/o9J_lOEebqI=/?moveToWidget=3074457356075616433&cot=14).
 
-![image](https://user-images.githubusercontent.com/31566345/111337374-537e9680-8676-11eb-861e-b1b358bfc0ab.png)
+[Link to Miro Board](https://miro.com/app/board/o9J_lIW4jG4=/).
 
-## Running the project
 
-Running this project locally
+#####From **Event Storming**
+![img.png](img.png)
+#####Through organising
+![img_1.png](img_1.png)
+#####Up to **Event Modeling**
+![img_2.png](img_2.png)
 
-###### From the repo:
 
-1. Clone this project locally
-2. Run `npm install` in your bash/command line
-3. Go to `/backend` in your bash/command line and Run `npm run start:dev` in your bash/command line
-4. Go to `/frontend` in your bash/command line and Run `npm run start` in your bash/command line
+## Designs in Figma
 
-## Development
-1. Execute `docker-compose -f docker-compose.dev.yaml up` in main project catalog -  this will run the application in watch mode and all required dependencies.
-2. Now following urls should be available:
-   - REST API SWAGGER  |   http://localhost:5000/rest-api-docs/
-   - FRONTEND (REACT)  |   https://localhost:3000
+We use Figma to create our views and layouts.
 
+[Link to Figma Board](https://www.figma.com/file/8PzRwPotjb3xVH4uxoIvfd/CodersCampHackathon.MaterialUI?node-id=7270%3A0).
+
+![img_3.png](img_3.png)
+
+![img_4.png](img_4.png)
