@@ -13,7 +13,7 @@ URL: https://integramic.netlify.app/
 
 [Swagger REST API Docs](https://coderscamp2020-hackathon.herokuapp.com/rest-api-docs/)
 
-###Promo
+### Promo
 
 [Youtube](https://www.youtube.com/watch?v=cMXqoFkhxF0&ab_channel=SabinaRusielik)
 
@@ -78,11 +78,11 @@ We used for it miro web app.
 [Link to Miro Board](https://miro.com/app/board/o9J_lIW4jG4=/).
 
 
-####From **Event Storming**
+#### From **Event Storming**
 ![image](https://user-images.githubusercontent.com/31566345/116238644-ea546d80-a761-11eb-9f69-2b011e0c18e0.png)
-####Through organising
+#### Through organising
 ![image](https://user-images.githubusercontent.com/31566345/116238736-0bb55980-a762-11eb-8a0c-f7d7f6fd1a0a.png)
-####Up to **Event Modeling**
+#### Up to **Event Modeling**
 ![image](https://user-images.githubusercontent.com/31566345/116238978-62229800-a762-11eb-90ac-e123668ff5b1.png)
 
 
