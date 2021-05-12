@@ -1,10 +1,13 @@
 import GoogleLogin, {GoogleLoginResponse, GoogleLoginResponseOffline} from 'react-google-login';
 import React from 'react';
-import {Grid, makeStyles, Typography} from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import LogInIlu from '../../atoms/alignedImages/LogInIlu';
 import {useAsyncFn, useCookie} from "react-use";
 import LogInSplash from '../../atoms/alignedImages/LogInSplash';
 import {UserAccountsRestApi} from "../../../restapi/user-accounts/UserAccountsRestApi";
+import { SignIn } from '../../molecules/SignIn/SignIn';
+import ClickButton from '../../atoms/Button/ClickButton';
+import { SignUp } from '../../molecules/SignUp/SignUp';
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -75,6 +78,9 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string, use
             </Typography>
             <Typography variant="h6">Poznaj swój nowy zespół dzięki Integramic.</Typography>
             <div style={{marginTop: '2rem'}} />
+
+            {/*<SignIn />*/}
+            <SignUp />
             <GoogleLogin
                 clientId={googleClientId}
                 buttonText="Zaloguj się za pomocą Google"
@@ -83,6 +89,7 @@ export function LoginPage(props: { onAuthenticated?: (user: { email: string, use
                 cookiePolicy={'single_host_origin'}
                 isSignedIn={true}
             />
+            <ClickButton text="Załóż konto" onClick={() => {alert("test")}} disabled={false} />
           </Grid>
           <LogInIlu />
           <LogInSplash />
