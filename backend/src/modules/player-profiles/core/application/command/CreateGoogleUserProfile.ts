@@ -1,4 +1,4 @@
-export class CreateUserProfile {
+export class CreateGoogleUserProfile {
   readonly userId: string;
   readonly displayName: string;
 

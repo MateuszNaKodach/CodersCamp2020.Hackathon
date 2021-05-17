@@ -1,4 +1,4 @@
-export class UserProfile {
+export class GoogleUserProfile {
   readonly userId: string;
   readonly displayName: string;
 
@@ -8,8 +8,8 @@ export class UserProfile {
   }
 }
 
-export function createUserProfile(command: { userId: string; displayName: string }): UserProfile {
-  return new UserProfile({
+export function createUserProfile(command: { userId: string; displayName: string }): GoogleUserProfile {
+  return new GoogleUserProfile({
     userId: command.userId,
     displayName: command.displayName,
   });
