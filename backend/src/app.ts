@@ -40,9 +40,12 @@ import { InMemoryAnswerGroupQuestionRepository } from './modules/group-question-
 import { ScoresRestApiModule } from './modules/scores/presentation/rest-api/ScoresRestApiModule';
 import { InMemoryScoresRepository } from './modules/scores/infrastructure/repository/inmemory/InMemoryScoresRepository';
 import { ScoresModuleCore } from './modules/scores/core/ScoresModuleCore';
-import { UserProfilesModuleCore } from './modules/player-profiles/core/UserProfilesModuleCore';
-import { UserProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/UserProfileRestApiModule';
-import { InMemoryUserProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryUserProfileRepository';
+import { GoogleUserProfilesModuleCore } from './modules/player-profiles/core/GoogleUserProfilesModuleCore';
+import { GoogleUserProfileRestApiModule } from './modules/player-profiles/presentation/rest-api/GoogleUserProfileRestApiModule';
+import { InMemoryGoogleUserProfileRepository } from './modules/player-profiles/infrastructure/repository/inmemory/InMemoryGoogleUserProfileRepository';
+import { InMemoryUserProfileRepository } from './modules/users/infrastructure/repository/inmemory/InMemoryUserProfileRepository';
+import { UserProfileRestApiModule } from './modules/users/presentation/rest-api/UserProfileRestApiModule';
+import { UserProfileModuleCore } from './modules/users/core/UserProfileModuleCore';
 
 config();
 
@@ -92,9 +95,15 @@ export async function IntegramicApplication(
 
   const playerProfileRepository = PlayerProfilesRepository();
   const playerProfilesModule: Module = {
-    core: UserProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
-    restApi: UserProfileRestApiModule(commandBus, eventBus, queryBus),
+    core: GoogleUserProfilesModuleCore(eventBus, commandBus, currentTimeProvider, playerProfileRepository),
+    restApi: GoogleUserProfileRestApiModule(commandBus, eventBus, queryBus),
   };
+
+  const userProfileRepository = UserProfileRepository();
+  const userProfileModule: Module = {
+    core: UserProfileModuleCore(eventBus, commandBus, currentTimeProvider, userProfileRepository),
+    restApi: UserProfileRestApiModule(commandBus, eventBus, queryBus),
+  }
 
   const timeModule: Module = {
     core: TimeModuleCore(eventBus, currentTimeProvider),
@@ -119,6 +128,7 @@ export async function IntegramicApplication(
     timeModule,
     quizModule,
     playerProfilesModule,
+    userProfileModule
   ].filter(isDefined);
 
   const modulesCores: ModuleCore[] = modules.map((module) => module.core);
@@ -199,5 +209,9 @@ function ScoresRepository() {
 }
 
 function PlayerProfilesRepository() {
+  return new InMemoryGoogleUserProfileRepository();
+}
+
+function UserProfileRepository() {
   return new InMemoryUserProfileRepository();
 }
